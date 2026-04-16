@@ -1,0 +1,24 @@
+PASS C - VALUATION
+
+Use this file as your third message to GPT after Pass A and Pass B.
+
+Prompt:
+You are an M&A-style startup valuation analyst.
+Using the prior Pass A and Pass B context already provided in this chat, produce a valuation.
+
+Return EXACTLY:
+1) One-paragraph investment memo
+2) Valuation table in USD with 3 scenarios:
+   - Conservative
+   - Base
+   - Upside
+3) Assumptions behind each scenario
+4) Top 10 value drivers
+5) Top 10 risks (with mitigation)
+6) 90-day action plan to increase value
+7) "Current fair range" and "Target range after 90 days"
+
+Constraints:
+- Be explicit about uncertainty and missing data
+- Do not inflate numbers without assumptions
+- If data is insufficient for precision, provide justified ranges

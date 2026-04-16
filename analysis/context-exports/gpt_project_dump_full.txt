@@ -1,0 +1,5705 @@
+PROJECT EXPORT - Sun Apr  5 13:33:56 CEST 2026
+ROOT: /Users/mac/dmg-doc
+
+
+===== FILE: dmg-doc/appendix/00-appendix.md =====
+
+# Appendix
+This section contains references, inventories, and detailed supporting notes.
+
+## Notes
+- 21 minute session scheduler
+- api route inventory implemented endpoints
+- command submission security layers
+- detailed removal refund option matrix
+- full command reference
+- full constants reference gameconfig ts
+- quadratic cost logic submission vs push
+- recurring challenge cadence enforcement
+- structured challengetext json format
+- token lifetime access duration
+- user game metrics
+
+
+===== FILE: dmg-doc/appendix/21-minute-session-scheduler.md =====
+
+# **21-Minute Session Scheduler**
+# **21-Minute Session Scheduler**
+The autonomous scheduler system executes **one single session tick** exactly 21 minutes after the challenge is manually launched by the Game Master, and then automatically halts execution.
+
+| Component | Responsibility | Frequency / Trigger |
+| :---- | :---- | :---- |
+| **scheduler.ts** | The main cron runner. Calls the core service logic. | **Every 10 seconds** (\*/10 \* \* \* \* \*) |
+| **challengeService.processAutomaticSessionTick** | **Core Logic:** Finds the single challenge where isExecuting: true. | Runs every 10 seconds. |
+| **Logic Check** | Calculates the elapsed time since timestampLastSessionTick. |  |
+| **Tick Threshold** | **21 minutes** (SESSION\_DURATION\_MS). |  |
+| **Session Tick & Stop** | If the threshold is passed: **increments currentSessionCount**, dispatches SESSION\_TICKED event, and **CRITICALLY: sets isExecuting: false and timestampLastSessionTick: null**. | Triggers once, 21 minutes after manual launch. |
+| **Completion** | If currentSessionCount equals totalSessions, sets status: COMPLETED. | Triggers on the final successful tick. |
+| **Resumption** | **Manual Game Master re-execution** is required to advance to the next session. | Game Master command (/challenges/execute). |
+
+
+===== FILE: dmg-doc/appendix/api-route-inventory-implemented-endpoints.md =====
+
+# **API Route Inventory (Implemented Endpoints)**
+This appendix lists the currently implemented API endpoints as a practical route inventory.
+
+## **Admin**
+
+| Method | Endpoint | Access Level | Purpose |
+| :---- | :---- | :---- | :---- |
+| GET | /api/v1/admin/pulse | Admin-secret protected | Returns system health, economy totals, and maintenance status for the admin dashboard. |
+
+## **Challenges**
+
+| Method | Endpoint | Access Level | Purpose |
+| :---- | :---- | :---- | :---- |
+| GET | /api/v1/challenges | Explorer token  \+ active entitlement required | Returns the Explorer challenge collection, with dataset scope enforced server-side. |
+| GET | /api/v1/challenges/delta | Explorer token  \+ active entitlement required | Returns challenge updates since a given timestamp for incremental Explorer refresh. |
+| GET | /api/v1/challenges/:id | Public | Returns one challenge by ID for the public challenge detail page. |
+
+## **Clock**
+
+| Method | Endpoint | Access Level | Purpose |
+| :---- | :---- | :---- | :---- |
+| POST | /api/v1/clock/run-daily-maintenance | Cron-secret protected | Runs daily maintenance and returns whether it executed or was skipped. |
+
+## **Command**
+
+| Method | Endpoint | Access Level | Purpose |
+| ----- | ----- | ----- | ----- |
+| POST | /api/v1/command | Authenticated user  \+ rate-limited | Main command ingress endpoint used by external chat / bot systems to submit commands into the backend |
+
+## **Game Master**
+
+| Method | Endpoint | Access Level | Purpose |
+| :---- | :---- | :---- | :---- |
+| POST | /api/v1/gamemaster/challenge/execute | Game Master protected | Manually launches or re-launches a challenge for execution. |
+| PUT | /api/v1/gamemaster/challenge/:challengeId/status | Game Master protected | Forces a challenge into a specified status. |
+
+## **References**
+
+| Method | Endpoint | Access Level | Purpose |
+| :---- | :---- | :---- | :---- |
+| GET | /api/v1/references/title | Public | Resolves the title of a reference URL for submission UX. |
+
+## **Stream**
+
+| Method | Endpoint | Access Level | Purpose |
+| :---- | :---- | :---- | :---- |
+| POST | /api/v1/stream/live | Internal webhook / protected integration entrypoint | Processes the stream-live event and updates stream-state logic. |
+| POST | /api/v1/stream/offline | Internal webhook / protected integration entrypoint | Processes the stream-offline event and finalizes the stream session. |
+| GET | /api/v1/stream/stats | Public | Returns current stream-live state and global stream stats. |
+
+## **Token**
+
+| Method | Endpoint | Access Level | Purpose |
+| :---- | :---- | :---- | :---- |
+| POST | /api/v1/token/verify-challengesubmitform | Token-gated | Verifies the submit-form token and returns identity plus submission context. |
+| POST | /api/v1/token/verify-explorer | Token-gated | Verifies Explorer identity and returns current access state, pricing context, and remaining time. |
+| POST | /api/v1/token/grant-explorer-access | Token-gated | Deducts NUMBERS and grants or extends the Explorer access window. |
+
+## **User**
+
+| Method | Endpoint | Access Level | Purpose |
+| :---- | :---- | :---- | :---- |
+| POST | /api/v1/user/submit | Authenticated user | Legacy challenge submission route. |
+| POST | /api/v1/user/submit/web | Token-gated | Final web-form challenge submission route. |
+| POST | /api/v1/user/push/quote | Authenticated user | Generates a temporary push quote. |
+| POST | /api/v1/user/push/confirm | Authenticated user | Confirms and executes a valid push quote. |
+| POST | /api/v1/user/digout | Authenticated user | Revives an archived challenge through digout logic. |
+| POST | /api/v1/user/disrupt | Authenticated user | Executes the current \!disrupt command placeholder action. |
+| POST | /api/v1/user/challenge/remove | Authenticated user | Removes the author’s own challenge and applies removal / refund logic. |
+
+## **Notes**
+
+* This appendix is a route inventory, not a behavior deep dive.
+
+* Conceptual route-group roles are documented in System Architecture → API Structure.
+
+* Implementation details and service-layer behavior are documented in Technical Implementation → API Endpoint (Summary).
+
+
+===== FILE: dmg-doc/appendix/command-submission-security-layers.md =====
+
+# **Command Submission Security Layers**
+This appendix summarizes the defense-in-depth measures protecting the main command ingress path and the related user actions.
+
+| Layer | Component / Mechanism | Type of Protection |
+| :---- | :---- | :---- |
+| Authentication | authenticateUser middleware | Resolves the external identity, ensures the request contains a valid platform identity context, and attaches the internal DMG user identity before command execution. |
+| Resource throttling | User-scoped rate limiting[^1] | Limits repeated command submissions per authenticated user and reduces immediate request spam or resource exhaustion. |
+| Financial deterrent (user) | Quadratic cost logic | Increases the NUMBERS cost of repeated high-impact actions such as submission and push, discouraging repetitive abuse. |
+| Financial deterrent (system) | Balance checks | Stops impossible or unfunded paid actions before full execution. |
+| Token integrity (webform flows) | JWT access token | Prevents protected frontend actions from being called without a valid, short-lived token tied to a verified identity. |
+| Client-side pacing | Verification and success-state delays | Adds small time barriers to reduce hyper-fast repeated interaction and improve the readability of protected web flows. |
+
+## **Why this matters**
+
+These layers do not rely on one single gate.  
+They combine identity resolution, rate limiting, cost pressure, balance validation, token checks, and frontend pacing to make abuse harder while keeping the product usable.
+
+
+===== FILE: dmg-doc/appendix/detailed-removal-refund-option-matrix.md =====
+
+# **Detailed Removal/Refund Option Matrix**
+\!remove can only be executed by the original challenge author.
+
+The command does not have a separate direct cost, but it triggers a refund calculation based on prior push spending on that challenge.
+
+## **Refund calculation basis**
+
+When a challenge is removed, the system calculates a 21% refund share from the push contributions already made on that challenge.
+
+This refund is divided into two parts:
+
+* Author's Share \= 21% of the author's own push contributions on that challenge
+
+* Pushers' Share \= 21% of the external pushers' contributions on that challenge
+
+The selected refund option determines where those two shares are directed.
+
+## **Refund Distribution Options**
+
+| Option | RefundOption | Destination of Funds | Description |
+| :---- | :---- | :---- | :---- |
+| A | community\_forfeit | 100% to Community Chest | The full calculated 21% refund (Author's Share \+ Pushers' Share) is directed to the Community Chest. This is the default option if no option is specified. |
+| B | author\_and\_chest | Author's Share to Author; Pushers' Share to Community Chest | The author reclaims their own 21% share. The external pushers' 21% share is redirected to the Community Chest. |
+| C | author\_and\_pushers | Author's Share to Author; Pushers' Share to External Pushers | The author reclaims their own 21% share. The external pushers' 21% share is refunded back to those external pushers. This requires external refund calls. |
+
+## **Reliability / Execution Notes**
+
+* Community Chest redirection happens as part of the removal itself, inside the main atomic database operation.
+
+* Refunds back to the author and/or external pushers happen after the removal has been committed, because they rely on external refund operations.
+
+## **Why this matters**
+
+This system makes challenge removal more than a simple delete action. It creates:
+
+* author accountability
+
+* optional generosity through the Community Chest
+
+* strategic redistribution of previously committed NUMBERS
+
+===== FILE: dmg-doc/appendix/flows/authentication-and-command-ingress-flow.md =====
+
+# Authentication / Command Ingress Flow
+## Purpose
+
+This flow documents how an external chat command becomes an authenticated internal DMG action.
+
+## Flow Summary
+
+This flow has four stages:
+
+1. **External command ingress**
+   - a connected integration sends a command payload to `/api/v1/command`
+   - the payload includes:
+     - `command`
+     - `user`
+     - `platform`
+     - optional `args`
+
+2. **Authentication and identity resolution**
+   - `authenticateUser` reads the external platform identity from the request body
+   - it uses `platformName` + `platformId` to resolve the matching internal DMG user
+   - if the identity does not yet exist, it creates a new `User / Account` pair
+   - it then attaches a flattened authenticated request context to the request object:
+        - `req.userId` as the resolved internal DMG user identity
+        - `req.platformId` as a flattened copy of the platform ID from the request body
+        - `req.platformName` as a flattened copy of the platform name from the request body
+
+3. **Rate limiting and dispatch**
+   - `rateLimitUserCommands` applies user-scoped rate limiting after the internal user identity is known
+   - the request then reaches `dispatchCommand()`
+   - the dispatcher parses the command arguments and routes the authenticated command to the correct backend service function
+
+4. **Service execution**
+   - the target service function runs using the resolved internal user identity together with the platform information copied onto the request object
+   - the backend returns a command result for the integration to display or act on
+
+## Sequence Diagram
+
+```mermaid
+sequenceDiagram
+    actor U as User
+    participant I as Chat / Integration
+    participant CMD as /api/v1/command
+    participant AUTH as authenticateUser
+    participant USR as findOrCreateUser
+    participant RL as rateLimitUserCommands
+    participant DISP as dispatchCommand
+    participant SVC as Target Service Function
+    participant DB as Prisma / DB
+
+    U->>I: send command
+    I->>CMD: POST command payload
+    CMD->>AUTH: authenticate request
+    AUTH->>USR: resolve or create internal user
+    USR-->>AUTH: central userId
+    AUTH-->>CMD: attach req.userId / req.platformId / req.platformName
+    CMD->>RL: apply user-scoped rate limit
+    RL-->>CMD: allow request
+    CMD->>DISP: dispatch authenticated command
+    DISP->>SVC: call target service function
+    SVC->>DB: read / write system state
+    DB-->>SVC: result
+    SVC-->>DISP: command result
+    DISP-->>CMD: formatted response
+    CMD-->>I: response payload
+```
+
+## Implementation Notes
+
+- the external payload arrives as nested data inside `req.body`
+- `authenticateUser` reads the external identity from that payload, resolves the internal DMG user, and then attaches a flattened authenticated request context to the Express request object
+- `req.userId` is the resolved internal DMG identity
+- `req.platformId` and `req.platformName` are flattened request-level copies of the platform identity used for the current command
+- `dispatchCommand()` receives already-authenticated commands; it does not perform identity resolution itself
+- first-time users can enter the system through this flow because identity resolution may create a new internal `User / Account` pair during command ingress
+
+
+===== FILE: dmg-doc/appendix/flows/secure-challenge-submission-flow.md =====
+
+# Secure Challenge Submission Flow
+## Purpose
+
+This flow documents how a chat command becomes a protected web submission path.
+
+## Flow Summary
+
+This flow has three stages:
+
+1. **Command ingress and link generation**
+   - the user triggers `!challengesubmit` through a connected chat integration
+   - the command reaches `/api/v1/command`
+   - `authenticateUser` resolves or creates the internal DMG user identity
+   - the dispatcher routes the command to `processSubmissionLinkGeneration(...)`
+   - the backend computes the current submission context and generates a signed time-limited token
+   - the user receives a secure submission link in chat
+
+2. **Secure link verification in the browser**
+   - the user opens the secure link in the browser
+   - the frontend extracts the token from the URL
+   - `/token/verify-challengesubmitform` verifies the token
+   - the backend checks that `payload.userId` still exists
+   - the backend returns the current submission context so the frontend can display the correct identity and cost state before submission
+
+3. **Final submission and coordinated payment flow**
+   - the user fills the form and submits the challenge payload together with the token
+   - `/user/submit/web` verifies the token again
+   - the backend validates the payload and recalculates the current submission context
+   - the backend confirms payment through Lumia
+   - after successful payment confirmation, the backend commits challenge creation and related database updates
+   - the frontend receives the created challenge data and updated user state
+
+## Sequence Diagram
+
+```mermaid
+sequenceDiagram
+    actor U as User
+    participant I as Chat / Integration
+    participant CMD as /api/v1/command
+    participant AUTH as authenticateUser
+    participant USR as findOrCreateUser
+    participant DISP as dispatchCommand
+    participant PSL as processSubmissionLinkGeneration
+    participant B as Browser / Submit Form
+    participant VT as /token/verify-challengesubmitform
+    participant SUB as /user/submit/web
+    participant PCS as processChallengeSubmission
+    participant L as Lumia
+    participant DB as Prisma / DB
+
+    U->>I: !challengesubmit 2100m
+    I->>CMD: POST command payload
+    CMD->>AUTH: authenticate request
+    AUTH->>USR: resolve or create internal user
+    USR-->>AUTH: central userId
+    AUTH-->>CMD: attach req.userId / req.platformId / req.platformName
+    CMD->>DISP: dispatch authenticated command
+    DISP->>PSL: processSubmissionLinkGeneration(...)
+    PSL->>DB: getCurrentDailySubmissionContext(userId)
+    PSL-->>DISP: signed JWT + secure URL
+    DISP-->>I: chat response with link
+
+    U->>B: open secure link
+    B->>VT: POST token
+    VT->>DB: verify payload.userId exists
+    VT->>DB: getCurrentDailySubmissionContext(payload.userId)
+    VT-->>B: identity + current submission context
+
+    U->>B: fill form and submit
+    B->>SUB: POST token + challenge payload
+    SUB->>PCS: processChallengeSubmission(...)
+    PCS->>DB: verify token / validate payload / get current submission context
+    PCS->>L: deduct NUMBERS
+    L-->>PCS: authoritative new balance
+    PCS->>DB: create challenge + update user/account/metrics in transaction
+    PCS-->>SUB: success response
+    SUB-->>B: created challenge + updated state
+```
+
+## Implementation Notes
+
+- command ingress is the point where user/account resolution may create a new internal DMG user
+- `/token/verify-challengesubmitform` should not call `findOrCreateUser()` again
+- token verification should trust `payload.userId`, check existence, and retrieve current submission context from that internal identity
+- submission cost is intentionally retrieved once at link generation and again at token verification so the user can see current cost before submission
+- final submission recalculates the submission context again before payment and challenge creation
+
+
+===== FILE: dmg-doc/appendix/flows/secure-explorer-access-flow.md =====
+
+# Secure Explorer Access Flow
+## Purpose
+
+This flow documents how a chat command becomes a protected Explorer access path, and how entry fee payment is handled as a separate browser-side unlock step.
+
+## Flow Summary
+
+This flow has four stages:
+
+1. **Command ingress and secure link generation**
+   - the user triggers `!explorer` through a connected chat integration
+   - the command reaches `/api/v1/command`
+   - `authenticateUser` resolves or creates the internal DMG user identity
+   - the dispatcher routes the command to `processExplorerLinkGeneration(...)`
+   - the backend generates a signed secure token and builds the Explorer URL
+   - the user receives the secure Explorer link in chat
+
+2. **Secure link verification in the browser**
+   - the user opens the secure Explorer link in the browser
+   - the frontend extracts the token from the URL or local storage
+   - `/token/verify-explorer` verifies the token
+   - the backend checks that `payload.userId` still exists
+   - the backend returns the current Explorer access state for that internal identity
+   - the response includes:
+     - resolved identity (`username`, `platformName`)
+     - dataset scope (`isDemo`)
+     - current price tier (`unitPrice`)
+     - merit state (`hasMerit`)
+     - whether access is currently active (`accessGranted`)
+     - remaining time (`minutesRemaining`, `explorerAccessUntil`)
+
+3. **Paid access grant or extension**
+   - if access is not currently active, the frontend shows the Explorer paywall overlay
+   - the user selects the number of 21-minute access units to buy
+   - the frontend submits `token + units` to `/token/grant-explorer-access`
+   - the backend verifies the token again
+   - the backend reloads the internal user and matching platform account
+   - the backend determines:
+     - whether the user qualifies for merit pricing
+     - the effective unit price
+     - the effective granted units
+     - the total minutes granted
+     - the total price to deduct
+   - the backend confirms payment through Lumia
+   - after successful payment confirmation, the backend updates:
+     - `user.explorerAccessUntil`
+     - `user.totalNumbersSpent`
+     - `account.currentBalance`
+     - global spending ledger on user `id = 1`
+     - user activity timestamps
+   - the frontend receives the new access expiry and starts the local countdown
+
+4. **Entitled Explorer data access**
+   - once access is active, the frontend loads `/challenges`
+   - the frontend polls `/challenges/delta`
+   - both routes extract the Explorer token from the `Authorization: Bearer ...` header
+   - the backend verifies the token and resolves the entitled dataset scope through `resolveExplorerEntitledScope(...)`
+   - the backend checks that `user.explorerAccessUntil > now`
+   - if access is valid:
+     - demo users receive the demo dataset only
+     - non-demo users receive the full dataset
+   - if access is missing or expired, the API rejects access and the frontend returns to the paywall state
+
+## Sequence Diagram
+
+```mermaid
+sequenceDiagram
+    actor U as User
+    participant I as Chat / Integration
+    participant CMD as /api/v1/command
+    participant AUTH as authenticateUser
+    participant USR as findOrCreateUser
+    participant DISP as dispatchCommand
+    participant PEL as processExplorerLinkGeneration
+    participant B as Browser / Explorer
+    participant VEX as /token/verify-explorer
+    participant GEX as /token/grant-explorer-access
+    participant EAS as explorerAccessService
+    participant L as Lumia
+    participant CH as /challenges
+    participant DLT as /challenges/delta
+    participant DB as Prisma / DB
+
+    U->>I: !explorer
+    I->>CMD: POST command payload
+    CMD->>AUTH: authenticate request
+    AUTH->>USR: resolve or create internal user
+    USR-->>AUTH: central userId
+    AUTH-->>CMD: attach req.userId / req.platformId / req.platformName
+    CMD->>DISP: dispatch authenticated command
+    DISP->>PEL: processExplorerLinkGeneration(...)
+    PEL-->>DISP: signed JWT + secure URL
+    DISP-->>I: chat response with link
+
+    U->>B: open secure Explorer link
+    B->>VEX: POST token
+    VEX->>DB: verify payload.userId exists
+    VEX->>DB: read user.totalNumbersSpent
+    VEX->>DB: read user.explorerAccessUntil
+    VEX-->>B: identity + price tier + access state
+
+    alt Explorer access not active
+        U->>B: choose access units and unlock
+        B->>GEX: POST token + units
+        GEX->>DB: verify token
+        GEX->>DB: fetch user + matching account
+        GEX->>DB: determine merit pricing and scope
+        GEX->>L: deduct NUMBERS
+        L-->>GEX: authoritative new balance
+        GEX->>DB: extend explorerAccessUntil
+        GEX->>DB: increment user/global spend
+        GEX->>DB: update account balance + activity
+        GEX-->>B: granted access + expiry + pricing details
+    end
+
+    B->>CH: GET /challenges (Authorization Bearer token)
+    CH->>EAS: resolveExplorerEntitledScope(token)
+    EAS->>DB: verify token + read explorerAccessUntil
+    EAS-->>CH: entitled scope
+    CH->>DB: fetch scoped challenge collection
+    CH-->>B: challenge list
+
+    loop incremental sync
+        B->>DLT: GET /challenges/delta?since=...
+        DLT->>EAS: resolveExplorerEntitledScope(token)
+        EAS->>DB: verify token + read explorerAccessUntil
+        EAS-->>DLT: entitled scope
+        DLT->>DB: fetch scoped updates since timestamp
+        DLT-->>B: challenge delta
+    end
+```
+
+## Implementation Notes
+- command ingress is the point where user/account resolution may create a new internal DMG user
+- the Explorer secure link does not grant access by itself; it only transfers identity securely to the browser
+- `/token/verify-explorer` does **not** process payment
+- `/token/verify-explorer` is the browser bootstrap step that returns identity, merit pricing state, dataset scope, and current access status
+- `/token/grant-explorer-access` is the only route that deducts NUMBERS and grants or extends Explorer access
+- token verification is performed again during access grant; the payment/grant step does not trust prior frontend verification
+- the backend validates that the platform account identified by `payload.platformId + payload.platformName` still belongs to `payload.userId`
+- merit pricing is derived from `user.totalNumbersSpent >= EXPLORER_MERIT_THRESHOLD`
+- current configuration is:
+  - standard price: `21` NUMBERS per `21` minutes
+  - merit price: `3` NUMBERS per `21` minutes
+  - step size: `21` minutes
+- demo users are restricted twice:
+  - dataset scope resolves to `demo`
+  - granted units are forcibly capped to `1` by `getEffectiveExplorerGrantUnits(...)`
+- Explorer collection routes do not trust frontend scope parameters; scope is derived server-side from the verified token
+- `/challenges` and `/challenges/delta` require an `Authorization: Bearer <token>` header, not a query param
+- `/challenges` and `/challenges/delta` both enforce active entitlement by checking `user.explorerAccessUntil > now`
+- if entitlement expires, the backend returns `EXPLORER_ACCESS_REQUIRED`, and the frontend should return to the access overlay
+- public challenge detail route `/challenges/:id` remains public and is not gated by Explorer entitlement
+- the `!explorer` command generates a secure Explorer link through `processExplorerLinkGeneration(...)`
+- the link token is used to transfer identity securely into the browser
+- paid Explorer access is controlled by `user.explorerAccessUntil`
+- in other words, the Explorer JWT is primarily an identity transport token, while Explorer entitlement lives in database state
+
+
+===== FILE: dmg-doc/appendix/full-command-reference.md =====
+
+# **Full command reference**
+This reference lists the main user-facing commands currently implemented in DMG, along with their pricing rules and core operational logic.
+
+| Command | Function | Cost (NUMBERS) | Key Logic |
+| :---- | :---- | :---- | :---- |
+| **!explorer** | Generate an access link for the Explorer | 21 per 21 minutes (reduced to 3 for eligible users) | **Link Generation:** bot replies with a unique, secure, authenticated URL. Explorer access is token-gated and paid. Once inside, the user can browse, search, and filter the challenge database. |
+| **!challengesubmit** | Generate an access link for the Challenge Submit Form | **Quadratic:** $210 \times (N+1)^2$ | **N** = user's daily submission count. **Link generation**: bot replies with a unique, secure, authenticated URL. Final validation and payment happen on the web form. N resets at 21:00 UTC. |
+| **!push [ID] [qty]** | Generate a push quote for challenge promotion | **Quadratic:** $\sum_{i=1}^{\mathrm{qty}} [ 21 \times (\mathrm{Prev} + i)^2 ]$ | **Prev** = total pushes already made by this user on that specific challenge.<br>**qty** = number of pushes requested in the current quote.<br>**i** = increment from 1 to qty.<br>**Logic**: Sums the cost of each individual rank from (Prev + 1) to (Prev + qty).<br>**Push quote generation**: creates a 30-second quote before confirmation. Prev never resets. |
+| **!push confirm** | Confirm and execute the latest valid push quote | Quoted Amount | **Most-recent-first confirmation:** the system defaults to the latest unexpired quote, so !push confirm can work without a quote ID. |
+| **!digout [ID]** | Revive an 'Archived' challenge | **21% of total NUMBERS previously spent** on that challenge (rounded up) | **Challenge Revival**: only usable once per challenge. Resets the archival clock and returns the challenge to Active. |
+| **!disrupt** | Chaos mechanic | 2100 | Fixed-cost placeholder command Tracks spend and metrics, but **full disruptive mechanics are not implemented yet** May later trigger visual or audio chaos on stream |
+| **!remove [ID] [option]** | Remove your own active challenge and choose the refund distribution | No direct command cost; triggers 21% refund **distribution logic** | Author-only Only available for removable challenge states The selected refund option determines where the calculated 21% is directed  |
+| **!mystats** | View your DMG stats | 0 | Returns linked-account balances, user totals, and activity metrics |
+| **!qlogic** | Explain quadratic logic | 0 | Returns a short explanation of submission and push quadratic cost behavior |
+
+===== FILE: dmg-doc/appendix/full-constants-reference-gameconfig-ts.md =====
+
+# **Core Constants Reference (\`gameConfig.ts\`)**
+This appendix lists the core constants currently defined in `src/config/gameConfig.ts`.
+
+| Constant | Current Value | Purpose |
+| ----: | :---- | :---- |
+| **ADMIN\_USER\_ID** | **21** | Internal user ID reserved for the primary Game Master / admin identity. |
+| **INITIAL\_BALANCE** | **500** | Starting NUMBERS balance assigned to a newly created account. |
+| **MAX\_TOKEN\_DURATION\_MINUTES** | **210** | Maximum allowed duration for generated JWT-based access links. |
+| **SUBMISSION\_BASE\_COST** | **210** | Base multiplier used in challenge submission cost calculation. |
+| **PUSH\_BASE\_COST** | **21** | Base multiplier used in push cost calculation. |
+| **DISRUPT\_COST** | **2100** | Fixed cost for the current placeholder \!disrupt command. |
+| **SESSION\_DURATION\_MS** | **21 \* 60 \* 1000** | Duration of one execution session, equal to 21 minutes. |
+| **DIGOUT\_COST\_PERCENTAGE** | **0.21** | Display-level percentage used to express digout cost as 21% of total prior spend on a challenge. |
+| **LIVE\_DISCOUNT\_MULTIPLIER** | **0.79** | Display-level live discount multiplier, representing a 21% discount during livestream conditions. |
+| **DISCOUNT\_DIVISOR** | **100n** | BigInt divisor used for precise percentage and discount calculations. |
+| **LIVE\_DISCOUNT\_MULTIPLIER\_NUMERATOR** | **79n** | BigInt numerator used to represent the live discount multiplier (79/100). |
+| **DIGOUT\_PERCENTAGE\_NUMERATOR** | **21n** | BigInt numerator used to represent the digout percentage (21/100). |
+
+## **Notes**
+
+* Some constants are **display-oriented** or **conceptual** values (for example **0.21** and **0.79**).
+
+* Others exist specifically for display-oriented (for example **21n**, **79n**, and **100n**).
+
+* Centralizing these values in one file makes balancing and rule changes easier without scattering core rule values across service logic.
+
+
+===== FILE: dmg-doc/appendix/quadratic-cost-logic-submission-vs-push.md =====
+
+# **Quadratic Cost Dual-Logic (Submission vs Push)**
+DMG uses two independent quadratic cost formulas based on two distinct user counters.
+
+### **Challenge Submission Cost (**`!challengesubmit`**)**
+**Counter**: `Users.daily_submission_count`
+
+**Logic**: per-user, daily-reset
+
+**Purpose**: prevent submission spam and incentivize more thoughtful challenge proposals
+
+**Equation**: 
+
+$210 \times (N+1)^2$
+
+**Equation details:**
+
+* N = the number of challenges the user has already submitted that day
+
+* N + 1 = the sequential number of the next challenge being submitted
+
+* 210 = the base cost multiplier
+
+* $(N + 1)^2$ = the quadratic escalation factor
+
+### **Challenge Promotion Cost (**`!push`**)**
+
+**Counter**: the number of pushes already made by the same user on the same challenge
+
+**Logic**: per-user, per-challenge, never-resets
+
+**Purpose**: prevent one user from dominating promotion on a single challenge and force more strategic distribution of NUMBERS
+
+**Equation**: 
+
+$\sum_{i=1}^{\mathrm{qty}} \left[ 21 \times (\mathrm{Prev} + i)^2 \right]$
+
+**Equation details:**
+
+* qty = the number of pushes requested in the current transaction  
+* Prev = the number of pushes the same user has already made on that specific challenge  
+* i = the summation index, starting at 1  
+* Prev + i = the sequential number of each new push in the requested batch  
+* 21 = the base push cost multiplier  
+* $(Prev + i)^2$ \= the quadratic escalation factor for each individual push
+* $\sum_{i=1}^{\mathrm{qty}}$ = sums the cost of every requested push in the batch
+
+---
+
+## **Quadratic Cost Calculation Example: Per-User Logic**
+
+This example demonstrates the cost calculation for the \`\!push\` command, which uses a per-user, per-challenge, never-resets quadratic model.
+
+### **Scenario Parameters**
+
+* Base Price (Multiplier) \= 21
+
+* Current user push count for this challenge \= 2
+
+* Quantity requested (qty) \= 5
+
+This means the user is requesting their 3rd, 4th, 5th, 6th, and 7th push on the same challenge.
+
+### **Detailed Calculation**
+
+| Push \# | Formula Term | Calculation | Cost (NUMBERS) |
+| ----- | :---- | :---- | :---- |
+| 1st (user’s 3rd push) | $(2 + 1)^2$ | $3^2$ \= 9 | 21 × 9 \= 189 |
+| 2nd (user’s 4th push) | $(2 + 2)^2$ | $4^2$ \= 16 | 21 × 16 \= 336 |
+| 3rd (user’s 5th push) | $(2 + 3)^2$ | $5^2$ \= 25 | 21 × 25 \= 525 |
+| 4th (user’s 6th push) | $(2 + 4)^2$ | $6^2$ \= 36 | 21 × 36 \= 756 |
+| 5th (user’s 7th push) | $(2 + 5)^2$ | $7^2$ \= 49 | 21 × 49 \= 1,029 |
+| **Total Cost**: 2,835 NUMBERS |  |  |  |
+
+### **Quote Record Output**
+
+A successful quote would store:
+
+* quoted\_quantity: 5
+
+* quoted\_cost: 2835
+
+===== FILE: dmg-doc/appendix/recurring-challenge-cadence-enforcement.md =====
+
+# **Recurring Challenge Cadence Enforcement**
+This appendix explains how cadence enforcement works for RECURRING challenges.
+
+## **Purpose**
+
+A recurring challenge is not judged only by total completion.  
+It is also judged by whether the required sessions happen at the required pace.
+
+This means the system checks:
+
+* how many sessions were completed in the current cadence window
+
+* whether that count meets the required cadence before the window expires
+
+If the cadence requirement is met, the challenge continues.  
+If it is not met in time, the challenge fails.
+
+## **When cadence enforcement runs**
+
+Cadence enforcement runs during daily maintenance.
+
+It applies to challenges that are:
+
+* RECURRING
+
+* IN\_PROGRESS
+
+* not currently executing
+
+This means the cadence check is part of the system’s daily rule enforcement rather than something handled manually.
+
+## **Core logic**
+
+Each recurring challenge stores:
+
+* a cadence unit
+
+* a required session count
+
+* a cadence text field, which stores the readable cadence rule for every RECURRING challenge
+
+* a cadence progress counter, which tracks how many sessions the challenge completed in the current cadence window
+
+* a cadence period start timestamp
+
+The backend then determines:
+
+* the length of the current cadence window
+
+* whether that window has expired
+
+* whether the required number of sessions was completed inside that window
+
+## **Cadence Unit / Cadence Windows**
+The cadence window depends on the challenge’s configured cadence unit.
+
+Current logic:
+
+* DAILY → 1 day
+
+* WEEKLY → 7 days
+
+* MONTHLY → 30 days
+
+* CUSTOM\_DAYS → the cadence window is derived from the stored cadence text, which is required for all RECURRING challenges  
+* For CUSTOM\_DAYS, the backend tries to extract the custom day interval from that stored cadence text
+
+## **What counts as progress**
+
+Progress is tracked through cadenceProgressCounter.
+
+This counter increases when a recurring challenge completes a 21-minute session tick.
+
+So cadence is not based on:
+
+* submission
+
+* promotion
+
+* launch alone
+
+It is based on:
+
+* completed recurring sessions
+
+## **Enforcement outcomes**
+When the cadence window expires, the system checks whether the challenge met its requirement.
+
+### **If the requirement is met**
+The challenge remains valid.  
+The system:
+
+* resets cadenceProgressCounter to 0
+
+* starts a new cadence window from the current maintenance time
+
+### **If the requirement is not met**
+The challenge fails.  
+The system:
+
+* sets the status to FAILED
+
+* records a failure reason
+
+* updates completion / activity timestamps
+
+## **Why currently executing challenges are excluded**
+
+Challenges that are currently executing are not cadence-checked in that same state.
+
+Purpose:
+
+* avoid failing a challenge while it is actively being played
+
+* ensure cadence is evaluated on completed progress, not mid-session state
+
+## **Why this matters**
+
+Cadence enforcement makes recurring challenges meaningfully different from simple multi-session challenges.
+
+It ensures that:
+
+* RECURRING challenges are judged on whether sessions happen at the required pace, not only on total session count
+
+* a RECURRING challenge can fail before full completion if it falls behind its required pace
+
+## **Relationship with other systems**
+
+This appendix connects to:
+
+* System Architecture → Time & Session System
+
+* System Architecture → Maintenance Logic
+
+* System Architecture → Challenge Lifecycle System
+
+* Features → Scheduling / Execution Slots
+
+Together, these sections explain:
+
+* how recurring challenges are scheduled
+
+* how their sessions are executed
+
+* how cadence windows are enforced over time
+
+* how failure can result from broken pacing, not only from lack of completion
+
+===== FILE: dmg-doc/appendix/structured-challengetext-json-format.md =====
+
+# **Structured challengeText JSON Format**
+The UI turns a user’s complex challenge idea into a structured format (goal, instructions, constraints, references) the system can understand.
+
+| {   "goal": "string",   "instructions": "string",   "constraints": \["string"\],   "references": \[     {       "type": "VIDEO | AUDIO | WIKI | DOCUMENT | OTHER",       "title": "string",       "url": "string (optional for OTHER)",       "note": "string (optional)"     }   \],   "system": {     "requiresReview": boolean,     "version": "2.1"   } }  |
+| :---- |
+
+We decided to move away from a simple "string" description and instead store `challengeText` as a structured JSON object. Why?
+
+1. **Automation & Parsing**: the system understands the Goal, Instructions, and Constraints separately to display them correctly in the Challenge Explorer and potentially trigger stream overlays automatically.
+
+2. **Strategic Metadata**: By structuring "References" (YouTube links, Wikipedia, etc.), we can provide clickable resources in the UI without messy string parsing.
+
+3. **UI Consistency**: It ensures the "Brand guidelines" can be maintained by rendering goals in a consistent layout regardless of how a user types them.
+
+Adding a `note` field to every reference allows a user to say: "Check 2:15 for the specific fill" (Video) or "Read the section on the One-Drop beat" (Wiki), which drastically increases the "Managerial" quality of the submission.
+
+### **Why this structure exists**
+
+This format allows the system to:
+
+* separate goal, instructions, constraints, and references cleanly  
+* render challenge content consistently across interfaces  
+* store reference type, title, URL, and note in separate fields instead of trying to extract them later from one text block  
+* support cleaner automation and more reliable frontend rendering
+
+
+===== FILE: dmg-doc/appendix/token-lifetime-access-duration.md =====
+
+# **Token Lifetime and Access Duration**
+This appendix clarifies the difference between token lifetime and feature-access duration in DMG.
+
+| Flow / Feature | Token Type | Token Duration | Access Duration | Notes |
+| :---- | :---- | :---- | :---- | :---- |
+| Challenge Submit Form access link (\`**\!challengesubmit\`**) | JWT | validated at generation time, capped at \`**210\`** minutes | not a separate timed access window | The token controls how long the secure submission link remains valid. Final validation and payment happen on the web form. |
+| Explorer access link (\`**\!explorer\`)** | JWT | set at generation time based on the selected tier | **\`21\`** minutes per paid access window | The token verifies identity for Explorer entry. Explorer usage itself is gated by a paid 21-minute access window. |
+| Perennial token flows | PerennialToken | persistent until deactivated | depends on the feature using it | These tokens are stored in the database and support longer-lived access flows beyond short JWT sessions. |
+
+## **Important distinction**
+
+Token duration and access duration are not always the same thing.
+
+* **Token duration** \= how long a secure access token remains valid
+
+* **Access duration** \= how long the user can use a protected feature after access is granted
+
+## **In current DMG logic**
+
+* The Challenge Submit Form mainly depends on token validity
+
+* The Explorer combines token-gated entry with a separate paid access window of 21 minutes
+
+  * **Additional Explorer note:** 
+
+    * A valid Explorer token alone does not grant dataset access.
+
+    * The backend also checks whether the user currently has an active Explorer access window before returning the collection or delta feed.
+
+* Perennial tokens are designed for longer-lived access flows that are not limited to short JWT expiry rules
+
+
+===== FILE: dmg-doc/appendix/user-game-metrics.md =====
+
+# **User Game Metrics**
+These metrics are tracked per-user in the User Prisma model to provide rich historical data about a user's activity, impact, and resilience within the game economy.
+
+| Metric (Prisma Field) | Description | Significance |
+| :---- | :---- | :---- |
+| **totalDigoutsExecuted** | The total number of **Digout** commands this user has executed. | Provides a public, historical metric of the proposal's **resilience and community demand**. A high count indicates the user is actively saving challenges, demonstrating loyalty and engagement. |
+| **totalPushesExecuted** | The total quantity of individual **Push** transactions made by the user across all challenges. | Measures the user's **overall investment** and participation in the challenge economy, showing how often they contribute to the **promotion of challenges**. |
+| **totalDisruptsExecuted** | The total number of **Disrupt** commands executed by the user. | Tracks the user's engagement with high-cost, high-risk commands, signifying a willingness to use **extreme measures** or indulge in chaos. |
+| **totalChallengesSubmitted** | The total number of Challenges this user has successfully proposed and submitted. | Measures the user's **creative contribution** to the game content. |
+| **totalRemovalsExecuted** | The total number of Challenges authored by this user that they have removed. | Tracks the user's engagement with the removal mechanic, reflecting their willingness to **end, revoke, or correct** their own proposals due to self-review, streamer requests, or changing circumstances. |
+| **totalNumbersSpent** | The grand total of NUMBERS points spent by this user on **all** game actions (Pushes, Digouts, Disrupts, Submissions, etc.). | The primary measure of the user's **economic activity** and overall financial contribution to the game. |
+| **totalReceivedFromRemovals** | The total NUMBERS points this user has received as a refund from the removal of *other* users' Challenges. | Tracks the user's **passive income** from their investments in challenges that were later removed by the proposer. |
+| **totalCausedByRemovals** | The total gross NUMBERS value refunded/forfeited from the removal of Challenges authored by this user. | A liability metric tracking the **economic ripples** caused by the user's decision to remove their own challenges. |
+| **totalToCommunityChest** | A running total of all NUMBERS points **forfeited or directly contributed** by this user to the **Community Chest**. | Tracks the user's **total charitable contribution** and financial liability to the Community Chest, encompassing forfeited refunds from removals and any future direct donations. |
+| **totalToPushers** | A breakdown of totalCausedByRemovals, specifically tracking the NUMBERS refunded to **Pushers** due to this user's removals. | Tracks the user's liability in causing refunds to other contributing pushers. |
+
+[^1]:   **Multi-Platform Consistency**: This means if a user spams the API from Twitch and then immediately tries from Kick, the Upstash-backed limit will recognize them (via their central userId) and block them across all platforms because the "memory" is stored externally in Upstash, not inside the temporary API server.
+
+
+===== FILE: dmg-doc/features/00-features.md =====
+
+# Features
+This section documents user-facing product features and game mechanics.
+
+## Notes
+- access monetization layer
+- auction and digout system
+- challenge removal
+- challenge submission
+- demo access mode
+- explorer
+- game master admin
+- identity system
+- numbers system
+- onboarding first entry
+- promotion push
+- share system
+- slots
+- tiers access structure
+
+
+===== FILE: dmg-doc/features/access-monetization-layer.md =====
+
+# **Access & Monetization Layer**
+## **Overview**
+
+This layer defines how users gain access to certain features and how financial support translates into NUMBERS and access conditions within the system.
+
+It connects:
+
+* real-world contribution
+
+* in-system currency (NUMBERS)
+
+* feature access and depth of participation
+
+---
+
+## **NUMBERS Acquisition**
+
+Users obtain NUMBERS through two main sources:
+
+* direct financial contribution (e.g. donations, subscriptions)
+
+* participation rewards (granted through activity or specific mechanics)
+
+Financial contribution provides the baseline value reference for NUMBERS.
+
+---
+
+## **Value Reference**
+
+The system follows a simple baseline:
+
+* 1 NUMBERS ≈ €0.01
+
+Example:
+
+* €2.10 → 210 NUMBERS
+
+This baseline ensures:
+
+* predictable value
+
+* consistent pricing across features
+
+* clear user understanding of cost
+
+---
+
+## **Feature Access Model**
+
+Some protected features require spending NUMBERS to access.
+
+**Example**:
+
+* Explorer access requires a time-based fee
+
+This creates a paid, time-limited access model for higher-value tools.
+
+It keeps access intentional rather than passive.
+
+---
+
+### **Current Pricing Example: Explorer**
+
+The Explorer is the main current example of this access model.
+
+Current Explorer pricing:
+
+* Standard access cost: **21 NUMBERS**
+
+* Access duration: **21 minutes**
+
+**This creates:**
+
+* a paid, time-limited access model for a higher-value tool
+
+* more focused exploration
+
+* intentional use instead of passive browsing
+
+---
+
+## **Participation-Based Pricing**
+Users with sufficiently high cumulative participation can unlock reduced pricing for certain protected features.
+
+Current example:
+
+Explorer access
+
+* Standard cost: **21 NUMBERS**
+
+* Reduced cost: **3 NUMBERS**
+
+Discount eligibility is based on the user’s total NUMBERS spent in the system.
+
+**Example threshold:**
+
+* **4410 NUMBERS** (= €21 donated) **total spent → reduced Explorer pricing unlocked**
+
+---
+
+The access layer is not limited to flat pricing. Some mechanics also use percentage-based pricing, such as digout at 21% of the total NUMBERS previously spent on a challenge.
+
+---
+
+## **Purpose of the Pricing Model**
+
+This pricing model is designed to make feature access meaningful, structured, and proportional to user involvement.
+
+It serves to:
+
+* assign a NUMBERS cost to high-value web tools
+
+* reward sustained participation through reduced pricing
+
+* keep access intentional rather than frictionless
+
+* support a progression model where sustained involvement unlocks better access conditions over time
+
+The Explorer is the main current example of this logic, and the same model can extend to other paid features as the system grows.
+
+---
+
+## **Role in the Product**
+
+The Access & Monetization Layer connects:
+
+* financial contribution
+
+* NUMBERS accumulation
+
+* feature access
+
+* progression benefits
+
+It gives the system a way to structure how users move from simple participation to deeper access and lower-friction use of protected features.
+
+---
+
+## **Product Impact**
+
+This layer ensures that:
+
+* system usage remains intentional
+
+* financial support, participation, and feature access remain aligned
+
+* access to powerful tools reflects user involvement
+
+It reinforces the idea that:
+
+interaction is not frictionless by default; it is structured by user involvement over time.
+
+
+===== FILE: dmg-doc/features/auction-and-digout-system.md =====
+
+# **Auction & Digout System**
+## **Purpose**
+
+This system allows the community to bypass normal challenge progression in specific cases by reviving archived ideas or forcing execution priority through collective support.
+
+---
+
+## **Auction**
+An auction is a threshold-based execution mechanic.
+
+### **How it works**
+the streamer can assign a challenge a NUMBERS threshold
+
+the community can collectively contribute toward that threshold
+
+if the threshold is reached, the challenge is immediately selected for execution
+
+### **Role in the system**
+
+Auction creates a strategic override on top of the normal ranking system.
+
+**It:**
+
+* encourages collaboration around a shared execution goal  
+* creates a high-cost spending path for challenges the community wants strongly enough  
+* gives the streamer a flexible override tool for challenges that may seem difficult, marginal, or not worth executing under normal conditions  
+* makes community demand more legible by showing which challenges can attract unusually strong collective support
+
+### **Selection logic**
+
+A high threshold can also act as a demand test: if a challenge seems especially hard or not immediately relevant, the community must show stronger support to justify execution.
+
+---
+
+## **Digout**
+Digout is the revival mechanic for archived challenges.
+
+### **How it works**
+
+an archived challenge can be revived by paying a percentage of its historical NUMBERS support
+
+once revived, the challenge keeps its previously accumulated total NUMBERS support instead of returning to zero
+
+### **Role in the system**
+
+Digout prevents strong ideas from disappearing permanently after one failed cycle.
+
+**It:**
+
+* restores past support  
+* gives previously backed challenges a return path that preserves the value already spent on them  
+* prevents the system from treating each challenge cycle as if the past support never happened
+
+---
+
+## **Archive and Revival Logic**
+### **Archive conditions**
+A challenge moves to Archived when:
+
+* it reaches the end of its 21-day active window without enough promotion
+
+* an auctioned challenge fails to reach its required NUMBERS threshold
+
+### **Digout cost**
+Any user can revive an Archived challenge by paying 21% of the total NUMBERS previously spent on that challenge.
+
+### **Support restoration**
+
+A successful digout does not restart the challenge from zero.
+
+The challenge keeps its previously accumulated total NUMBERS support.
+
+### **Why this matters**
+
+Because challenge ranking is based on total NUMBERS spent, restoring historical support allows a revived challenge to return immediately to the competitive pool instead of rebuilding support from scratch.
+
+---
+
+## **Purpose in the product**
+
+Together, Auction and Digout add strategic recovery and override mechanics to the product.
+
+They ensure the challenge system is not only linear, but resilient and dynamic over time.
+
+
+===== FILE: dmg-doc/features/challenge-removal.md =====
+
+# **Challenge Removals**
+## **Purpose**
+
+Challenge removal allows the original author of a challenge to withdraw it from the active system under defined conditions.
+
+This is not only a cleanup action. It is also an economic and strategic feature that:
+
+* lets authors stop backing ideas they no longer want to keep active  
+* creates refund distribution choices  
+* allows part of the removed value to be redirected toward the author, the pushers, or the Community Chest
+
+## **Who can use it**
+
+Only the original challenge author can remove a challenge.
+
+This means:
+
+* removals are author-controlled  
+* other users cannot remove someone else’s challenge  
+* the action is tied to challenge ownership, not general moderation power
+
+## **When removal is allowed**
+
+A challenge can only be removed when it is still in a removable state.
+
+In practice, removal is blocked for challenges that are already:
+
+* Archived  
+* Auctioned  
+* Completed  
+* Failed  
+* In Progress  
+* Removed
+
+This means removal remains an author-side decision during the active life of a challenge, not something that happens after the challenge has already reached a final state.
+
+## **What removal does**
+
+When a valid removal happens:
+
+* the challenge moves to the Removed state  
+* the challenge becomes non-interactable  
+* the challenge is terminated as an active progression object  
+* a 21% refund amount is calculated from the NUMBERS previously spent on the challenge
+
+The refund is not a full reversal.  
+ It is a partial redistribution mechanic based on prior spending.
+
+## **Refund calculation**
+
+When a challenge is removed, the system calculates one refund amount equal to 21% of the NUMBERS previously spent on pushes for that challenge.
+
+That refund amount is then divided into:
+
+* **the author’s share**, based on the author’s own push contribution  
+* **the pushers’ share**, based on the contribution made by other pushers
+
+That refund amount is then distributed according to the selected refund option.
+
+## **Refund distribution options**
+
+The author chooses how the calculated refund is distributed.
+
+#### **community\_forfeit**
+
+100% goes to the Community Chest
+
+#### **author\_and\_chest**
+
+the author receives their share; the rest goes to the Community Chest
+
+#### **author\_and\_pushers**
+
+the author receives their share; the rest goes back to pushers
+
+## **Command input**
+
+When removal is triggered through chat command flow, the author selects the refund option as part of the remove command.
+
+This keeps the removal decision:
+
+* explicit at the moment of removal  
+* tied to one chosen refund path  
+* consistent with the command-driven interaction model
+
+## **Role in the system**
+
+Challenge removal adds a controlled exit path for submitted ideas.
+
+It allows the system to:
+
+* let authors withdraw an active challenge they no longer want to keep in play  
+* return part of the previously committed value instead of treating that value as fully lost  
+* create strategic choices around whether that returned value benefits the author, the pushers, or the Community Chest  
+* encourage stronger follow-through during the active life of a challenge, because both the author and the pushers can have value tied to how the idea performs
+
+This makes challenge authorship more meaningful, because the author keeps agency over an idea after submission, while pushers are also incentivized to track what happens to the challenge over time.
+
+It also makes author commitment more visible, because other users can take the author’s own involvement and removal behavior into account before deciding to support a challenge.
+
+## **Economic role**
+
+Challenge removal is also an economic feature.
+
+It can:
+
+* return part of the value to the author  
+* return part of the value to pushers  
+* redirect part or all of that value to the Community Chest
+
+This makes removal more than a simple delete action.
+
+It turns withdrawal into a structured redistribution mechanic inside the NUMBERS economy.
+
+## **Product impact**
+
+This feature ensures that:
+
+* challenge authors keep agency over their own proposals  
+* abandoned or unwanted ideas can leave the system in a structured way  
+* prior support can still create value after removal  
+* removal becomes part of the product’s strategic and social economy, not just a destructive action 
+
+
+===== FILE: dmg-doc/features/challenge-submission.md =====
+
+# **Challenge Submission**
+## **Purpose**
+
+Challenge Submission is the entry point for new challenges in the system.  
+
+It allows users to introduce ideas that can later be reviewed, promoted, explored, and potentially executed.
+
+---
+
+## **What users can do**
+
+Users can:
+
+* submit structured challenges
+
+* define whether a challenge is one-off or recurring
+
+* specify cadence and duration for recurring challenges
+
+* introduce new directions for the streamer and the community
+
+---
+
+## **Submission structure**
+Each challenge follows a structured format:
+
+* Goal → the high-level objective
+
+* Instructions → the execution details
+
+* Constraints → optional rules or limitations
+
+* References → optional supporting material
+
+This structure makes challenges clearer, easier to compare, and easier for the system to process consistently.
+
+---
+
+## **Challenge Scope and Examples**
+
+Challenges can cover many types of objectives, including:
+
+* rudiments  
+* songs  
+* styles  
+* fills  
+* techniques  
+* musician studies  
+* other creative tasks
+
+They can also include modifiers such as:
+
+* blindfolded  
+* one hand  
+* inverted  
+* stick tricks
+
+### **Purpose in the system**
+
+This keeps the system broad enough for variety while preserving a comparable structure.
+
+---
+
+## **Validation logic**
+Submissions are not fully free-form. The system currently enforces:
+
+* minimum challenge text length
+
+* structured input fields
+
+* required titles for references
+
+* validation before the challenge enters the system
+
+This limits malformed or low-effort submissions, with stricter validation planned later.
+
+---
+
+## **Review entry conditions**
+Some challenges do not enter the normal Active state immediately.
+
+Depending on the rules in place, they may first enter an Under Review state.
+
+This can happen for example when:
+
+* structure or references require additional validation  
+* a submission triggers a higher review-sensitivity rule  
+* future rules require review for specific submission categories
+
+**Under Review** does not always mean the challenge is fully frozen.
+
+Depending on the rule, it may still remain visible and partially interactable.
+
+---
+
+## **Cost system**
+
+Submitting a challenge requires spending NUMBERS.
+
+The cost follows a dynamic model:
+
+* repeated submissions increase in cost
+
+* the cost resets daily
+
+This encourages more intentional participation and discourages spam or low-effort submissions.
+
+===== FILE: dmg-doc/features/demo-access-mode.md =====
+
+## **Demo Access Mode**
+Challenge Submission also supports a restricted Demo Access Mode.
+
+In this mode:
+
+* selected demo users enter through dedicated demo perennial tokens
+
+* demo/test tokens are recognized by the backend
+
+* the normal protected submission flow is preserved
+
+* the submit form can enable a guided demo submission flow
+
+* this flow allows the form to be progressively prefilled step by step, reducing typing during demos while preserving the feel of real interaction
+
+This creates a fast and controlled showcase flow without bypassing the real submission system.
+
+---
+
+## **Role in the system**
+
+Challenge Submission feeds the entire system.
+
+It creates new opportunities for interaction, keeps ideas flowing into the product, and provides the raw material for promotion, competition, and execution.
+
+---
+
+## **Product impact**
+
+This ensures that:
+
+* users actively shape the system
+
+* content originates from the community
+
+* participation starts with creation, not just reaction
+
+# **Demo Access Mode**
+
+# **Demo Access Mode**
+
+The system also supports a restricted **Demo Access Mode** for onboarding, internal testing, and product showcases.
+
+## **What it allows**
+
+* selected demo users can enter the standard product flow using dedicated demo perennial tokens
+
+* demo users can submit challenges through the same protected submission flow as regular users
+
+* demo users can access the Explorer through the same gated access flow
+
+* demo/test perennial tokens are recognized by the backend and can enable a **guided demo submission flow** in the challenge submit form
+
+* in this mode, the form can be progressively prefilled step by step through right-arrow input, allowing a fast and fluid demonstration without manual typing
+
+## **Current restriction model**
+
+* demo Explorer sessions only expose the restricted demo dataset
+
+* this dataset currently contains:
+
+  * challenges submitted by demo-scoped users
+
+  * seeded / preloaded demo challenges used to make the environment immediately explorable
+
+## **Purpose in the system**
+
+This creates a safe way to let people experience real product behavior without exposing the full live dataset.
+
+## **Product impact**
+
+* makes the system easier to test  
+* makes the product easier to demonstrate  
+* provides a smoother onboarding and showcase flow  
+* offers an accessible entry point before exposing the full live environment
+
+
+===== FILE: dmg-doc/features/explorer.md =====
+
+# **Explorer – Challenge Discovery Interface**
+## **Purpose**
+
+The Explorer is the main interface where users browse, evaluate, and compare challenges across the entire system.
+
+It acts as a strategic layer, helping users decide where to apply their influence.
+
+---
+
+## **What it is**
+
+The Explorer is a structured view of all challenges in the system.
+
+It allows users to:
+
+* access the full history of submitted challenges
+
+* compare challenges based on support, status, and activity
+
+* identify opportunities to influence outcomes
+
+---
+
+## **Core Functions**
+
+Users can:
+
+* browse challenges ranked by configurable metrics (default: most recently updated)
+
+* filter and explore challenges across multiple dimensions (status, activity, and system metrics)
+
+* inspect detailed challenge data (content, status, activity, duration, and cadence)
+
+* identify where influence can be applied
+
+---
+
+## **Role in the system**
+
+The Explorer turns challenge data into a decision-making tool.
+
+It creates:
+
+* competition between challenges
+
+* challenges gain or lose visibility based on community support and activity
+
+* a direct link between user actions and system outcomes
+
+It is where users shift from passive browsing to strategic participation.
+
+---
+
+## **Explorer Entry Fee**
+
+Access to the Explorer requires a NUMBERS fee.
+
+* Standard access cost: **21 NUMBERS per 21 minutes**
+
+* Reduced cost: **3 NUMBERS per 21 minutes** for eligible users
+
+This pricing:
+
+* reinforces the value of Explorer access
+
+* encourages intentional usage rather than passive browsing
+
+* gives sustained participation a visible benefit
+
+---
+
+## **Demo Access Mode**
+
+The Explorer also supports a restricted demo mode.
+
+### **How it works**
+
+**Demo users:**
+
+* enter through dedicated demo perennial tokens
+
+* follow the normal Explorer verification and paid-access flow
+
+* can still submit challenges through the normal submission flow
+
+* only see the restricted demo dataset inside Explorer
+
+### **Current dataset scope**
+
+The demo Explorer dataset currently includes:
+
+* challenges submitted by demo-scoped users
+
+* seeded demo challenges used to keep the Explorer immediately usable
+
+### **Why it exists**
+
+This allows users to experience the real Explorer and challenge-submission flow without exposing the full live challenge database.
+
+---
+
+## **Explorer access flow**
+
+### **Explorer access now uses a two-layer model:**
+
+* token-gated identity verification  
+* separate paid access entitlement window
+
+In practice:
+
+* the token verifies who the user is  
+* paid Explorer access is granted separately in 21-minute units  
+* Explorer collection access is denied when the paid window is missing or expired
+
+## **Server-side enforcement**
+
+### **Explorer collection access is enforced on the backend.** **This means:**
+
+* the frontend cannot unlock the full Explorer by UI flow alone  
+* collection and delta routes require a valid Explorer token  
+* collection and delta routes also require active Explorer entitlement  
+* dataset scope is derived server-side from verified token identity
+
+## **Demo mode**
+
+### **Explorer also supports a demo mode.** **Current behavior:**
+
+* demo users see a restricted partial dataset  
+* demo sessions display a demo banner in the frontend  
+* demo unlocks are clamped to one 21-minute unit per grant  
+* the restriction is enforced server-side, not only in the UI
+
+## **Public sharing distinction**
+
+### **The Explorer itself is gated, but individual challenge pages remain public through:**
+
+* /api/v1/challenges/:id  
+* the public challenge page
+
+---
+
+## **Product Impact**
+
+The Explorer strengthens the core loop:
+
+##### visibility → decision → spending → impact
+
+It ensures that:
+
+* the system remains readable
+
+* user actions are informed
+
+* influence is intentional rather than random
+
+
+===== FILE: dmg-doc/features/game-master-admin.md =====
+
+# **Game Master / Admin**
+## **Purpose**
+
+This layer gives the streamer and future privileged operators direct control over the live system when normal player-facing flows are not sufficient.
+
+## **Control scope** 
+
+Privileged control can include:
+
+* monitoring global game state
+
+* checking operational clocks and system status
+
+* inspecting economy-wide metrics
+
+* forcing or correcting certain game-state actions when needed
+
+* supporting privileged intervention when needed
+
+## **Role in the product** 
+
+* This layer ensures the product remains operable in real conditions.
+
+* It supports moderation, state correction, debugging, and manual intervention where automation or player actions alone are not sufficient.
+
+## **Product impact** 
+
+This feature ensures that:
+
+* the system can be supervised during live operation
+
+* privileged actions remain clearly separated from normal player actions
+
+* the product can remain stable even when exceptional intervention is required
+
+
+===== FILE: dmg-doc/features/identity-system.md =====
+
+# **Identity System (Unified User)**
+This section explains what unified identity means from the user’s point of view inside the product.
+
+## **Purpose**
+
+The Identity System ensures that each user is recognized as a single entity across all interaction channels.
+
+It allows the system to track participation, history, and influence consistently, regardless of where the user interacts.
+
+---
+
+## **What it does**
+
+The system resolves user activity from multiple platforms into one persistent identity.
+
+This includes:
+
+* livestream platforms (e.g. chat interactions)
+
+* Discord interactions
+
+* web interfaces (Explorer, submission, etc.)
+
+All actions are linked to a single internal user profile.
+
+---
+
+## **How it works**
+The product treats one person as one persistent DMG identity, even when they interact through different channels or linked platform accounts.
+
+This allows:
+
+* actions from different platforms to be aggregated
+
+* a unified history of participation
+
+* consistent tracking of NUMBERS and activity
+
+---
+
+## **Aggregated influence**
+
+A user’s NUMBERS and participation remain part of the same system identity across platforms.
+
+This means:
+
+* NUMBERS earned or spent through one linked platform remain meaningful across the product  
+* influence is not lost when the user changes platform or access channel  
+* the system treats participation as continuous rather than platform-isolated
+
+---
+
+## **Persistent history**
+
+User history remains attached to the same identity over time.
+
+This includes:
+
+* participation history  
+* progression  
+* challenge-related activity  
+* long-term presence in the system
+
+### **Purpose in the system**
+
+This ensures that cross-platform participation is not only technically linked, but also meaningful from the user’s point of view.
+
+---
+
+## **Account Linking Dynamics**
+
+Users can choose how their identities behave across platforms.
+
+### **Linked strategy**
+
+Multiple platform accounts are merged into one user identity.
+
+This results in:
+
+* shared NUMBERS balance  
+* unified history and progression  
+* cumulative cost scaling across all linked accounts
+
+### **Independent strategy**
+
+Each platform account is treated as a separate user.
+
+This results in:
+
+* separate NUMBERS balances  
+* independent cost scaling per account  
+* ability to perform actions at base cost separately on each account
+
+### **Trade-off**
+
+* Linked → stronger progression, higher cost scaling  
+* Independent → lower cost per action, fragmented progression
+
+### **Managerial balance**
+
+Users can structure their identities strategically across platforms, but the streamer keeps final authority over challenge execution. This prevents account strategy alone from determining outcomes and ensures that execution still depends on broader product judgment, not only on cost optimization.
+
+### **Strategic trade-off**
+
+This creates a strategic layer where users can trade unified perks and progression for the ability to manage balances and cost scaling separately on each platform.
+
+---
+
+## **Role in the system**
+
+The Identity System connects all parts of the product.
+
+It ensures that:
+
+* user actions are attributed correctly
+
+* influence is accumulated consistently
+
+* the product behaves as a single continuous environment
+
+Without it, interactions would remain fragmented across platforms.
+
+---
+
+## **Product impact**
+
+This feature enables:
+
+* cross-platform continuity
+
+* continuous user progression across platforms
+
+* a unified experience across live and offline interactions
+
+It organizes participation across channels into a single, coherent system.
+
+===== FILE: dmg-doc/features/numbers-system.md =====
+
+# **NUMBERS System (Economy Layer)**
+## **Purpose**
+
+NUMBERS is the core system currency.
+
+It allows users to interact with the product by converting engagement into measurable influence.
+
+---
+
+## **What users can do**
+
+Users can use NUMBERS to:
+
+* submit challenges
+
+* promote challenges (push)
+
+* access specific features (e.g. Explorer)
+
+* interact with system mechanics (e.g. digout, auction participation)
+
+NUMBERS is required for all meaningful actions within the system.
+
+---
+
+## **How it works**
+
+NUMBERS is obtained through participation rewards and financial contribution.
+
+It can then be spent to perform actions that influence the system.
+
+Each action has a defined cost, creating a direct relationship between:
+
+participation → NUMBERS → action → system impact
+
+---
+
+## **NUMBERS Earning Mechanics**
+### **Financial support**
+
+Users can gain NUMBERS through:
+
+* donations  
+* subscriptions  
+* higher support tiers, which improve NUMBERS acquisition efficiency
+
+### **Participation rewards**
+
+Users can also gain NUMBERS through:
+
+* watch time on supported platforms (currently designed as \+21 NUMBERS every 21 minutes)  
+* chat activity  
+* poll participation  
+* leaderboard rewards  
+* milestone rewards  
+* temporary boosts or special reward periods
+
+### **Design logic**
+
+This system is designed so that influence can grow through:
+
+* direct financial contribution  
+* sustained participation over time
+
+It supports a product where users are not limited to one path of progression.
+
+---
+
+## **NUMBERS Spending Mechanics**
+Users can spend NUMBERS on multiple types of actions.
+
+### **Core spending actions**
+
+* submit a challenge  
+* promote a challenge  
+* revive an archived challenge  
+* participate in auction mechanics  
+* access protected tools such as the Explorer
+
+### **Extended spending possibilities**
+The system can also support additional spending uses such as:
+
+* disrupt mechanics (currently implemented as a placeholder action with tracked cost and metrics)  
+* livestream interactions  
+* rewards, raffles, or collectibles  
+* other participation-based unlocks
+
+### **Role in the system**
+
+This ensures that NUMBERS is not only earned, but actively used to shape behavior, prioritization, and access.
+
+---
+
+## **Economic logic**
+
+NUMBERS is not only a reward currency. It is the system layer that turns participation into strategic action.
+
+The system is designed to regulate how influence is distributed.
+
+Key principles:
+
+* actions require spending NUMBERS
+
+* costs can increase based on user behavior
+
+* different actions have different cost structures
+
+This ensures that:
+
+* influence is not free
+
+* user decisions carry weight
+
+* the system remains balanced over time
+
+---
+
+## **Quadratic Logic Rules**
+The system uses two distinct quadratic cost rules.
+
+### **Challenge submission**
+* submission cost increases based on how many challenges the same user has already submitted that day  
+* this submission cost resets daily at 21:00 UTC
+
+### **Challenge promotion (push)**
+
+* push cost increases only for the same user on the same challenge  
+* this push cost does not reset  
+* the rule is per-user, per-challenge, never-resets
+
+### **Purpose in the system**
+
+This separates:
+
+* short-term submission pressure  
+* long-term promotion strategy
+
+It prevents spam, limits single-user domination, and forces more deliberate spending of NUMBERS across the system.
+
+---
+
+## **Live interaction discount**
+When the stream is live, paid actions receive a temporary 21% discount.
+
+### **Purpose**
+
+* reward live participation  
+* concentrate activity during live sessions  
+* make real-time interaction more attractive than delayed action
+
+---
+
+## Community Chest / Collective Rewards
+The Community Chest is a shared reward pool built from supporter contributions, forfeited challenge-removal value, or other future directed contributions.
+
+### **What it enables**
+
+* pooled rewards  
+* community raffles  
+* delayed redistribution  
+* surprise unlocks or shared events
+
+### **Purpose in the system**
+
+This creates a collective layer of participation where generosity and coordination become part of the product experience.
+
+---
+
+## **Role in the system**
+
+The NUMBERS system connects all features.
+
+It enables:
+
+* challenge submission
+
+* challenge promotion
+
+* access control
+
+* advanced mechanics (auction, digout)
+
+It makes all user actions trackable and comparable within the system.
+
+## **Product impact**
+
+This feature ensures that:
+
+* user actions have measurable impact
+
+* influence from multiple users can be combined on the same challenge  
+
+* outcomes are driven by how users spend their NUMBERS
+
+It is the foundation of the game’s economy and interaction model.
+
+===== FILE: dmg-doc/features/onboarding-first-entry.md =====
+
+# **Onboarding / First Entry**
+## **Purpose**
+
+DMG is designed to minimize onboarding friction.
+
+Users do not begin through a traditional signup flow, account creation page, or password-based website account.
+
+## **How onboarding works**
+
+The first entry point is a chat command.
+
+When a user sends a supported command through a connected platform:
+
+* the backend receives the external identity context  
+* the system resolves the corresponding internal DMG user or creates it if it does not yet exist  
+* the action is then processed under that authenticated identity
+
+## **What this means**
+
+Onboarding is embedded directly into participation.
+
+A user can enter the system simply by interacting with it.
+
+## **Why this matters**
+
+The first command acts as the practical entry point into the system, because it triggers identity resolution or account creation without requiring a traditional signup flow.
+
+This design:
+
+* removes the need for separate account creation before participation  
+* reduces friction at first contact  
+* keeps identity tied to the platform where the interaction originated  
+* makes the bot / command layer function as the practical entry point into the product
+
+
+===== FILE: dmg-doc/features/promotion-push.md =====
+
+# **Promotion System (Push)**
+## **Purpose**
+
+The Promotion system allows users to express preference and influence which challenges should be prioritized for execution.
+
+It is the primary mechanism through which the community expresses priority and drives outcomes.
+
+---
+
+## **What users can do**
+
+Users can:
+
+* support challenges by spending NUMBERS
+
+* increase a challenge’s priority within the system
+
+* contribute to collective decision-making
+
+---
+
+## **How it works**
+
+Each promotion (“push”) adds more NUMBERS to a challenge’s total support.
+
+* challenges are ranked based on accumulated support, which determines eligibility for execution
+
+* higher-supported challenges gain higher priority within the ranked pool
+
+* eligible challenges then compete for limited execution slots
+
+* multiple users can contribute to the same challenge
+
+This creates a shared prioritization layer across all active challenges.
+
+---
+
+## **Ranking – Eligibility – Execution**
+Challenges are first ranked by total NUMBERS support. Only the 21 highest-ranked challenges enter the eligible execution pool.
+
+#### **This creates two levels:**
+
+* ranking (all challenges compete)  
+* eligibility (only the 21 highest-ranked challenges can enter the execution pool)
+
+#### **Role in the system**
+
+* This layer filters which challenges can realistically be executed.
+
+#### **It ensures that:**
+
+* execution is not based on visibility alone  
+* only sufficiently supported challenges compete for limited execution time
+
+#### **Product impact**
+
+This system ensures that:
+
+* community consensus determines which challenges reach execution  
+* low-supported challenges do not compete equally with high-supported ones  
+* promotion has a threshold effect, not just a linear effect
+
+---
+
+## **Challenge Selection Process**
+Promotion determines rank and eligibility, but it does not guarantee automatic execution.
+
+**This means:**
+
+* challenges first compete for rank through community support
+
+* only eligible challenges move into the eligible execution pool
+
+* final execution selection is still performed by the streamer ("21")
+
+**Final selection can happen:**
+
+* individually by the streamer
+
+* with community input
+
+* through stronger community-driven scheduling over time
+
+This ensures that promotion shapes execution priority without removing final human selection control.
+
+---
+
+## **Cost logic**
+
+The system uses a dynamic cost model:
+
+* each additional push by the same user on the same challenge becomes more expensive
+
+* the rule applies per user and per challenge
+
+This encourages:
+
+* distribution of influence across multiple challenges
+
+* strategic decision-making
+
+* collaboration instead of domination
+
+---
+
+## **Confirmation flow**
+Pushes follow a two-stage flow:
+
+* quote generation  
+* quote confirmation
+
+This means:
+
+* the system calculates the cost first  
+* the user sees the quoted cost before payment  
+* the quote remains valid for 30 seconds  
+* the push is only applied after confirmation
+
+Purpose in the system:
+
+* makes the quadratic cost visible before commitment  
+* reduces accidental spending  
+* keeps high-cost promotion actions deliberate
+
+---
+
+## **Role in the system**
+
+The Promotion system transforms user intent into measurable impact.
+
+It creates:
+
+* competition between challenges
+
+* collective prioritization before final execution selection
+
+* a direct connection between user actions, challenge ranking, and limited execution capacity
+
+---
+
+## **Product impact**
+
+This feature ensures that:
+
+* the community actively shapes what gets executed
+
+* users influence outcomes through their pushes, with impact depending on how they distribute their NUMBERS across challenges
+
+* outcomes are driven by the combined actions of multiple users rather than a single individual
+
+===== FILE: dmg-doc/features/share-system.md =====
+
+# **Share System**
+## **Purpose**
+
+The Share System allows individual challenges to be shared and turns challenge pages into entry points back into the product.
+
+## **What users can do**
+
+Users can
+
+* copy or share a public link to a challenge page
+
+* use a challenge page as a gateway toward the most relevant participation channel
+
+## **Shared object**
+
+The system shares the public challenge page, rather than the gated Explorer view.
+
+This ensures that shared links remain readable and accessible outside the gated Explorer flow.
+
+## **Contextual CTA logic**
+
+The challenge page adapts its main call to action based on stream state:
+
+* if the stream is live, the CTA directs users toward the live stream  
+* if the stream is offline, the CTA directs users toward the main community channel (currently Discord)
+
+## **Role in the product**
+
+This system connects:
+
+* challenge visibility  
+* user acquisition  
+* re-entry into the product loop
+
+It allows one challenge to function both as content and as a distribution point.
+
+## **Product impact**
+
+This feature ensures that:
+
+* individual challenges can be shared while still bringing users back into the product  
+* challenge sharing contributes to discovery and return traffic  
+* the product can redirect attention toward the most relevant participation channel depending on context
+
+
+===== FILE: dmg-doc/features/slots.md =====
+
+# **Slots**
+# **Scheduling / Execution Slots**
+
+## **Purpose**
+
+This system defines how limited stream time is turned into executable challenge time.
+
+## **Core principle**
+
+Execution capacity is limited.
+
+Challenges do not move directly from promotion to execution. They must still pass through ranking, selection, and execution-capacity constraints.
+
+They compete for a finite number of execution slots.
+
+For the prioritization side of this process, see the Promotion (Push) section.
+
+---
+
+## **Execution slots**
+An execution slot is a predefined 21-minute block reserved for challenge execution.
+
+**These slots:**
+
+* represent the available execution time in a stream.  
+* define how much challenge work can actually be performed  
+* create a real scheduling constraint inside the product
+
+**Example**
+
+* A stream might be scheduled with 9 execution slots:  
+* 9 × 21-minute sessions \= 189 minutes of challenge execution time (3 hours and 9 minutes), excluding breaks or pauses.
+
+### **Scheduling flexibility**
+
+Slot count can vary from one stream session to another depending on available time and stream conditions. Execution slots can be planned by the streamer and may later incorporate stronger community involvement in scheduling.
+
+## **Prioritization logic**
+
+Execution slots define capacity, not priority.
+
+Priority is determined upstream through the Promotion (Push) system.
+
+---
+
+## **Role in the system**
+
+This is where final challenge selection becomes concrete, because eligible challenges must still fit into the limited execution capacity of the stream.
+
+Execution slots connect:
+
+* challenge promotion  
+* challenge selection  
+* real creator time
+
+They make limited time visible and actionable.
+
+## **Product impact**
+
+This system ensures that:
+
+* stream time is treated as a finite resource  
+* promotion has concrete scheduling consequences  
+* challenges compete for actual execution capacity, not only visibility
+
+
+===== FILE: dmg-doc/features/tiers-access-structure.md =====
+
+# **Tiers and Access Structure**
+## **Purpose**
+
+The product includes a progression system that rewards different levels of participation and support without removing the core experience from less involved users.
+
+## **Tier philosophy**
+
+The system is designed so that:
+
+\- all users can influence the product
+
+\- deeper involvement unlocks additional perks
+
+\- progression can come from activity, spending, or financial support
+
+## **Tier groups**
+
+### **Base tier**
+
+All users start here and can access the core participation loop.
+
+### **Engaged tier**
+
+Users unlock additional benefits through NUMBERS spending and sustained activity.
+
+### **Supporter tier**
+
+Users who financially support the project gain stronger perks, recognition, and deeper access.
+
+### **Top supporter layer**
+
+Short-term leaderboards reward standout contribution over daily, weekly, or monthly periods.
+
+## **Purpose in the system**
+
+This structure creates:
+
+* progression without hard restriction  
+* stronger incentives for sustained participation  
+* multiple ways to deepen involvement in the product
+
+---
+
+## **Subscriber Perks**
+
+Financial support can unlock additional benefits beyond basic participation.
+
+### **Examples include:**
+
+* daily NUMBERS reward  
+* discounts on game commands  
+* reserved challenge slots  
+* access to deeper participation features (e.g. exclusive game commands)  
+* exclusive raffles
+
+### **Purpose in the system**
+
+These perks strengthen retention, reward sustained support, and connect financial support to deeper participation.
+
+
+===== FILE: dmg-doc/overview.md =====
+
+# **Product Overview: Drummer Manager Game.**
+### **60s pitch.**
+
+DMG is a gamified livestream system where audiences actively influence what a creator does next.
+
+Users submit challenges, support the ones they want to see happen, and compete or collaborate to decide how limited stream time is used.
+
+Instead of passive viewing, the system turns engagement into structured influence through a shared decision layer.
+
+The result is a livestream experience where the audience helps shape the work, not just watch it.
+
+### **1 sentence pitch.**
+
+Drummer Manager Game is a gamified livestream system where viewers use a shared currency to influence how a streamer’s limited time is spent by submitting and promoting challenges.
+
+---
+
+## **Introduction.**
+
+**Drummer Manager Game** is a community-driven livestream product where the audience helps decide what happens next.
+
+Instead of staying passive, viewers can submit ideas, promote the ones they support, and influence how the streamer’s time is used. The system is built around **NUMBERS**, the product’s core currency, which turns engagement into influence.
+
+The goal is to make the creative process visible, interactive, and continuously evolving over time. The community does not only watch the result – it helps shape the work behind it.
+
+---
+
+## **Core Concepts and Product Principle**
+
+The audience helps shape what happens next, how work is prioritized, and how the experience evolves over time.
+
+### **This means:**
+
+* participation is structured rather than passive  
+* the product turns input into visible consequences over time  
+* actions should be meaningful, strategic, and visible  
+* the audience is not limited to watching outcomes
+
+This creates a product where the community helps shape priorities and outcomes over time, rather than only watching the result.
+
+---
+
+## **Core Product Idea**
+
+DMG turns the audience into an **active management layer**.
+
+Users submit challenges and promote (push) the ones they want to see happen. This helps determine what gets priority, while the streamer keeps final execution control.
+
+This makes the product feel less like a standard stream and more like a shared creative system.
+
+---
+
+## **Core Commands Principle**
+
+The main interaction layer is built around simple chat commands.
+
+### **Purpose**
+
+This keeps the system:
+
+* fast to use
+
+* easy to understand
+
+* accessible during live and offline participation
+
+### **Role in the system**
+
+Commands are the main interface between users and the system.
+
+They also act as the practical onboarding path, because users can enter the product through interaction rather than through a traditional website account flow.
+
+---
+
+## **How It Works**
+
+The product revolves around **Challenges**.
+
+A Challenge is a task, objective, or direction the community wants the streamer to tackle. Challenges can be technical, creative, playful, short, or recurring.
+
+Once submitted, challenges enter the system and can be promoted by the community. The more support a challenge gets, the more visible it becomes. This increases its chances of being selected for execution within the limited execution time available during streams.
+
+Because the streamer’s time is limited, not everything can be executed. That limitation is part of the product: the community is effectively deciding how the streamer’s limited time gets used, through both competition and collective support.
+
+---
+
+## **Live and offline continuity**
+
+The system operates both during livestream sessions and outside of them.
+
+This allows:
+
+* real-time interaction during live sessions  
+* continued participation between streams  
+* a product loop that remains active over time instead of stopping when the stream ends
+
+---
+
+## **NUMBERS**
+
+**NUMBERS** is the product’s core currency. It gives users a way to act inside the system. NUMBERS can be spent to:
+
+* submit challenges  
+* promote challenges  
+* revive archived challenges  
+* access tools such as the Explorer
+
+This creates a simple loop: **engagement → value → influence → impact**
+
+NUMBERS is not an extra reward layer. It is one of the product’s core systems.
+
+---
+
+## **Tiers and Progression**
+
+The product includes a tiered engagement system that rewards participation and support.
+
+All users start with access to the core experience and can increase their influence through activity, NUMBERS usage, or financial support.
+
+Higher engagement unlocks additional perks such as:
+
+* more influence over the system  
+* access to exclusive interactions  
+* more visibility and recognition
+
+The goal is not to restrict access, but to create a progression system where continued involvement leads to deeper impact.
+
+---
+
+## **Quadratic Logic**
+To keep the system fair, repeated actions become more expensive.
+
+* **Submitting multiple challenges** increases cost.  
+* **Repeatedly pushing (promoting) the same challenge** increases cost.
+
+This prevents spam, limits domination by a single user, and encourages strategic thinking. This encourages more deliberate decisions instead of repetitive behavior.
+
+---
+
+## **Challenge Lifecycle**
+
+Challenges move through a structured lifecycle. They can be:
+
+* **Active**  
+* **In Progress**  
+* **Completed**  
+* **Failed**  
+* **Archived**  
+* **Auctioned**  
+* **Removed**  
+* **Under Review**
+
+This gives the system memory. Challenges build history, momentum, and outcomes over time instead of disappearing.
+
+---
+
+## **Time Structure**
+The product uses a simple time structure built around the number 21.
+
+* **21-minute session** \= base execution unit  
+* **21-day window** \= standard challenge lifespan
+
+This structure keeps the system consistent, memorable, and easy to recognize across the experience.
+
+---
+
+## **Community Role**
+
+The audience is an active part of the product. **Users can:**
+
+* submit ideas  
+* promote the challenges they want to see executed  
+* track progress  
+* revive past challenges  
+* influence direction over time
+
+The system creates **structured influence**, but not total control.
+
+---
+
+## **Managerial Override**
+
+The community influences priority, but final execution control remains with the streamer. This means **the streamer can**:
+
+* choose which eligible challenges are actually executed
+
+* pause or stop a challenge if needed
+
+* balance community demand with physical condition, stream constraints, and long-term project needs
+
+### **Purpose in the system**
+
+This keeps the product collaborative without removing human control over execution.
+
+---
+
+## **Product Identity**
+
+DMG combines a strong symbolic identity with a clear structural logic. The number 21 is both an identity marker and a recurring product rule used across the experience.
+
+**It appears in**
+
+* timing, 
+
+* pricing, 
+
+* rewards, 
+
+* system structure
+
+This gives the product a recognizable identity and a consistent internal logic.
+
+---
+
+## **Why It Matters**
+
+Drummer Manager Game turns engagement into structured influence.
+
+Instead of only watching or donating, users interact with a system where their actions matter and have visible consequences. This creates:
+
+* stronger engagement
+
+* clearer progression
+
+* a more memorable experience
+
+---
+
+## **Operating Commitment**
+
+The product depends on a consistent livestream rhythm to remain meaningful over time. 
+
+It works best when the experience includes:
+
+* regular live presence
+
+* enough live time for challenges to be executed and followed over time
+
+### **Purpose in the system**
+
+A consistent cadence makes participation credible, strengthens community trust, and gives the system enough continuity to matter over time.
+
+---
+
+## **Community Strategy and Expansion**
+
+The product is not tied to a single platform. It can operate across livestream platforms for real-time participation and community channels for continued participation outside live sessions.
+
+### **Current model**
+
+* livestream platforms support real-time participation
+
+* Discord acts as the main community hub outside live sessions
+
+* the same participation rules can be extended to other compatible channels over time
+
+**As participation grows, the product can reinforce that growth through:**
+
+* reminders that viewers can influence what happens next
+
+* features that highlight notable ideas, moments, or challenge momentum  
+* safeguards such as cost escalation, gated access, and rate limits to keep growth from degrading interaction quality
+
+### **Purpose in the product**
+
+This helps audience growth strengthen product participation, instead of evolving separately from it.
+
+---
+
+## **In One Sentence**
+
+**Drummer Manager Game** is a gamified livestream product where the community uses **NUMBERS** to submit, promote, and shape challenges, turning audience engagement into structured influence over the creative process.
+
+
+===== FILE: dmg-doc/strategy/00-strategy.md =====
+
+# Strategy
+This section captures high-level direction and planning for product evolution.
+
+## Notes
+- roadmap
+
+
+===== FILE: dmg-doc/strategy/roadmap.md =====
+
+
+
+===== FILE: dmg-doc/system-architecture/00-system-architecture.md =====
+
+# System Architecture
+This section documents the core systems that structure the product and how they interact.
+
+## Notes
+- api structure
+- backend architecture
+- brand design principles
+- challenge lifecycle system
+- frontend architecture
+- interaction pace model
+- maintenance logic
+- shared ui system
+- time session system
+- token identity system
+
+
+===== FILE: dmg-doc/system-architecture/api-structure.md =====
+
+# **API STRUCTURE**
+The API is organized into endpoint groups. Each group has a specific role in the product.
+
+---
+
+## **PUBLIC API (READ-ONLY)**
+
+### **Endpoints**
+
+* `/api/v1/challenges/:id`
+
+### **Role**
+
+This endpoint exposes one public challenge record for the public challenge page.
+
+No Explorer token is required.
+
+### **Notes**
+
+* `/api/v1/challenges/:id` returns one challenge for the public challenge page.  
+* This route remains openly shareable outside the Explorer flow.
+
+### **Core principle**
+
+This route is public, read-only, and safe to expose without Explorer authentication.
+
+---
+
+## **EXPLORER DATA API**
+### **Endpoints**
+
+* `` `/api/v1/challenges` ``  
+* `` `/api/v1/challenges/delta` ``
+
+### **Role**
+
+These endpoints expose Explorer challenge data for authenticated Explorer sessions.
+
+### **Access model**
+
+* Explorer token required  
+* Explorer paid entitlement required  
+* dataset scope derived server-side from verified token identity  
+* demo users receive the restricted dataset  
+* full users receive the full dataset
+
+### **Notes**
+
+* `/api/v1/challenges` returns the Explorer collection feed  
+* `/api/v1/challenges/delta` returns incremental Explorer updates  
+* frontend sends Bearer auth for both endpoints  
+* these routes are read-only but not public
+
+---
+
+## **COMMAND API**
+
+Base path: \``` /api/v1/command` ``
+
+### **Role**
+
+This route family handles external user command ingress.  
+It receives command payloads from chat-connected systems and routes them into the backend command-processing layer after authentication and rate limiting.
+
+### **Typical responsibilities**
+
+* receive command payloads from external bot / loyalty systems
+
+* authenticate and resolve the acting user
+
+* apply rate limiting before command execution
+
+* forward commands into the centralized command dispatcher
+
+---
+
+## **TOKEN / ACCESS API**
+
+### **Endpoints**
+
+* `/api/v1/token/verify-challengesubmitform`  
+* `/api/v1/token/verify-explorer`  
+* `/api/v1/token/grant-explorer-access`
+
+### **Role**
+
+These endpoints handle identity verification and gated web-feature access. They are used for:
+
+* secure access to the challenge submit form  
+* gated access to the Explorer  
+* paid Explorer access grant / extension
+
+### **Notes**
+
+* `/api/v1/token/verify-challengesubmitform` verifies the token received from chat, resolves the user identity, and returns the submit-form context. This includes:  
+  * username  
+  * platform  
+  * daily submission count  
+  * server-calculated base cost  
+* `/api/v1/token/verify-explorer` verifies identity and returns current Explorer access state. This includes:  
+  * username  
+  * platform  
+  * current access validity  
+  * remaining Explorer minutes  
+  * merit pricing eligibility  
+  * demo/full identity scope
+
+* `/api/v1/token/grant-explorer-access` verifies identity, deducts NUMBERS, and grants or extends Explorer access. This includes:
+
+  * paid access window creation / extension
+
+  * merit-based price calculation
+
+  * demo unlock clamping to one unit
+
+  * granted minutes and remaining minutes in response
+
+### **Core principle**
+
+These routes separate three concerns:
+
+* authentication
+
+* access-state verification
+
+* paid entitlement grant
+
+---
+
+## **USER ACTION API**
+
+### **Endpoints**
+
+* `/api/v1/user/*`
+
+### **Role**
+
+These endpoints handle direct game actions initiated by a player. This includes:
+
+* challenge submission  
+* web form challenge submission  
+* push quote  
+* push confirm  
+* digout  
+* disrupt  
+* challenge removal
+
+### **Notes**
+
+This route group is player-facing game control. It is not admin control. It exists to let a verified user perform actions that affect:
+
+* their own balance  
+* their own challenge actions  
+* the shared challenge system
+
+### **Important distinction**
+
+User routes are not just generic “control” routes. They are the normal gameplay action layer for players.
+
+### **Examples**
+
+* A player submits a challenge  
+* A player pushes a challenge  
+* A player revives an archived challenge  
+* A player removes their own challenge under allowed rules
+
+---
+
+## **GAME MASTER / PRIVILEGED CONTROL API**
+### **Endpoints**
+
+* `/api/v1/gamemaster/*`
+
+### **Role**
+
+These endpoints handle privileged control over the game state. This includes:
+
+* executing a challenge manually  
+* forcing a challenge status  
+* other low-level control actions reserved for privileged roles
+
+### **Notes**
+
+This route group is different from normal player actions. It is used for:
+
+* the streamer  
+* future moderators or privileged operators  
+* special roles that need deeper control over the system
+
+### **Important distinction**
+
+* **User routes** \= normal player actions  
+* **GM routes** \= privileged control over the system itself
+
+---
+
+## **STREAM API**
+
+### **Endpoints**
+
+* `/api/v1/stream/live`  
+* `/api/v1/stream/offline`  
+* `/api/v1/stream/stats`
+
+### **Role**
+
+These endpoints handle stream state changes and stream status retrieval. They are used for:
+
+* detecting when the stream goes live  
+* detecting when the stream goes offline  
+* providing current stream status to the website
+
+### **Notes**
+
+* `/api/v1/stream/live` processes the live event  
+* `/api/v1/stream/offline` processes the offline event  
+* `/api/v1/stream/stats` returns current stream status and global stream stats
+
+---
+
+## **REFERENCE / SUBMISSION UX API**
+### **Endpoints**
+
+* `/api/v1/references/title`
+
+### **Role**
+
+This endpoint improves the challenge submission experience. It is used to fetch the title of a reference URL when the user pastes a link into the submit form.
+
+### **Notes**
+
+The goal is to reduce friction during challenge submission. Instead of asking the user to manually fill every reference title, the system tries to resolve it automatically. Supported sources currently include:
+
+* YouTube  
+* Vimeo  
+* SoundCloud  
+* Spotify  
+* Wikipedia  
+* generic public pages
+
+### **Core principle**
+
+This route is not part of the game logic itself. It is a submission UX helper.
+
+---
+
+## **ADMIN / SYSTEM MONITORING API**
+
+### **Endpoints**
+
+* `/api/v1/admin/pulse`
+
+### **Role**
+
+This endpoint is used for internal system monitoring. It provides a quick overview of:
+
+* system health  
+* database / Redis availability  
+* global economy totals  
+* maintenance state  
+* global counters
+
+### **Notes**
+
+This route is protected by an admin secret. It is not a public product endpoint. It exists to monitor the operational state of the system, not to support player-facing gameplay.
+
+---
+
+## **CLOCK / MAINTENANCE API**
+### **Endpoints**
+
+* `/api/v1/clock/run-daily-maintenance`
+
+### **Role**
+
+This endpoint is used to trigger daily maintenance safely. It handles recurring system maintenance tasks that should not be run manually without authorization.
+
+### **Notes**
+
+This route is protected by a cron secret. It is an internal operational endpoint. It belongs to the maintenance layer, not the gameplay layer.
+
+Daily maintenance is tied to the system’s UTC-based daily reset logic and should execute in alignment with that schedule.
+
+---
+
+## **CORE SEPARATION**
+
+The API follows a strict separation of responsibilities.
+
+* **Public API**: Read-only challenge data  
+* **Command API:** external user command ingress, identity resolution, and routing into the backend command-processing layer.  
+* **Token / Access API**: Identity verification and access control for protected web tools  
+* **User Action API**: Normal player actions that affect gameplay  
+* **Game Master / Privileged Control API**: Privileged control over the game state  
+* **Stream API**: Live / offline events and stream status  
+* **Reference / Submission UX API**: Submission quality-of-life helpers  
+* **Admin / System Monitoring API**: System health and economy monitoring  
+* **Clock / Maintenance API**: Protected maintenance execution
+
+---
+
+## **WHY THIS MATTERS**
+
+This separation keeps the product easier to understand, safer to maintain, and easier to scale. It also makes the boundary very clear between:
+
+* public browsing  
+* player actions  
+* privileged control  
+* stream state  
+* maintenance  
+* internal monitoring.
+
+===== FILE: dmg-doc/system-architecture/backend-architecture.md =====
+
+# **Backend Architecture**
+## **Overview**
+
+The backend is responsible for managing the game logic, enforcing rules, and synchronizing all player interactions. It acts as the central system coordinating:
+
+* challenge lifecycle
+
+* NUMBERS transactions
+
+* time progression
+
+* identity resolution
+
+* stream state
+
+The backend is designed to apply rules consistently and stay synchronized with external systems and integrations.
+
+---
+
+## **Core Systems**
+
+### **Challenge System**
+Handles the full lifecycle of challenges. Responsibilities:
+
+* creation (submission flow)
+
+* promotion (push logic)
+
+* execution state
+
+* expiration (21-day logic)
+
+* revival (digout mechanic)
+
+* removal and refunds
+
+This system ensures challenges evolve consistently over time.
+
+### **NUMBERS & Transaction System**
+
+Handles all spending and validation of NUMBERS. **Responsibilities**:
+
+* cost calculation (quadratic logic)
+
+* balance checks and transaction authorization
+
+* synchronization with Lumia (source of truth)
+
+* atomic transaction handling to avoid partial updates when a payment or write fails
+
+This system ensures NUMBERS spending stays synchronized, validated, and safe across both local game state and external balance updates.
+
+### **Time & Session System**
+
+Controls how time affects the game. **Responsibilities**:
+
+* 21-minute session execution
+
+* daily resets (submission counters and daily time-based rules)
+
+* 21-day challenge lifespan tracking
+
+* recurring challenge cadence enforcement
+
+This system applies time-based rules automatically so progression, resets, and challenge state changes do not depend on manual intervention.
+
+### **Stream State System**
+Tracks whether the stream is live or offline. **Responsibilities**:
+
+* live / offline state
+
+* recovery of the current stream-day state after restart
+
+* protection against counting the same calendar day twice
+
+* live-state-dependent behavior such as command discounts and other engagement rules
+
+This state directly affects pricing, engagement, and user behavior.
+
+### **Identity & Access System**
+
+Resolves users and secures actions. **Responsibilities**:
+
+* platform identity resolution
+
+* token verification
+
+* linking multiple accounts
+
+* protecting web actions through token-based identity checks
+
+This allows a user to interact seamlessly across platforms while maintaining a single identity.
+
+### **Event & Notification System**
+
+Handles system feedback and real-time updates. **Responsibilities**:
+
+* logging
+
+* system events
+
+* notifications across chat, UI, and real-time client updates 
+
+This ensures the system remains observable and interactive.
+
+
+===== FILE: dmg-doc/system-architecture/brand-design-principles.md =====
+
+## **Brand & Design Principles**
+The backend follows a few core principles:
+
+* Single source of truth for NUMBERS balances (Lumia)
+
+* Rules are applied consistently
+
+* No silent failures
+
+* Automation over manual control
+
+* Cross-platform consistency
+
+---
+
+## **Automation Principle**
+The product is designed to automate as much system logic as possible.
+
+This includes:
+
+* challenge validation and processing  
+* ranking and eligibility updates  
+* session and time-based progression  
+* transaction handling  
+* system feedback and synchronization
+
+### **Purpose in the system**
+
+This reduces manual overhead (fewer manual checks during live interaction), improves consistency (the same rules apply every time), and helps the system scale as participation grows.
+
+# **Brand / Design Principles**
+
+# **Brand / Design Principles**
+
+## **Foundation**
+
+* authenticity, with a slightly sarcastic edge
+
+* transparent and accessible participation
+
+* a product that feels interactive, readable, and active
+
+## **Visual style**
+
+* neon borders
+
+* organized density rather than stripped-down minimalism
+
+* emphasis on readability and visual feedback
+
+## **Typography**
+
+* DM Sans for strong titles, headings, and calls to action
+
+* Roboto for body text, labels, and supporting information
+
+* Arial as fallback
+
+## **Tone**
+
+* Respectful, inviting, and readable by default
+
+* allows light sarcasm or playful irony in selected system messages
+
+* used to reinforce personality without making the experience confusing or hostile
+
+* clarity is prioritized over jargon
+
+## **Symbolic structure**
+* the number 21 shapes both identity and product consistency
+
+* it influences timing, pricing, reward structures, and recurring design choices
+
+
+===== FILE: dmg-doc/system-architecture/challenge-lifecycle-system.md =====
+
+# **Challenge Lifecycle System**
+## **Overview**
+
+The Challenge Lifecycle defines how a challenge evolves over time. It defines the states a challenge can move through, from creation to completion, removal, or archival. This system is central to the product because it drives:
+
+* gameplay progression
+
+* user decisions
+
+* economic flow
+
+---
+
+## **Core Principle**
+
+A challenge is not static. It moves through a sequence of states based on:
+
+* time
+
+* user actions
+
+* system logic
+
+---
+
+## **Time & Execution Model**
+
+Challenges evolve over time based on a structured time system.
+
+#### **Session unit: 21 minutes**
+
+base execution unit
+
+#### **Duration types:**
+* ONE\_OFF → **must be** **completed** within a **single stream day**, across one or multiple 21-minute sessions
+
+* RECURRING → executed across multiple sessions following a **defined cadence** over time
+
+#### **Cadence (for RECURRING challenges)**
+Defines how sessions are scheduled over time (e.g. daily, weekly, monthly, or custom intervals)
+
+Recurring challenges require more than multiple sessions. They also require those sessions to happen at the required pace.
+
+**This means:**
+
+* a recurring challenge defines a cadence window
+
+* the system tracks how many sessions were completed within that window
+
+* if the required count is reached, the cadence window resets
+
+* if the required count is not reached in time, the challenge fails
+
+This makes pacing part of the challenge’s success conditions and distinguishes RECURRING execution from simple ONE\_OFF multi-session completion.
+
+#### **Challenge lifespan: 21 days**
+active period before archival if not executed
+
+#### **Commitment window**
+
+The 21-day lifespan starts when a challenge is submitted to the system.
+
+If the challenge does not gain enough promotion within that window, it moves
+
+to Archived.
+
+#### **Stream Day Logic**
+
+A challenge’s active lifespan is measured through Stream Days rather than simple calendar time.
+
+This means:
+
+* one Stream Day is counted when at least one session is executed
+
+* the 21-day active period is measured in Stream Days
+
+* archival depends on Stream Days, not Real Days
+
+This system defines how challenges evolve over time and how execution is distributed across sessions.
+
+---
+
+## **Main States**
+A challenge can exist in one of the following states:
+
+* **Active**: The challenge is live and can receive interactions. This includes:
+
+  * pushes
+
+  * disruptions
+
+  * auction contributions (when applicable)
+
+* **In Progress**: The challenge has started execution but has not yet completed all of its required sessions.
+
+  * Important: “In Progress” does not mean the challenge is necessarily being played right now. The real-time execution state is tracked separately through the isExecuting flag.
+
+* **Completed**: All required sessions for the challenge have been completed.
+
+* **Failed**: The challenge started execution but did not meet its execution requirements or cadence rules.
+
+* **Archived**: The challenge is no longer active, is no longer eligible for normal progression, and is kept in system history.
+
+* **Removed**: The challenge was manually removed from the system. This can trigger:
+
+  * refunds
+
+  * redistribution of value
+
+* **Under Review****:** The challenge is in a review-sensitive state before normal lifecycle handling is fully confirmed.
+
+* **Auctioned**: The challenge has been placed into an auction state by the streamer and assigned a NUMBERS threshold.
+
+  * If the community reaches that threshold, the challenge is immediately selected for execution regardless of its normal ranking.
+
+  * If the threshold is not reached, the challenge can move to Archived according to the auction outcome rules.
+
+---
+
+## **State Transitions**
+
+Challenges move between states through:
+
+* **Time**
+
+  * expiration (e.g. 21 Stream Day day limit)
+
+  * execution scheduling
+
+* **User Actions**
+
+  * pushing a challenge
+
+  * removing a challenge
+
+  * reviving a challenge (digout)
+
+  * participating in an auction by contributing toward the NUMBERS threshold
+
+* **System Events**
+
+  * session tick (21-minute session completion)
+
+  * session completion updates
+
+  * daily maintenance (e.g. archival checks)
+
+  * stream state (live / offline) changes affecting execution flow
+
+---
+
+## **State Transition Mental Model**
+
+A challenge follows a simple progression model:
+
+| Under Review → Active → (optional Auctioned) → In Progress → Final State |
+| :---- |
+
+In practice, that means:
+
+**Under Review**: The challenge is waiting for validation or decision.
+
+**Active**: The challenge is live in the system and can receive community interaction.
+
+**Auctioned**: The challenge has been assigned a threshold-based execution condition.
+
+**In Progress**: The challenge has started execution but still has remaining sessions to complete.
+
+**Completed / Failed / Removed / Archived**: The challenge exits active progression and becomes part of system history, with the possibility of revival in specific cases. 
+
+This model is important because it separates three distinct layers:
+
+* availability in the system
+
+* execution progress
+
+* final resolution
+
+It also makes clear that:
+
+* a challenge can be active without being executed yet
+
+* a challenge can be in progress without being executed at this exact moment
+
+* a challenge only becomes completed when all required sessions have been successfully completed.
+
+---
+
+## **Economic Impact**
+
+Each state transition can affect the system economy. **Examples**:
+
+* **pushing** → increases challenge value  
+* **removal** → triggers partial refunds and redistribution  
+* **completion →** ends the challenge as an active progression object
+
+---
+
+## **Lifecycle Importance**
+
+The lifecycle system ensures:
+
+* challenges remain dynamic
+
+* users can influence outcomes
+
+* the system continuously evolves
+
+It transforms challenges from static entries into active game elements.
+
+---
+
+## **Relationship with Other Systems**
+
+This system interacts with:
+
+* backend challenge logic  
+* clock / maintenance logic  
+* stream state logic  
+* NUMBERS and transaction system  
+* Game Master control logic
+
+## **Why This Matters**
+
+The Challenge Lifecycle is the core game loop. It defines:
+
+* how users interact with the system
+
+* how value moves
+
+* how the game progresses over time
+
+Without it, the product would be a static database instead of a dynamic system.
+
+
+===== FILE: dmg-doc/system-architecture/frontend-architecture.md =====
+
+# **Frontend Architecture**
+## **Overview**
+
+The frontend is organized as a set of dedicated pages connected by a shared visual and interaction system. The goal is to keep each page focused on one role while maintaining a consistent brand, layout logic, and user experience across the whole website. The frontend is not a single application in the framework sense. It is a modular multi-page website built around shared components, styling, and UX rules.
+
+---
+
+## **Shared Frontend Principles**
+
+The frontend follows a few core principles across pages:
+
+* **Consistent branding:** The same visual identity is reused across the website through shared typography, shared colors, shared spacing logic, and repeated structural patterns.  
+* **Shared container logic:** The main pages are built around a primary content container with animated neon borders. This creates a recognizable visual shell and keeps the experience coherent from page to page.  
+* **Shared typography:**  
+  * **DM Sans** is used for strong titles, major headings, and calls to action.  
+  * **Roboto** is used for body text, labels, smaller system text, and supporting information.  
+* **Shared global stylesheet****:** `global.css` acts as the base layer for the whole frontend.  
+* **Shared footer visibility logic:** A persistent social footer is reused across pages to maintain visibility of the creator’s ecosystem and encourage continued engagement beyond the current page.
+
+---
+
+## **Core Frontend Pages**
+
+### **1\. Landing Page**
+
+* **Role**: The landing page is the simplest entry point into the product. It currently routes users quickly toward four main actions:  
+  * Explorer Database  
+  * How to Play  
+  * Submit Challenge  
+  * Support the Project  
+* **Purpose**: This page acts as a clean entry hub rather than a content-heavy page. Its role is orientation and conversion.  
+* **Notes**: It uses the shared fonts, shared visual language, and shared footer, but not the shared site header.
+
+### **2\. Explorer Page**
+* **Role**: The Explorer is the browsing interface for the challenge database. It allows users to:  
+  * browse the challenge list  
+  * search and filter  
+  * inspect details  
+  * follow challenge updates over time  
+* **Data Role**: This page is the main data navigation page of the frontend. It is built for exploration, not submission.  
+* **Access Logic**: The Explorer is access-gated and verifies the user before the interface becomes available.
+
+* **Notes**: This page combines:
+
+  * token verification
+
+  * paid access-window verification
+
+  * NUMBERS-based access grant
+
+  * Bearer-authenticated data loading
+
+  * client-side filtering and search
+
+  * live delta polling
+
+  * server-authoritative dataset restriction for demo/full sessions
+
+* **Important distinction:**
+
+  * Explorer collection browsing is gated
+
+  * public single-challenge pages remain openly shareable
+
+### **3\. Public Challenge Page**
+* **Role**: The public challenge page displays one individual challenge. It is designed for sharing, public visibility, and focused reading of a single challenge.  
+* **Purpose**: This page gives a focused view of one challenge without the extra browsing tools of the Explorer.
+
+### **4\. Challenge Submit Form**
+* **Role**: The submit form is the structured entry point for challenge creation. It guides the user through:  
+  * verification  
+  * challenge definition  
+  * duration and cadence setup  
+  * reference input  
+  * submission  
+  * post-submission review and sharing  
+* **Purpose**: This page turns challenge creation into a controlled and readable flow.  
+* **Notes**: It is one of the most refined pages in the system because it combines token verification, step-by-step UX, dynamic form logic, post-submission success state, and structured challenge review.
+
+### **5\. FAQ Page**
+
+* **Role**: The FAQ page explains the game in a simple, progressive way.  
+* **Purpose**: It acts as a lightweight onboarding page.  
+* **Notes**: It was one of the earliest pages built and is currently simpler than the main product pages. It does not yet use the full shared header system.
+
+### **6\. Donation Page**
+
+* **Role**: The donation page is a direct support page.  
+* **Purpose**: Its function is simple: convert donation intent into action.  
+* **Notes**: It is intentionally minimal and centered around the Ko-fi embed. It uses the shared visual shell and the shared footer, but not the shared site header.
+
+### **7\. Admin / Command Center**
+* **Role**: The admin page is the streamer-side dashboard.  
+* **Purpose**: It provides a monitoring interface for system status, operational clocks, economy state, and global metrics.  
+* **Notes**: This page is internal-facing rather than community-facing. It follows the shared visual language but serves a different operational role.
+
+---
+
+## **Explorer Client-Side Cache Model**
+
+The Explorer keeps a live copy of challenge data in the browser.
+
+The backend remains the source of truth, while the frontend stores the current challenge list locally for filtering, searching, and rendering.
+
+**This allows:**
+
+* fast local filtering and search  
+* responsive UI updates without repeated full reloads  
+* efficient synchronization through the delta updates endpoint
+
+### **Why it matters**
+
+This architecture prioritizes responsiveness and UI flexibility while challenge volume remains moderate.
+
+---
+
+## **Why the Frontend Structure Matters**
+
+The frontend is now organized around a clear split:
+
+* **Pages define context**  
+* **Shared components, styles, and interaction rules ensure consistency**
+
+This matters because it allows the website to scale without becoming visually fragmented. It also makes the project look more serious from a product and implementation perspective: clear roles per page, reusable components, consistent UX, and a maintainable growth path.
+
+---
+
+## **Current Frontend Maturity**
+
+The most refined frontend pages today are:
+
+* **Challenge Submit Form**  
+* **Explorer**  
+* **Public Challenge**
+
+These pages already show the strongest level of architectural maturity and product consistency. Other pages already follow the same direction, even if they are still lighter or less mature: Landing Page, FAQ, Donation, and Admin. This means the frontend is no longer a collection of isolated pages. It is already becoming a **coherent product experience**.
+
+---
+
+## **Frontend Backlog Direction**
+
+* **Shared audio behavior across pages**: The mute button already exists in the shared header, but audio behavior is not yet fully shared across all relevant pages.  
+* **Further page harmonization**: Some lighter pages still need to be aligned more closely with the stronger structure already used by Explorer, Public Challenge, and Submit Form.  
+* **FAQ clarification**: The FAQ exists as an early onboarding page but still needs future refinement to better match the maturity of the rest of the frontend.
+
+---
+
+## **Conclusion**
+
+**The frontend architecture is built around one key idea: Different pages, one product feel.**
+
+This is achieved through:
+
+* shared branding
+
+* consistent page structure
+
+* unified user experience
+
+That makes the frontend easier to maintain, easier to scale, and much more professional to present.
+
+
+===== FILE: dmg-doc/system-architecture/interaction-pace-model.md =====
+
+# **Interaction Pace Model**
+## **Overview**
+
+The system operates across two interaction modes depending on whether the stream is live or offline.
+
+## **Live Mode (Stream Online)**
+
+* Interaction happens in real time through livestream platforms  
+* Actions (push, submission, etc.) are immediate and visible  
+* The system concentrates interaction on live participation when the stream is online
+
+## **Offline Mode (Stream Offline)**
+
+* Interaction continues asynchronously through community channels such as Discord  
+* Users can still submit, promote, and interact with challenges  
+* The system remains active even without a live stream
+
+## **Mode Switching**
+
+* The system automatically switches behavior based on stream state  
+* Some interaction channels may be limited during live sessions so participation stays concentrated on the stream
+
+## **Role in the System**
+
+This model ensures that:
+
+* the participation model continues outside live streams  
+* engagement exists both in real time and over longer periods  
+* user activity continues to influence the system at all times
+
+===== FILE: dmg-doc/system-architecture/maintenance-logic.md =====
+
+# **Maintenance Logic**
+## **Overview**
+
+Maintenance is the daily backend process that advances system time and applies rule checks that should not depend on manual intervention.
+
+It is scheduled to run once per day at 21:00 UTC.
+
+## **What it does**
+
+Daily maintenance is responsible for:
+
+* advancing the Real Day clock  
+* advancing the global Stream Day clock when a stream occurred during the maintenance window  
+* processing user daily tick logic  
+* enforcing cadence rules for RECURRING challenges  
+* archiving expired challenges when the conditions are met  
+* failing unfinished ONE\_OFF challenges when the contiguity rule is broken
+
+---
+
+## **User daily tick logic**
+During maintenance, the system updates user activity counters based on what happened since the previous maintenance point.
+
+**This means:**
+
+* users are checked once per Real Day  
+* the system determines whether they were active during the maintenance window  
+* live activity increments Stream Day-related user counters  
+* non-live activity increments offline activity counters
+
+### **Purpose in the system**
+
+This keeps user activity history aligned with the two-clock model and preserves the distinction between live participation and offline participation.
+
+---
+
+## **Safety conditions**
+Maintenance does not apply every rule blindly.
+
+Some checks depend on stream conditions.
+
+**This means:**
+
+* cadence checks always run  
+* archival and ONE\_OFF contiguity checks only run when a stream occurred during the window  
+* those checks are deferred if a stream is currently live
+
+### **Purpose in the system**
+
+This prevents the system from failing or archiving challenges at the wrong moment, especially while a stream is still active.
+
+---
+
+## **Why this matters**
+
+Maintenance is the system’s daily control layer.
+
+**It ensures that:**
+
+* time-based rules are enforced consistently  
+* user activity counters remain accurate  
+* challenge state changes happen even without manual oversight  
+* daily progression stays synchronized with actual stream activity
+
+===== FILE: dmg-doc/system-architecture/shared-ui-system.md =====
+
+# **Shared UI System**
+## **Overview**
+
+The Shared UI System defines all reusable visual and interaction elements used across the frontend. Its purpose is to ensure:
+
+* visual consistency
+
+* reusable components
+
+* predictable user experience
+
+* easier maintenance
+
+This system allows multiple pages to behave like a single product.
+
+## **Core Principle**
+
+The UI is built on a simple rule:
+
+**Pages define context | Shared systems define consistency**
+
+This avoids duplication and keeps the frontend scalable without a framework.  
+---
+
+## **Global Styling System**
+**File**: `global.css` 
+
+**Role**: This is the visual foundation of the frontend. **It defines:**
+
+* color system  
+* spacing system  
+* border radius  
+* animations  
+* typography  
+* reusable UI patterns  
+* shared utilities  
+* shared component styles
+
+### **Key Design Choices**
+
+* Border radius uses a consistent value (**21px**) to reinforce brand identity  
+* Neon color is used sparingly for emphasis  
+* Most of the UI remains neutral for readability  
+* **This file should always be checked before adding new styles.**
+
+### **Design Tokens**
+
+Defined in `global.css`. Includes:
+
+* primary neon color  
+* background colors  
+* text colors  
+* animation timings  
+* spacing variables
+
+**Purpose**: Centralizing these values ensures visual consistency, easier updates, and controlled design evolution.
+
+---
+
+## **Shared Layout Pattern**
+
+Most main pages follow a consistent layout structure:
+
+* centered main container  
+* primary content area  
+* animated neon border  
+* scrollable internal content  
+* fixed footer
+
+**Purpose**: This creates a recognizable UI shell across the product.
+
+---
+
+## **Shared Header System**
+
+**Files**: `site-header.js`, `brand-logo.js`, `identity-reminder.js` 
+
+**Role**: The shared header provides a consistent top section across the main pages. **It includes**:
+
+* brand identity  
+* stream status indicator  
+* mute toggle  
+* user identity reminder
+
+**Used in**: Explorer, Public Challenge, Challenge Submit Form. 
+
+**Purpose**: Creates a unified product experience across core pages.
+
+---
+
+## **Brand Components**
+
+### **Brand Logo**
+
+Provides a reusable title block for the product and ensures consistent display of:
+
+* DRUMMER
+
+* MANAGER  
+* Typography is controlled via global styles.
+
+### **Identity System** **(UI Layer)**
+
+Identity Reminder displays:
+
+* username
+
+* platform
+
+**Purpose**: Keeps the user aware of their active identity during token-gated flows.  
+---
+
+## **Persistent Social Footer**
+
+**File**: `social-links.js` 
+
+**Role**: A fixed footer displayed across all pages. It includes links to Discord, Twitch, YouTube, and other platforms. 
+
+**Purpose**: Maintains constant visibility of the creator ecosystem, encourages follow-through and engagement, and supports growth beyond the current page.
+
+---
+
+## **Shared Interaction Components**
+
+### **Typewriter System**
+
+**File**: `typewriter.js` 
+
+**Role**: Displays animated verification and feedback messages. 
+
+**Used in**: Explorer verification, Submit form verification. 
+
+**Purpose**: Reinforces system feedback, creates a distinctive interaction style, and improves perceived responsiveness.
+
+### **Challenge Rendering System**
+**File**: `challenge-renderer.js` 
+
+**Role**: This is the canonical renderer for challenge UI. 
+
+**Responsibilities**:
+
+* render challenge content
+
+* structure challenge details
+
+* embed shared challenge-share and CTA zones where relevant
+
+* ensure consistent display across pages 
+
+**Used in**: Explorer, Public Challenge, Submit Success. 
+
+**Note:** This is a core architectural component.
+
+### **Challenge Share System**
+
+**File**: `challenge-share.js` 
+
+**Role**: Handles all share-related behavior. 
+
+**Responsibilities**:
+
+* generate share URLs
+
+* configure share buttons
+
+* manage copy/share interactions
+
+**Purpose**: Separates behavior from rendering and page logic.
+
+### **Contextual CTA System**
+
+**File**: `contextual-cta.js`
+
+**Role**: Handles the reusable stream-aware CTA used across challenge-related surfaces.
+
+**Responsibilities**:
+
+* render the correct CTA based on stream state  
+* refresh CTA mounts when stream state changes  
+* keep CTA behavior consistent across Explorer, Public Challenge, and Submit Success
+
+**Purpose**: Centralizes CTA behavior so it is not duplicated in page-specific code or the challenge renderer.  
+---
+
+## **Utility Classes**
+
+Defined in `global.css`. 
+
+**Examples**: `u-hidden`, animation helpers, text utilities. 
+
+**Purpose**: Provides small reusable behaviors without requiring page-specific CSS duplication.
+
+## **UI Writing Rules**
+The interface follows strict wording rules:
+
+* avoid introducing new terms unnecessarily
+
+* reuse existing vocabulary
+
+* keep labels short and clear 
+
+**Purpose**: Reduce cognitive load and make the system easier to understand.
+
+---
+
+## **Why This System Matters**
+
+This shared UI system ensures:
+
+* all pages feel like part of the same product
+
+* shared UI changes can be made centrally
+
+* new pages can be added without redesigning everything 
+
+It is the foundation of frontend scalability.
+
+## **Relationship with Frontend Architecture**
+
+**Frontend Architecture** defines: 
+
+* pages
+
+* roles
+
+* navigation
+
+**Shared UI System defines:** 
+
+* components
+
+* styles
+
+* interactions
+
+**Relationship:** Both work together, but they should remain separate in the documentation.
+
+
+===== FILE: dmg-doc/system-architecture/time-session-system.md =====
+
+# **Time & Session System**
+## **Time Standard**
+
+The system uses UTC as its reference time standard.
+
+### **Why UTC**
+
+* keeps the product consistent across platforms and countries  
+* avoids local timezone ambiguity  
+* makes daily resets and time-based rules predictable for a worldwide audience
+
+### **Daily reset point**
+* daily resets and daily clock transitions are anchored to 21:00 UTC
+
+---
+
+## Two-Watermark Clock System
+The system tracks time using two distinct clocks with different roles.
+
+### **Stream Days (Execution Clock)**
+Counts the number of UTC calendar days in which at least one 21-minute session was executed.
+
+Multiple sessions in the same day count as one Stream Day.
+
+**Purpose**:
+
+* measure actual execution effort  
+* track content production over time  
+* support archival rules and long-term activity tracking
+
+### **Real Days (System Clock)**
+Counts the number of calendar days since the project started.
+
+Increments daily at 21:00 UTC.
+
+**Purpose**:
+
+* enforce cadence windows, daily submission resets, and other Real Day-based rules  
+* provide the time reference used for recurring challenge cadence checks  
+* keep Real Day progression independent from livestream activity
+
+### **Why two clocks**
+
+Execution and progression are not the same.
+
+* Stream Days reflect actual work done  
+* Real Days reflect system time passing
+
+**This separation ensures that:**
+
+* challenge archival and other progression rules tied to actual execution depend on real activity, not just time passing.  
+* system mechanics remain consistent even without streams
+
+---
+
+## **Daily Reset Logic**
+
+Some system rules are evaluated or refreshed every day at 21:00 UTC.
+
+### **This includes**
+
+* submission quadratic cost scaling  
+* daily maintenance-driven user activity tracking  
+* other daily maintenance rules tied to system time such as RECURRING cadence enforcement, archival checks, and ONE\_OFF contiguity checks
+
+### **Purpose in the system**
+
+This keeps daily submission cost escalation meaningful while giving users a predictable reset point each day.
+
+---
+
+## **User daily tick logic**
+The system updates user activity counters during daily maintenance.
+
+### **This means:**
+
+* users are checked once per Real Day  
+* the system determines whether they were active since the last maintenance point  
+* live activity increments Stream Day-related user counters  
+* non-live activity increments offline activity counters
+
+### **Purpose in the system:**
+
+* keeps user activity history aligned with the two-clock model  
+* distinguishes live participation from offline participation over time
+
+---
+
+## **Recurring cadence enforcement**
+
+For RECURRING challenges, the backend checks whether the required number of sessions was completed within the allowed cadence window.
+
+If the requirement is met, the cadence window resets.
+
+If it is not met in time, the challenge fails.
+
+---
+
+## **Stream-day recovery and duplicate-day protection**
+
+The system protects Stream Day logic from being advanced incorrectly.  
+**This means:**
+
+* stream state can be recovered after restart
+
+* multiple streams on the same UTC calendar day do not count as multiple Stream Days
+
+===== FILE: dmg-doc/system-architecture/token-identity-system.md =====
+
+# **Token / Identity System**
+# **Token / Identity System**
+This section explains how identity is authenticated, verified, and enforced at the system level.
+
+## **Overview**
+
+The Token / Identity System is responsible for securely identifying users across the product. It ensures that:
+
+* each action is tied to a verified identity
+
+* platform accounts are correctly mapped to users
+
+* access to protected features is controlled
+
+This system is used across:
+
+* challenge submission
+
+* explorer access
+
+* admin interactions
+
+* future paid access features
+
+## **Core Principle**
+The system is built on a simple idea:
+
+**One user | Multiple platform identities | One consistent identity layer**
+
+This allows the product to:
+
+* unify users across platforms  
+* track activity reliably  
+* maintain one consistent identity layer across the product
+
+---
+
+## **Identity Records**
+
+The system is structured around three main entities:
+
+### **User**
+The central identity in the system. It represents:
+
+* a unique player
+
+* aggregated activity
+
+* global stats
+
+### **Account**
+Represents one platform-specific identity record linked to a user.
+
+It includes: 
+
+* platform name
+
+* platform identifier
+
+* username / display name
+
+* platform-specific balance and activity tracking
+
+**Purpose:** 
+
+Store the external identity context used for authentication and user resolution.
+
+### **Perennial Token**
+A persistent authentication token stored in the database and managed by the system. **Each token is**:
+
+* linked to a user
+
+* linked to a specific account
+
+* manually enabled or disabled by the system operators
+
+**Purpose**: This enables:
+
+* long-lived access (e.g. trusted users, admin, testing)
+
+* bypassing JWT expiration when needed
+
+* controlled access without re-authentication
+
+  ---
+
+## **How external identity becomes internal identity**
+The system resolves an external platform identity into one internal DMG user identity.
+
+**In practice:**
+
+(`platformId` \+ `platformName`) → centralUserId
+
+This is the core identity-resolution rule used before protected actions are processed.
+
+Username and display name remain mutable account context, but they are not the canonical identity key.
+
+---
+
+## **Authentication Methods**
+The system supports two authentication methods:
+
+### **JWT Tokens**
+
+**Used for**: standard user sessions, temporary authentication
+
+**Properties:**
+
+* signed using a secret
+
+* time-limited (default: 21 minutes)
+
+* include user and platform identity information
+
+### **Perennial Tokens**
+**Used for**: persistent access, internal tools, advanced users 
+
+**Properties:**
+
+* stored in database
+
+* manually activated/deactivated
+
+* no expiration by default
+
+  ---
+
+## **How Identity Is Verified**
+When a token is received:
+
+* **Step 1**: Check whether the token exists in the PerennialToken table. If valid, return the associated user and account identity.
+
+* **Step 2**: If not found, verify it as a standard JWT.
+
+This creates a hybrid system:
+
+* flexible for development and power users
+
+* secure for standard usage
+
+### **Token Payload**
+Each token contains: userId, platformId, platformName, and username.
+
+**Purpose**: This ensures that every request carries identity context and can be processed without additional lookups.
+
+---
+
+## **Token Lifetime Control**
+
+JWT tokens use controlled expiration.
+
+* **Default**: 21 minutes  
+* **Validation**: duration is sanitized and capped at a maximum defined in config.
+
+**Purpose**: Prevents overly long sessions and unsafe token usage.
+
+---
+
+## **Identity in the Frontend**
+The frontend uses tokens to:
+
+* verify access to protected pages  
+* display user identity (username \+ platform name)  
+* personalize interactions
+
+**Example**: Explorer and Submit Form require token verification before access and display user identity through the header component.
+
+---
+
+## **Link and Identity Match**
+
+### **Purpose**
+
+This logic ensures that protected web actions are performed by the same user who initiated the request from chat.
+
+### **How it works**
+
+* chat platforms remain the primary identity source  
+* when a user requests access to a protected web feature from chat, the system generates a user-specific access link  
+* the web action is then verified against the originating identity before any protected action is allowed
+
+### **Why it matters**
+
+* improves security by tying protected actions to the same verified identity that requested the link  
+* keeps the access flow fast and usable by avoiding separate website accounts and passwords  
+* prevents NUMBERS spending from being applied to the wrong platform account
+
+### **Important note**
+
+Private links should be treated like temporary login links, not like harmless share links. Anyone holding the link may be able to act with the associated identity until the link expires or is revoked.
+
+---
+
+## **Access Control**
+
+The token system enables fine control over access:
+
+* **Public endpoints**: no token required  
+* **Protected endpoints**: require valid token  
+* **Admin endpoints**: require elevated identity (e.g. Game Master)  
+  ---
+
+## **Security Model**
+
+The system ensures:
+
+* signed token verification
+
+* expiration control
+
+* database-stored persistent tokens
+
+* separation between public and protected routes
+
+  ---
+
+## **Current Strengths**
+
+* supports multi-platform identity
+
+* flexible authentication (JWT \+ persistent tokens)
+
+* clean separation between identity and UI
+
+* scalable for future access control systems
+
+  ---
+
+## **Planned Evolution**
+
+The system is designed to support future features:
+
+* Paid access system: determine whether a user can enter a protected feature, what level of access they have, and how long that access remains valid.
+
+* Session-based permissions: allow temporary elevated access and feature unlocking.
+
+* Stronger identity linking logic: improve cross-platform merging and user-level progression.
+
+  ---
+
+## **Why This System Matters**
+
+This system is critical because it:
+
+* connects all user actions to a verified identity
+
+* enables controlled access to features
+
+* supports monetization and scaling
+
+It acts as the backbone of **security**, **personalization**, and **game integrity**.
+
+
+===== FILE: dmg-doc/technical-implementation/00-technical-implementation.md =====
+
+# Technical Implementation
+This section documents how the architecture and features are implemented in code and infrastructure.
+
+## Notes
+- api endpoint summary
+- backend logic
+- codebase structure reference
+- database
+- integrations
+- streaming production setup
+- transaction handling
+
+
+===== FILE: dmg-doc/technical-implementation/api-endpoint-summary.md =====
+
+# **API Endpoints (Summary)**
+## **Purpose**
+
+This section summarizes the implemented backend route groups exposed by the API.
+
+It acts as a clean implementation reference for:
+
+* what route families exist  
+* what each route family is used for  
+* where the main system actions are exposed
+
+This section complements **System Architecture → API Structure**, which explains the route families conceptually rather than listing the implemented endpoints.
+
+## **Route groups**
+
+### **Admin routes**
+
+#### **Base path**
+
+`/api/v1/admin`
+
+#### **Access level**
+
+Admin-secret protected
+
+#### **Purpose**
+
+Admin routes expose internal monitoring data for the privileged dashboard.
+
+They are used to:
+
+* check system health  
+* inspect global economy metrics  
+* inspect maintenance status and global clocks
+
+#### **Main endpoints**
+
+* `GET /pulse` → returns system health, global economy totals, and maintenance status for the admin dashboard
+
+---
+
+### **Challenge routes**
+
+#### **Base path**
+
+### `/api/v1/challenges`
+
+#### **Access level**
+
+Mixed:
+
+* GET /:id \= public read-only  
+* GET / and GET /delta \= Explorer-token protected \+ entitlement-gated
+
+#### **Purpose**
+
+Challenge routes expose 
+
+* public single-challenge detail pages   
+* Authenticated Explorer collection and delta feeds
+
+#### **Main endpoints**
+
+* `GET /` → returns the Explorer challenge collection for an authenticated entitled Explorer session  
+* `GET /delta` → returns Explorer challenge updates since a given timestamp  
+* `GET /:id` → returns one public challenge by ID
+
+---
+
+### **Clock routes**
+
+#### **Base path**
+
+`/api/v1/clock`
+
+#### **Access level**
+
+Internal scheduled endpoints / cron-protected
+
+#### **Purpose**
+
+Clock routes expose scheduled maintenance entry points.
+
+They are used to:
+
+* trigger daily maintenance securely through a scheduled service  
+* apply daily clock-based system rules
+
+#### **Main endpoints**
+
+* `POST /run-daily-maintenance` → runs the daily maintenance process
+
+---
+
+### **Command routes**
+#### **Base path**
+
+`/api/v1/command`
+
+#### **Access level**
+
+Authenticated command ingress
+
+#### **Purpose**
+
+Command routes expose the main backend entrypoint for external command execution.
+
+#### **They are used to:**
+
+* receive command payloads from chat-connected systems  
+* authenticate and resolve the acting user  
+* apply rate limiting before execution  
+* forward commands into the centralized dispatcher
+
+#### **Main endpoints**
+
+* `POST /` → main command entrypoint for external command execution
+
+---
+
+### **Game Master routes**
+
+#### **Base path**
+
+/api/v1/gamemaster
+
+#### **Access level**
+
+Privileged Game Master control
+
+#### **Purpose**
+
+Game Master routes expose privileged control endpoints reserved for Game Master actions.
+
+They are used to:
+
+* execute a challenge manually
+
+* force challenge status changes
+
+#### **Main endpoints**
+
+* `POST /challenge/execute` → manually launches a challenge  
+* `PUT /challenge/:challengeId/status` → forces a challenge status update
+
+---
+
+### **Reference routes**
+
+#### **Base path**
+
+`/api/v1/references`
+
+#### **Access level**
+
+Public helper endpoint
+
+#### **Purpose**
+
+Reference routes expose metadata helpers for external reference links.
+
+They are used to:
+
+* resolve a readable title for a public reference URL
+
+#### **Main endpoints**
+
+* `GET /title` → resolves the title of a reference URL
+
+---
+
+### **Stream routes**
+#### **Base path**
+
+`/api/v1/stream`
+
+#### **Access level**
+
+Mixed: internal webhook \+ public read endpoint
+
+#### **Purpose**
+
+Stream routes expose stream-state webhooks and stream status read endpoints.
+
+They are used to:
+
+* process live / offline webhook events  
+* expose global stream state and stream statistics
+
+#### **Main endpoints**
+
+* `POST /live` → processes the stream live event  
+* `POST /offline` → processes the stream offline event  
+* `GET /stats` → returns current stream state and global stream statistics
+
+---
+
+### **Token routes**
+#### **Base path**
+
+`/api/v1/token`
+
+#### **Access level**
+
+Token-based protected access
+
+#### **Purpose**
+
+Token routes expose secure token verification flows for protected frontend pages.
+
+They are used to:
+
+* verify secure challenge submission access  
+* verify secure Explorer access  
+* return identity and access-related context to the frontend
+
+#### **Main endpoints**
+
+* `POST /verify-challengesubmitform` → verifies a submission token and returns identity plus submission context  
+* `POST /verify-explorer` → verifies an Explorer token and processes Explorer access rules
+
+---
+
+### **User routes**
+
+#### **Base path**
+
+`/api/v1/user`
+
+#### **Access level**
+
+Authenticated user actions
+
+#### **Purpose**
+
+User routes expose authenticated player actions.
+
+They are used to:
+
+* submit challenges  
+* quote and confirm pushes  
+* digout archived challenges  
+* disrupt  
+* retrieve active challenges  
+* remove a challenge  
+* process both legacy and web-based submission flows
+
+#### **Player action endpoints**
+
+* `POST /submit` → legacy authenticated challenge submission route  
+* `POST /submit/web` → web-form challenge submission route  
+* `POST /push/quote` → generates a push quote  
+* `POST /push/confirm` → confirms and applies a push  
+* `POST /digout` → revives an archived challenge  
+* `POST /disrupt` → executes the current placeholder disrupt action  
+* `POST /challenge/remove` → removes an active challenge as its author and applies refund distribution logic
+
+
+===== FILE: dmg-doc/technical-implementation/backend-logic.md =====
+
+# **Backend Logic**
+## **Purpose**
+
+The backend logic layer applies the rules of the product.
+
+It is responsible for turning stored data and incoming actions into actual system behavior.
+
+This includes:
+
+* challenge lifecycle enforcement  
+* cost calculation  
+* stream-state-dependent logic  
+* clock progression  
+* access validation  
+* synchronization with external systems
+
+## **Core principle**
+
+The backend applies the core rules of the product in dedicated service layers rather than inside frontend pages.
+
+This means:
+
+* the main product rules are applied in backend services  
+* time-based behavior is handled in dedicated backend logic  
+* actions that affect multiple records are coordinated in backend logic  
+* route handlers translate known service failures into consistent HTTP responses  
+* the system behaves consistently across chat, web pages, and admin flows
+
+---
+
+## **Main logic areas**
+
+### **Challenge logic**
+Handled primarily in `challengeService.ts`.
+
+This logic controls:
+
+* challenge submission  
+* push quote and push confirmation  
+* digout  
+* removals  
+* disruption placeholder logic  
+* execution launch  
+* 21-minute session progression and completion checks  
+* challenge archival  
+* status changes
+
+Why it matters:
+
+* this is where the core challenge mechanics are enforced  
+* it connects challenge lifecycle, NUMBERS spending, stream metrics, and event dispatching
+
+### **Autonomous session scheduler**
+Session progression is checked by an autonomous scheduler rather than being tracked manually.
+
+This works as follows:
+
+* the scheduler checks execution state at a fixed interval
+
+* it verifies whether the current session has reached the 21-minute threshold
+
+* once the threshold is reached, it increments the session count and stops active execution
+
+* if the final required session is reached, the challenge is marked as completed
+
+* additional sessions require manual re-execution by the Game Master
+
+* actual live execution is tracked by the isExecuting flag, which is separate from the broader lifecycle state In Progress
+
+Why it matters:
+
+* it makes session progression time-based rather than manually tracked  
+* it enforces the 21-minute execution unit consistently  
+* it keeps execution stopping and completion logic reliable across sessions
+
+### **Clock and maintenance logic**
+
+Handled primarily in `clockService.ts`.
+
+This logic controls:
+
+* daily maintenance  
+* user daily tick processing  
+* ONE\_OFF contiguity enforcement  
+* recurring cadence enforcement  
+* archival checks tied to maintenance conditions
+
+Why it matters:
+
+* it applies the product’s time rules centrally  
+* it keeps challenge progression, user counters, and maintenance behavior synchronized
+
+### **Stream-state logic**
+
+Handled primarily in `streamService.ts`.
+
+This logic controls:
+
+* live / offline transitions  
+* stream session creation and finalization  
+* global Stream Day advancement  
+* per-challenge Stream Day advancement for active challenges  
+* in-memory stream-state recovery after restart
+
+Why it matters:
+
+* stream state affects challenge launch context, live pricing rules, Stream Day advancement, and active-challenge day progression
+
+* this logic ensures Stream Days only advance when real stream activity happens
+
+* it also allows the backend to restore its live-stream state after restart by loading the current active session back into memory from the database
+
+### **Token and identity logic**
+
+Handled primarily in `jwtService.ts` and related token routes.
+
+This logic controls:
+
+* JWT generation  
+* token verification  
+* perennial token lookup  
+* duration validation and normalization  
+* identity payload handling
+
+Why it matters:
+
+* it ensures protected actions are tied to verified identity  
+* it supports both temporary and persistent access flows
+
+### **Authentication and request identity resolution**
+Handled primarily in `authMiddleware.ts` together with `findOrCreateUser()` in `userService.ts`.
+
+This logic controls:
+
+* reading the external platform identity from the incoming command payload  
+* resolving the matching internal DMG user from platformName \+ platformId  
+* creating a new User / Account pair when the identity does not yet exist  
+* attaching the resolved internal DMG user identity and request context before command execution  
+* enforcing Game Master\-only access on privileged routes
+
+Why it matters:
+
+* it turns external chat-platform identity into authenticated internal DMG identity before backend logic runs  
+* it allows first-time users to enter the system simply by sending a command  
+* it keeps command execution tied to a resolved internal user rather than raw external payload alone  
+* it makes the chat command layer the practical runtime entrypoint into the product
+
+### **Lumia balance synchronization**
+Handled primarily through `lumiaService.ts` together with challenge-related service logic.
+
+This logic controls:
+
+* authoritative NUMBERS deductions and additions  
+* synchronization between external platform balances and local database state  
+* balance updates after paid actions succeed
+
+Why it matters:
+
+* Lumia acts as the external source of truth for platform balances  
+* the backend must keep local records aligned with that external balance state  
+* paid actions depend on this synchronization to remain reliable
+
+### **Transaction and payment synchronization logic**
+
+Handled across service functions that combine:
+
+* external balance calls
+
+* database updates
+
+* temporary pre-confirmation records
+
+* deletion of temporary quote records after successful confirmation
+
+This logic controls:
+
+* optimistic local balance pre-checks based on the latest balance stored in the DMG database, before calling the Lumia API
+
+* paid-action execution after balance confirmation
+
+* multi-record database updates after payment success
+
+* cleanup of temporary push quote records
+
+Why it matters:
+
+* optimistic local balance pre-checks reduce unnecessary external balance calls and stop obviously invalid actions early before full transaction execution
+
+* it keeps local state and external balances aligned
+
+* it uses Prisma transactions, so paid actions either complete fully or fail without leaving partial database updates
+
+### **User activity and identity resolution**
+
+Handled primarily in `userService.ts`.
+
+This logic controls:
+
+* user creation and account creation  
+* platform-account lookup  
+* user activity recording  
+* Game Master identity checks  
+* user statistics aggregation
+
+Why it matters:
+
+* it connects external platform identity to internal DMG identity  
+* it keeps user activity and account linking consistent across the system
+
+### **Event dispatching**
+Handled in `eventService.ts`.
+
+This logic publishes challenge-related events so other parts of the system can react to meaningful state changes such as:
+
+* submission  
+* execution  
+* session completion  
+* digout  
+* removal  
+* GM activation
+
+Why it matters:
+
+* it separates core state changes from downstream reactions  
+* it allows notifications, console subscribers, and future integrations to react without being hard-wired into the core service logic  
+* it prepares the system for future subscribers without coupling them directly to challengeService or scheduler logic  
+* subscribers
+
+### **Rate limiting and infrastructure support**
+Handled in `upstashService.ts`.
+
+This logic provides Redis-backed rate limiting for command flows and helps protect the system from excessive repeated requests.
+
+Why it matters:
+
+* it reduces abuse risk  
+* it protects command-driven interaction during live usage
+
+### **Command dispatch logic**
+Handled primarily in `commandDispatcher.ts`.
+
+This logic controls:
+
+* receiving normalized command payloads from the dedicated command route  
+* parsing command arguments  
+* routing each command to the correct service function  
+* keeping command handling centralized behind one backend entry point
+
+Why it matters:
+
+* it gives the system one consistent command-processing layer  
+* it makes authentication and rate limiting easier to apply before command execution  
+* it reduces duplication across command sources that use the same backend entry point
+
+### **Reference metadata resolution**
+
+Handled primarily in `referenceMetadata.ts`.
+
+This logic controls:
+
+* validating reference URLs  
+* resolving reference titles from supported public sources  
+* improving the challenge submission flow by reducing manual entry
+
+Supported sources currently include:
+
+* YouTube  
+* Vimeo  
+* SoundCloud  
+* Spotify  
+* Wikipedia  
+* generic public pages
+
+Why it matters:
+
+* it improves submission UX without changing the core game logic  
+* it makes reference-based challenges easier to create and review  
+* it keeps title-fetching behavior centralized in one helper layer
+
+---
+
+## **Important implementation choices**
+
+### **UTC-only time handling**
+
+Time-sensitive logic uses UTC as the reference standard.
+
+This affects:
+
+* daily resets  
+* maintenance  
+* Real Day progression  
+* Stream Day logic  
+* quote expiration  
+* consistent timestamps across multi-step service operations
+
+Why it matters:
+
+* it prevents timezone drift and daylight-saving ambiguity  
+* it gives the system one consistent time standard for all clocks and resets
+
+### **Canonical challenge activity timestamp**
+
+Each challenge keeps one canonical last-activity timestamp.
+
+This timestamp is refreshed whenever a meaningful change happens to the challenge, such as:
+
+* submission  
+* push  
+* execution  
+* completion  
+* archival  
+* removal  
+* other state-changing actions
+
+Why it matters:
+
+* it gives the system one reliable reference point for recency  
+* it supports synchronization, ordering, monitoring, and incremental frontend updates
+
+### **Precision timing rules**
+
+Different timing needs use different time precision levels.
+
+This includes:
+
+* standardized UTC timestamps for multi-step service operations  
+* millisecond-level timing for short expiration windows such as push quotes
+
+Why it matters:
+
+* it keeps multi-record updates consistent inside one operation  
+* it makes short-lived expiration logic reliable where higher precision is required
+
+### **Two-clock logic**
+The backend treats Real Days and Stream Days as different clocks.
+
+This means:
+
+* Real Days advance through maintenance  
+* Stream Days advance only when a qualifying stream day occurs  
+* challenge progression and archival can depend on actual stream activity rather than passive time alone
+
+Why it matters:
+
+* it preserves the product’s distinction between system time and execution effort
+
+### **Just-in-time daily reset behavior**
+
+Some daily user resets are not applied through a full database-wide midnight reset.
+
+Instead, they are checked and refreshed when the user next interacts after the reset boundary.
+
+This currently affects:
+
+* daily submission cost scaling
+
+Why it matters:
+
+* it reduces unnecessary background load  
+* it keeps daily reset behavior predictable without forcing full-system rewrites at reset time
+
+### Two-stage push flow
+Push execution is split into two stages:
+
+1. quote generation  
+2. quote confirmation
+
+This means:
+
+* the cost is calculated first  
+* a temporary quote is stored briefly  
+* the final push is only committed after confirmation
+
+Why it matters:
+
+* it makes quadratic push cost explicit before payment  
+* it supports controlled confirmation and atomic execution
+
+### **BigInt financial handling**
+Large financial ledgers use `BigInt`.
+
+This is used for:
+
+* game-wide totals  
+* large accumulated NUMBERS metrics  
+* community chest and other system-wide financial totals  
+* other long-term aggregate financial counters
+
+Because JSON does not serialize BigInt values by default, the backend includes explicit serialization handling before returning these values to the frontend.
+
+Why it matters:
+
+* it prevents overflow risk in large financial ledgers  
+* it keeps long-term economy tracking safe as the system grows
+
+### **Central rule configuration**
+
+Core rule values are centralized in `gameConfig.ts`.
+
+This includes:
+
+* base costs  
+* timing constants  
+* percentage rules  
+* token duration limits  
+* admin/system identifiers  
+* precision helpers used in BigInt calculations
+
+Why it matters:
+
+* it keeps core game rules explicit and editable in one place  
+* it reduces hard-coded rule duplication across services  
+* it makes balancing and system adjustment easier over time
+
+---
+
+## **Relationship with other technical layers**
+
+This backend logic sits between:
+
+* the database layer  
+* the API route layer  
+* external integrations such as Lumia  
+* frontend interfaces that trigger system actions
+
+It is the rule-enforcement layer of the product.
+
+## **Why this backend logic matters**
+
+This is where DMG becomes an actual system rather than a static website or database.
+
+It ensures that:
+
+* product rules are enforceable  
+* actions have consistent consequences  
+* time, economy, identity, and execution stay synchronized  
+* live interaction can scale without relying on manual control
+
+
+===== FILE: dmg-doc/technical-implementation/codebase-structure-reference.md =====
+
+# **Codebase Structure (Reference)**
+## **Directory Map**
+
+### **\`dmg-api/\` (Backend)**
+
+\- \`node\_modules/\`
+
+\- \`prisma/\`
+
+  \- \`schema.prisma\`
+
+  \- \`seed.ts\`
+
+  \- \`seedChallenges.ts\`
+
+  \- \`seedPushes.ts\`
+
+  \- \`seedUsers.ts\`
+
+\- \`src/\`
+
+  \- \`index.ts\`
+
+  \- \`logger.ts\`
+
+  \- \`prisma.ts\`
+
+  \- \`scheduler.ts\`
+
+#### \`src/config/\`
+
+\- \`challengeConfig.ts\`
+
+\- \`gameConfig.ts\`
+
+\- \`sourcesConfig.ts\`
+
+#### \`src/eventSubscribers/\`
+
+\- \`consoleLogger.ts\`
+
+\- \`notificationService.ts\`
+
+####  \`src/middleware/\`
+
+\- \`authMiddleware.ts\`
+
+\- \`rateLimitMiddleware.ts\`
+
+#### \`src/routes/\`
+
+\- \`adminRoutes.ts\`
+
+\- \`challengesRoutes.ts\`
+
+\- \`clockRoutes.ts\`
+
+\- \`commandRoutes.ts\`
+
+\- \`gamemasterRoutes.ts\`
+
+\- \`streamRoutes.ts\`
+
+\- \`tokenRoutes.ts\`
+
+\- \`userRoutes.ts\`
+
+#### \`src/services/\`
+
+\- \`challengeService.ts\`
+
+\- \`clockService.ts\`
+
+\- \`eventService.ts\`
+
+\- \`explorerAccessService.ts\`
+
+\- \`jwtService.ts\`
+
+\- \`lumiaService.ts\`
+
+\- \`streamService.ts\`
+
+\- \`upstashService.ts\`
+
+\- \`userService.ts\`
+
+#### \`src/types/\`
+
+\- \`express.d.ts\`
+
+#### \`src/utils/\`
+
+\- \`commandDispatcher.ts\`
+
+\- \`demoAccess.ts\`
+
+\- \`jwtUtils.ts\`
+
+\- \`routeUtils.ts\`
+
+\---
+
+### **\`dmg-website/\` (Frontend)**
+
+#### Root files
+
+\- \`index.html\`
+
+\- \`vercel.json\`
+
+#### Directories
+
+\- \`admin/\`
+
+\- \`assets/audio/\`
+
+\- \`challengepublic/\`
+
+\- \`challengesubmitform/\`
+
+\- \`donation/\`
+
+\- \`explorer/\`
+
+\- \`faq/\`
+
+#### \`css/\`
+
+\- \`global.css\`
+
+\- \`admin.css\`
+
+\- \`challengepublic.css\`
+
+\- \`challengesubmitform.css\`
+
+\- \`donation.css\`
+
+\- \`faq.css\`
+
+\- \`explorer.css\`
+
+#### \`js/\`
+
+\-\`api.js\`
+
+\- \`app-config.js\`
+
+\- \`brand-logo.js\`
+
+\- \`challenge-renderer.js\`
+
+\- \`challenge-share.js\`
+
+\- \`contextual-cta.js\`
+
+\- \`demo-submission.js\`
+
+\- \`identity-reminder.js\`
+
+\- \`site-header.js\`
+
+\- \`social-links.js\`
+
+\- \`typewriter.js\`
+
+
+===== FILE: dmg-doc/technical-implementation/database.md =====
+
+# **Database**
+## **Purpose**
+
+The database stores the persistent state of the product.  
+ It holds the core records needed to track:
+
+* user identity  
+* platform accounts  
+* challenges  
+* pushes  
+* stream sessions  
+* maintenance clocks  
+* persistent access tokens
+
+It is the durable system layer that allows DMG to preserve history, apply rules consistently, and recover state across sessions.
+
+## **Core design principle**
+
+The database is structured around a few key separations:
+
+* **internal user identity** is separated from **external platform accounts**  
+* **challenge state** is separated from **push** **history**  
+* **global time** **tracking** is separated from **individual stream sessions**  
+* **temporary quote records** are separated from **finalized transactions**
+
+This keeps identity, challenge state, time tracking, and temporary pre-confirmation records clearly separated.
+
+---
+
+## **Main models**
+
+### **User**
+Represents the central internal identity of a player in DMG.
+
+It stores:
+
+* the internal user ID  
+* game-wide participation counters  
+* long-term activity history  
+* aggregate NUMBERS metrics  
+* progression-related state
+
+Why it exists:
+
+* unify activity across platforms  
+* keep global user history in one place  
+* support user-level totals, progression, and long-term activity tracking
+
+### **Special system record**
+User ID 1 is used as the **global ledger record** (“World User”).
+
+It is used to track:
+
+* game-wide NUMBERS totals  
+* Community Chest totals  
+* system-wide economy counters tied to spending, refunds, and redistribution
+
+Why it matters:
+
+* it gives the system one central record for global economy tracking  
+* it keeps player-level activity separate from system-level financial totals
+
+### **Tracked user metrics**
+
+The `User` model also stores long-term per-user game metrics such as:
+
+* total digouts executed  
+* total pushes executed  
+* total disrupts executed  
+* total challenges submitted  
+* total removals executed  
+* total NUMBERS spent  
+* total value received from removals  
+* total value caused by removals  
+* total value directed to the Community Chest  
+* total value returned to pushers
+
+Why it matters:
+
+* these metrics make user activity, contribution, and economic impact visible over time  
+* they support progression, analytics, and future user-facing history features
+
+### **Account**
+Represents one platform-specific identity linked to a user.
+
+It stores:
+
+* platform name  
+* platform ID  
+* mutable username / display name  
+* platform-specific NUMBERS balance  
+* platform-level activity timestamps
+
+Why it exists:
+
+* separate external identity from internal identity  
+* track balances and activity per platform  
+* support cross-platform identity linking
+
+### **StreamStat**
+
+Represents the global system clocks and maintenance watermark.
+
+It stores:
+
+* Real Days  
+* Stream Days  
+* last maintenance timestamp
+
+Why it exists:
+
+* support the two-watermark clock system  
+* store the reference point used by daily maintenance  
+* keep global time-based mechanics consistent
+
+### **Challenge**
+
+Represents the canonical record of a challenge.
+
+It stores:
+
+* challenge content  
+* proposer identity snapshots  
+* lifecycle state  
+* duration type  
+* cadence state  
+* execution progress  
+* timestamps  
+* challenge-level economy metrics
+
+Why it exists:
+
+* act as the central state record for the challenge lifecycle  
+* support ranking, execution, archival, and history
+
+### **Push**
+
+Represents finalized promotion history for a challenge.
+
+It stores:
+
+* which user pushed  
+* which challenge was pushed  
+* cost paid  
+* quantity  
+* timestamp
+
+Why it exists:
+
+* preserve push history as a permanent record  
+* support challenge ranking and user-level push tracking  
+* store each finalized push as its own record instead of only keeping a challenge-level total
+
+### **TempQuote**
+Represents a temporary push quote before confirmation.
+
+It stores:
+
+* quoted push cost  
+* target challenge  
+* target user  
+* requested quantity  
+* creation timestamp  
+* lock state
+
+Why it exists:
+
+* support the two-stage push flow  
+* separate price calculation from final execution  
+* allow short-lived quote validation before committing the action
+
+### **Stream**
+Represents one stream session.
+
+It stores:
+
+* session start and end timestamps  
+* duration  
+* per-session activity totals  
+* session-level economy metrics  
+* processing state
+
+Why it exists:
+
+* preserve stream session history  
+* track per-session activity and economy metrics  
+* distinguish an active stream session from a fully finalized one
+
+### **PerennialToken**
+Represents a persistent authentication token stored in the database.
+
+It stores:
+
+* token value  
+* linked user  
+* linked account  
+* active / inactive state  
+* creation timestamp
+
+Why it exists:
+
+* support persistent access flows beyond short JWT sessions  
+* allow manually managed token-based access  
+* prepare the system for more flexible entitlement and feature-access models
+
+## **Why this database structure matters**
+
+This structure keeps DMG understandable at the data level.
+
+It allows the system to:
+
+* separate identity, activity, economy, and time clearly  
+* preserve history without mixing temporary and permanent state  
+* support cross-platform continuity  
+* apply system rules on top of clearly separated records for identity, challenges, time, and transactions
+
+
+===== FILE: dmg-doc/technical-implementation/integrations.md =====
+
+# **Integrations**
+## **Purpose**
+
+This section documents the external systems DMG relies on to operate across live platforms, community channels, and web tools.
+
+These integrations are used to:
+
+* connect DMG to live chat environments  
+* reuse existing loyalty and balance infrastructure at launch  
+* extend participation across live and offline channels
+
+They are not the core product logic themselves, but they make the product usable in real conditions.
+
+---
+
+## **Lumia**
+### **Purpose**
+
+Lumia is used as the launch-layer bridge between DMG and supported livestream platforms.
+
+### **What it does**
+
+Lumia currently provides two critical capabilities:
+
+* an existing loyalty-points system used as the initial NUMBERS layer  
+* a shared command-listening layer across Lumia-supported livestream platforms
+
+This means Lumia can:
+
+* grant points through watch time  
+* apply reward modifiers based on user status such as follower, subscriber tier, VIP, or moderator where the connected platform and Lumia support it  
+* listen for supported chat commands  
+* send command payloads with user identity data to the main command ingress route
+
+### **Role in the system**
+
+Lumia reduces the amount of custom infrastructure DMG needs at launch.
+
+It allows DMG to:
+
+* start with an already working points system instead of building one from scratch  
+* reuse an existing live chat-listening layer across supported platforms  
+* connect paid actions to an external balance authority rather than treating the local database as the final balance source
+
+### **Why it matters**
+
+This integration is critical because it makes the product operational much faster.
+
+It allows DMG to launch with:
+
+* watch-time-based NUMBERS earning  
+* platform-linked reward modifiers  
+* supported chat commands routed to the main command ingress route
+
+It also leaves room for future evolution if DMG later moves more of that logic in-house.
+
+---
+
+## **Discord**
+
+### **Purpose**
+
+Discord is the main offline community hub for DMG.
+
+### **What it does**
+
+At baseline, Discord provides:
+
+* a persistent community space outside live sessions  
+* continuity between streams  
+* a place where ideas, discussion, and coordination can continue when the stream is offline
+
+Its product value for DMG comes mainly from the planned Discord bot layer.
+
+### **Planned Discord bot layer**
+A dedicated Discord bot is planned as the main offline interaction layer.
+
+Its role would be to:
+
+* authenticate users against their livestream-platform identity
+
+* listen for supported offline commands
+
+* send valid command payloads to the main command ingress route
+
+* restrict or disable certain offline commands when the stream is live, so live participation remains concentrated on livestream platforms
+
+### **Role in the system**
+
+Discord gives DMG a persistent hub, while the planned bot would turn that hub into an actual offline gameplay layer.
+
+Together, they would allow DMG to:
+
+* stay socially active between streams
+
+* support structured interaction outside live sessions
+
+* reuse the same command model across live and offline channels
+
+### **Why it matters**
+
+Without the bot, Discord is mainly a community hub; with it, Discord becomes part of the DMG interaction model.
+
+That makes offline participation operational rather than only social.
+
+---
+
+## **Streaming platforms**
+
+### **Purpose**
+
+Streaming platforms are the live participation surfaces where DMG runs in real time.
+
+### **What they do**
+
+Streaming platforms provide:
+
+* live chat environments  
+* platform-level user identity  
+* the real-time context where commands and participation happen during a stream
+
+Depending on the platform and the Lumia integration, they can also support:
+
+* watch-time-based reward logic  
+* subscription-aware reward modifiers  
+* live participation tied directly to stream state
+
+### **Role in the system**
+
+Streaming platforms are where DMG becomes a live product.
+
+They provide:
+
+* the real-time participation layer  
+* the original source of many commands and user actions  
+* the live context that drives stream-state-dependent mechanics such as discounts, execution flow, and activity tracking
+
+### **Why it matters**
+
+These integrations allow DMG to function as a multi-platform livestream product rather than a single-site system.
+
+They are the live surfaces on which the product is actually experienced.
+
+---
+
+## **Integration model**
+
+These integrations work together as one operational stack.
+
+At a high level:
+
+* streaming platforms provide the live participation surfaces  
+* Lumia provides the launch-layer loyalty and command bridge across supported livestream platforms  
+* Discord provides the main offline hub and the future offline bot layer
+
+This allows DMG to operate:
+
+* during live streams  
+* between live streams  
+* across multiple participation channels without reducing everything to one interface
+
+## **Why this integration layer matters**
+
+The integration layer connects backend rules to real user environments.
+
+It allows DMG to:
+
+* launch on top of existing live infrastructure  
+* preserve continuity across live and offline participation  
+* support a cross-platform experience while keeping one central system logic 
+
+===== FILE: dmg-doc/technical-implementation/streaming-production-setup.md =====
+
+# **Streaming / Production Setup**
+### **Purpose**
+
+This section defines the production environment supporting the livestream system.
+
+### **It includes:**
+
+* streaming software  
+* camera setup  
+* visual tools  
+* audio setup  
+* stream access utilities  
+* backup plans
+
+### **Role in the system**
+
+This setup supports the live layer of the product and ensures the interactive system can run reliably in production
+
+### **Current production setup**
+
+The livestream system currently runs on the following production setup:
+
+* **Streaming Software:** OBS Studio and Aitum Multistream.
+
+* **Overlays:** Segmented overlay design with dedicated spaces, initially implemented to compensate for GoPro feed quality constraints in a 1920×1080 stream
+
+* **Rate Control:** ABR (Adaptive Bitrate)
+
+* **Cameras:** 
+
+  * Main camera: GoPro HERO 8 (via GoPro Webcam mode), with plans to upgrade
+
+  * Secondary camera: GoPro HERO 7 (via Elgato Cam Link)
+
+* **Visual Tools:** Social Stream Ninja (chat overlay), Lumia Stream (hands-free lighting effects)
+
+* **Audio:** OBS microphone settings include noise suppression, noise gate, compressor, and EQ adjustments for clarity
+
+* **Transitions:** Stinger transitions in development
+
+* **Live Access:** QR codes for live access to challenge lists, stats, and the donation page
+
+* **Internet connection**: 376.8 Mbps down / 279.6 Mbps up / 17 ms latency
+
+* **Hardware:** MacBook Pro (2019, 16-inch) with external TV used as monitor
+
+### **Repository note**
+
+Large audio assets are managed through Git LFS, so new development environments must initialize Git LFS before working with the full media set.
+
+
+===== FILE: dmg-doc/technical-implementation/transaction-handling.md =====
+
+# **Transaction Handling**
+## **Purpose**
+
+This section explains how DMG handles multi-step operations that affect both local database state and external balance state.
+
+It focuses on:
+
+* Prisma transactions  
+* external balance synchronization  
+* rollback behavior  
+* failure handling
+
+## **Why this matters**
+
+Many important DMG actions do not update only one record.
+
+They can affect:
+
+* user metrics  
+* account balances  
+* challenge state  
+* stream metrics  
+* temporary quote records  
+* global economy totals
+
+Because of this, transaction handling is critical to system reliability.
+
+## **Prisma transactions**
+
+DMG uses Prisma transactions for actions that update multiple database records as part of one operation.
+
+This is used for flows such as:
+
+* challenge submission  
+* push confirmation  
+* digout  
+* removals  
+* disruption placeholder spending  
+* execution state changes  
+* automatic session tick updates
+
+### **Purpose in the system**
+
+Prisma transactions ensure that related database updates succeed together or fail together.
+
+This prevents partial local writes such as:
+
+* a challenge submission completing without the related user, account, stream, and global-ledger updates  
+* a push confirmation updating challenge totals without updating the matching user, account, stream, and quote records  
+* a digout or removal updating challenge state without the matching economy and activity records
+
+## **External balance synchronization**
+
+Some paid actions also depend on Lumia, which acts as the external balance authority.
+
+This means the system often combines:
+
+* a local optimistic balance check  
+* an external Lumia deduction or addition  
+* local database updates after the external call succeeds
+
+### **Purpose in the system**
+
+This keeps DMG’s local records aligned with the external balance source rather than treating the local database as the final authority for platform balances.
+
+## **Rollback behavior**
+
+When a database transaction fails, the local database changes inside that transaction are not committed.
+
+This means the system avoids partial local outcomes such as:
+
+* challenge state updated without the matching user update  
+* stream metrics updated without the matching account update  
+* quote confirmation applied without the full set of related writes
+
+### **Important distinction**
+
+Rollback protection applies to local database operations.
+
+External calls are outside the database transaction itself.
+
+Because of this, the system is designed to call external balance operations at controlled points in the flow before final local commit logic is completed.
+
+## **Failure handling**
+The backend handles failures explicitly at both the service layer and the route layer.
+
+This includes:
+
+* checking required inputs and action conditions before costly or multi-step operations run  
+* rejecting clearly invalid actions before external calls or multi-record updates begin  
+* mapping known service errors to clear HTTP responses  
+* cleaning up temporary records when needed  
+* preventing partially completed local state changes
+
+### **Examples**
+
+* an expired push quote is rejected and removed  
+* an insufficient local balance check stops the action before the external call  
+* an external Lumia failure stops the paid action before local completion  
+* a failed database transaction prevents partial local writes
+
+## **Relationship with Backend Logic**
+
+This section complements Technical Implementation → Backend Logic.
+
+### **Backend Logic explains:**
+
+* what rules the system applies
+
+### **Transaction Handling explains:**
+
+* how the system keeps multi-step operations coherent when those rules are executed

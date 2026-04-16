@@ -1,0 +1,911 @@
+PROJECT SUMMARY EXPORT - Sun Apr  5 13:33:49 CEST 2026
+ROOT: /Users/mac/dmg-doc
+
+
+===== FILE: dmg-doc/overview.md =====
+
+# **Product Overview: Drummer Manager Game.**
+### **60s pitch.**
+
+DMG is a gamified livestream system where audiences actively influence what a creator does next.
+
+Users submit challenges, support the ones they want to see happen, and compete or collaborate to decide how limited stream time is used.
+
+Instead of passive viewing, the system turns engagement into structured influence through a shared decision layer.
+
+The result is a livestream experience where the audience helps shape the work, not just watch it.
+
+### **1 sentence pitch.**
+
+Drummer Manager Game is a gamified livestream system where viewers use a shared currency to influence how a streamer’s limited time is spent by submitting and promoting challenges.
+
+---
+
+## **Introduction.**
+
+**Drummer Manager Game** is a community-driven livestream product where the audience helps decide what happens next.
+
+Instead of staying passive, viewers can submit ideas, promote the ones they support, and influence how the streamer’s time is used. The system is built around **NUMBERS**, the product’s core currency, which turns engagement into influence.
+
+The goal is to make the creative process visible, interactive, and continuously evolving over time. The community does not only watch the result – it helps shape the work behind it.
+
+---
+
+## **Core Concepts and Product Principle**
+
+The audience helps shape what happens next, how work is prioritized, and how the experience evolves over time.
+
+### **This means:**
+
+* participation is structured rather than passive  
+* the product turns input into visible consequences over time  
+* actions should be meaningful, strategic, and visible  
+* the audience is not limited to watching outcomes
+
+This creates a product where the community helps shape priorities and outcomes over time, rather than only watching the result.
+
+---
+
+## **Core Product Idea**
+
+DMG turns the audience into an **active management layer**.
+
+Users submit challenges and promote (push) the ones they want to see happen. This helps determine what gets priority, while the streamer keeps final execution control.
+
+This makes the product feel less like a standard stream and more like a shared creative system.
+
+---
+
+## **Core Commands Principle**
+
+The main interaction layer is built around simple chat commands.
+
+### **Purpose**
+
+This keeps the system:
+
+* fast to use
+
+* easy to understand
+
+* accessible during live and offline participation
+
+### **Role in the system**
+
+Commands are the main interface between users and the system.
+
+They also act as the practical onboarding path, because users can enter the product through interaction rather than through a traditional website account flow.
+
+---
+
+## **How It Works**
+
+The product revolves around **Challenges**.
+
+A Challenge is a task, objective, or direction the community wants the streamer to tackle. Challenges can be technical, creative, playful, short, or recurring.
+
+Once submitted, challenges enter the system and can be promoted by the community. The more support a challenge gets, the more visible it becomes. This increases its chances of being selected for execution within the limited execution time available during streams.
+
+Because the streamer’s time is limited, not everything can be executed. That limitation is part of the product: the community is effectively deciding how the streamer’s limited time gets used, through both competition and collective support.
+
+---
+
+## **Live and offline continuity**
+
+The system operates both during livestream sessions and outside of them.
+
+This allows:
+
+* real-time interaction during live sessions  
+* continued participation between streams  
+* a product loop that remains active over time instead of stopping when the stream ends
+
+---
+
+## **NUMBERS**
+
+**NUMBERS** is the product’s core currency. It gives users a way to act inside the system. NUMBERS can be spent to:
+
+* submit challenges  
+* promote challenges  
+* revive archived challenges  
+* access tools such as the Explorer
+
+This creates a simple loop: **engagement → value → influence → impact**
+
+NUMBERS is not an extra reward layer. It is one of the product’s core systems.
+
+---
+
+## **Tiers and Progression**
+
+The product includes a tiered engagement system that rewards participation and support.
+
+All users start with access to the core experience and can increase their influence through activity, NUMBERS usage, or financial support.
+
+Higher engagement unlocks additional perks such as:
+
+* more influence over the system  
+* access to exclusive interactions  
+* more visibility and recognition
+
+The goal is not to restrict access, but to create a progression system where continued involvement leads to deeper impact.
+
+---
+
+## **Quadratic Logic**
+To keep the system fair, repeated actions become more expensive.
+
+* **Submitting multiple challenges** increases cost.  
+* **Repeatedly pushing (promoting) the same challenge** increases cost.
+
+This prevents spam, limits domination by a single user, and encourages strategic thinking. This encourages more deliberate decisions instead of repetitive behavior.
+
+---
+
+## **Challenge Lifecycle**
+
+Challenges move through a structured lifecycle. They can be:
+
+* **Active**  
+* **In Progress**  
+* **Completed**  
+* **Failed**  
+* **Archived**  
+* **Auctioned**  
+* **Removed**  
+* **Under Review**
+
+This gives the system memory. Challenges build history, momentum, and outcomes over time instead of disappearing.
+
+---
+
+## **Time Structure**
+The product uses a simple time structure built around the number 21.
+
+* **21-minute session** \= base execution unit  
+* **21-day window** \= standard challenge lifespan
+
+This structure keeps the system consistent, memorable, and easy to recognize across the experience.
+
+---
+
+## **Community Role**
+
+The audience is an active part of the product. **Users can:**
+
+* submit ideas  
+* promote the challenges they want to see executed  
+* track progress  
+* revive past challenges  
+* influence direction over time
+
+The system creates **structured influence**, but not total control.
+
+---
+
+## **Managerial Override**
+
+The community influences priority, but final execution control remains with the streamer. This means **the streamer can**:
+
+* choose which eligible challenges are actually executed
+
+* pause or stop a challenge if needed
+
+* balance community demand with physical condition, stream constraints, and long-term project needs
+
+### **Purpose in the system**
+
+This keeps the product collaborative without removing human control over execution.
+
+---
+
+## **Product Identity**
+
+DMG combines a strong symbolic identity with a clear structural logic. The number 21 is both an identity marker and a recurring product rule used across the experience.
+
+**It appears in**
+
+* timing, 
+
+* pricing, 
+
+* rewards, 
+
+* system structure
+
+This gives the product a recognizable identity and a consistent internal logic.
+
+---
+
+## **Why It Matters**
+
+Drummer Manager Game turns engagement into structured influence.
+
+Instead of only watching or donating, users interact with a system where their actions matter and have visible consequences. This creates:
+
+* stronger engagement
+
+* clearer progression
+
+* a more memorable experience
+
+---
+
+## **Operating Commitment**
+
+The product depends on a consistent livestream rhythm to remain meaningful over time. 
+
+It works best when the experience includes:
+
+* regular live presence
+
+* enough live time for challenges to be executed and followed over time
+
+### **Purpose in the system**
+
+A consistent cadence makes participation credible, strengthens community trust, and gives the system enough continuity to matter over time.
+
+---
+
+## **Community Strategy and Expansion**
+
+The product is not tied to a single platform. It can operate across livestream platforms for real-time participation and community channels for continued participation outside live sessions.
+
+### **Current model**
+
+* livestream platforms support real-time participation
+
+* Discord acts as the main community hub outside live sessions
+
+* the same participation rules can be extended to other compatible channels over time
+
+**As participation grows, the product can reinforce that growth through:**
+
+* reminders that viewers can influence what happens next
+
+* features that highlight notable ideas, moments, or challenge momentum  
+* safeguards such as cost escalation, gated access, and rate limits to keep growth from degrading interaction quality
+
+### **Purpose in the product**
+
+This helps audience growth strengthen product participation, instead of evolving separately from it.
+
+---
+
+## **In One Sentence**
+
+**Drummer Manager Game** is a gamified livestream product where the community uses **NUMBERS** to submit, promote, and shape challenges, turning audience engagement into structured influence over the creative process.
+
+
+===== FILE: dmg-doc/strategy/00-strategy.md =====
+
+# Strategy
+This section captures high-level direction and planning for product evolution.
+
+## Notes
+- roadmap
+
+
+===== FILE: dmg-doc/strategy/roadmap.md =====
+
+
+
+===== FILE: dmg-doc/system-architecture/00-system-architecture.md =====
+
+# System Architecture
+This section documents the core systems that structure the product and how they interact.
+
+## Notes
+- api structure
+- backend architecture
+- brand design principles
+- challenge lifecycle system
+- frontend architecture
+- interaction pace model
+- maintenance logic
+- shared ui system
+- time session system
+- token identity system
+
+
+===== FILE: dmg-doc/system-architecture/backend-architecture.md =====
+
+# **Backend Architecture**
+## **Overview**
+
+The backend is responsible for managing the game logic, enforcing rules, and synchronizing all player interactions. It acts as the central system coordinating:
+
+* challenge lifecycle
+
+* NUMBERS transactions
+
+* time progression
+
+* identity resolution
+
+* stream state
+
+The backend is designed to apply rules consistently and stay synchronized with external systems and integrations.
+
+---
+
+## **Core Systems**
+
+### **Challenge System**
+Handles the full lifecycle of challenges. Responsibilities:
+
+* creation (submission flow)
+
+* promotion (push logic)
+
+* execution state
+
+* expiration (21-day logic)
+
+* revival (digout mechanic)
+
+* removal and refunds
+
+This system ensures challenges evolve consistently over time.
+
+### **NUMBERS & Transaction System**
+
+Handles all spending and validation of NUMBERS. **Responsibilities**:
+
+* cost calculation (quadratic logic)
+
+* balance checks and transaction authorization
+
+* synchronization with Lumia (source of truth)
+
+* atomic transaction handling to avoid partial updates when a payment or write fails
+
+This system ensures NUMBERS spending stays synchronized, validated, and safe across both local game state and external balance updates.
+
+### **Time & Session System**
+
+Controls how time affects the game. **Responsibilities**:
+
+* 21-minute session execution
+
+* daily resets (submission counters and daily time-based rules)
+
+* 21-day challenge lifespan tracking
+
+* recurring challenge cadence enforcement
+
+This system applies time-based rules automatically so progression, resets, and challenge state changes do not depend on manual intervention.
+
+### **Stream State System**
+Tracks whether the stream is live or offline. **Responsibilities**:
+
+* live / offline state
+
+* recovery of the current stream-day state after restart
+
+* protection against counting the same calendar day twice
+
+* live-state-dependent behavior such as command discounts and other engagement rules
+
+This state directly affects pricing, engagement, and user behavior.
+
+### **Identity & Access System**
+
+Resolves users and secures actions. **Responsibilities**:
+
+* platform identity resolution
+
+* token verification
+
+* linking multiple accounts
+
+* protecting web actions through token-based identity checks
+
+This allows a user to interact seamlessly across platforms while maintaining a single identity.
+
+### **Event & Notification System**
+
+Handles system feedback and real-time updates. **Responsibilities**:
+
+* logging
+
+* system events
+
+* notifications across chat, UI, and real-time client updates 
+
+This ensures the system remains observable and interactive.
+
+
+===== FILE: dmg-doc/system-architecture/frontend-architecture.md =====
+
+# **Frontend Architecture**
+## **Overview**
+
+The frontend is organized as a set of dedicated pages connected by a shared visual and interaction system. The goal is to keep each page focused on one role while maintaining a consistent brand, layout logic, and user experience across the whole website. The frontend is not a single application in the framework sense. It is a modular multi-page website built around shared components, styling, and UX rules.
+
+---
+
+## **Shared Frontend Principles**
+
+The frontend follows a few core principles across pages:
+
+* **Consistent branding:** The same visual identity is reused across the website through shared typography, shared colors, shared spacing logic, and repeated structural patterns.  
+* **Shared container logic:** The main pages are built around a primary content container with animated neon borders. This creates a recognizable visual shell and keeps the experience coherent from page to page.  
+* **Shared typography:**  
+  * **DM Sans** is used for strong titles, major headings, and calls to action.  
+  * **Roboto** is used for body text, labels, smaller system text, and supporting information.  
+* **Shared global stylesheet****:** `global.css` acts as the base layer for the whole frontend.  
+* **Shared footer visibility logic:** A persistent social footer is reused across pages to maintain visibility of the creator’s ecosystem and encourage continued engagement beyond the current page.
+
+---
+
+## **Core Frontend Pages**
+
+### **1\. Landing Page**
+
+* **Role**: The landing page is the simplest entry point into the product. It currently routes users quickly toward four main actions:  
+  * Explorer Database  
+  * How to Play  
+  * Submit Challenge  
+  * Support the Project  
+* **Purpose**: This page acts as a clean entry hub rather than a content-heavy page. Its role is orientation and conversion.  
+* **Notes**: It uses the shared fonts, shared visual language, and shared footer, but not the shared site header.
+
+### **2\. Explorer Page**
+* **Role**: The Explorer is the browsing interface for the challenge database. It allows users to:  
+  * browse the challenge list  
+  * search and filter  
+  * inspect details  
+  * follow challenge updates over time  
+* **Data Role**: This page is the main data navigation page of the frontend. It is built for exploration, not submission.  
+* **Access Logic**: The Explorer is access-gated and verifies the user before the interface becomes available.
+
+* **Notes**: This page combines:
+
+  * token verification
+
+  * paid access-window verification
+
+  * NUMBERS-based access grant
+
+  * Bearer-authenticated data loading
+
+  * client-side filtering and search
+
+  * live delta polling
+
+  * server-authoritative dataset restriction for demo/full sessions
+
+* **Important distinction:**
+
+  * Explorer collection browsing is gated
+
+  * public single-challenge pages remain openly shareable
+
+### **3\. Public Challenge Page**
+* **Role**: The public challenge page displays one individual challenge. It is designed for sharing, public visibility, and focused reading of a single challenge.  
+* **Purpose**: This page gives a focused view of one challenge without the extra browsing tools of the Explorer.
+
+### **4\. Challenge Submit Form**
+* **Role**: The submit form is the structured entry point for challenge creation. It guides the user through:  
+  * verification  
+  * challenge definition  
+  * duration and cadence setup  
+  * reference input  
+  * submission  
+  * post-submission review and sharing  
+* **Purpose**: This page turns challenge creation into a controlled and readable flow.  
+* **Notes**: It is one of the most refined pages in the system because it combines token verification, step-by-step UX, dynamic form logic, post-submission success state, and structured challenge review.
+
+### **5\. FAQ Page**
+
+* **Role**: The FAQ page explains the game in a simple, progressive way.  
+* **Purpose**: It acts as a lightweight onboarding page.  
+* **Notes**: It was one of the earliest pages built and is currently simpler than the main product pages. It does not yet use the full shared header system.
+
+### **6\. Donation Page**
+
+* **Role**: The donation page is a direct support page.  
+* **Purpose**: Its function is simple: convert donation intent into action.  
+* **Notes**: It is intentionally minimal and centered around the Ko-fi embed. It uses the shared visual shell and the shared footer, but not the shared site header.
+
+### **7\. Admin / Command Center**
+* **Role**: The admin page is the streamer-side dashboard.  
+* **Purpose**: It provides a monitoring interface for system status, operational clocks, economy state, and global metrics.  
+* **Notes**: This page is internal-facing rather than community-facing. It follows the shared visual language but serves a different operational role.
+
+---
+
+## **Explorer Client-Side Cache Model**
+
+The Explorer keeps a live copy of challenge data in the browser.
+
+The backend remains the source of truth, while the frontend stores the current challenge list locally for filtering, searching, and rendering.
+
+**This allows:**
+
+* fast local filtering and search  
+* responsive UI updates without repeated full reloads  
+* efficient synchronization through the delta updates endpoint
+
+### **Why it matters**
+
+This architecture prioritizes responsiveness and UI flexibility while challenge volume remains moderate.
+
+---
+
+## **Why the Frontend Structure Matters**
+
+The frontend is now organized around a clear split:
+
+* **Pages define context**  
+* **Shared components, styles, and interaction rules ensure consistency**
+
+This matters because it allows the website to scale without becoming visually fragmented. It also makes the project look more serious from a product and implementation perspective: clear roles per page, reusable components, consistent UX, and a maintainable growth path.
+
+---
+
+## **Current Frontend Maturity**
+
+The most refined frontend pages today are:
+
+* **Challenge Submit Form**  
+* **Explorer**  
+* **Public Challenge**
+
+These pages already show the strongest level of architectural maturity and product consistency. Other pages already follow the same direction, even if they are still lighter or less mature: Landing Page, FAQ, Donation, and Admin. This means the frontend is no longer a collection of isolated pages. It is already becoming a **coherent product experience**.
+
+---
+
+## **Frontend Backlog Direction**
+
+* **Shared audio behavior across pages**: The mute button already exists in the shared header, but audio behavior is not yet fully shared across all relevant pages.  
+* **Further page harmonization**: Some lighter pages still need to be aligned more closely with the stronger structure already used by Explorer, Public Challenge, and Submit Form.  
+* **FAQ clarification**: The FAQ exists as an early onboarding page but still needs future refinement to better match the maturity of the rest of the frontend.
+
+---
+
+## **Conclusion**
+
+**The frontend architecture is built around one key idea: Different pages, one product feel.**
+
+This is achieved through:
+
+* shared branding
+
+* consistent page structure
+
+* unified user experience
+
+That makes the frontend easier to maintain, easier to scale, and much more professional to present.
+
+
+===== FILE: dmg-doc/system-architecture/api-structure.md =====
+
+# **API STRUCTURE**
+The API is organized into endpoint groups. Each group has a specific role in the product.
+
+---
+
+## **PUBLIC API (READ-ONLY)**
+
+### **Endpoints**
+
+* `/api/v1/challenges/:id`
+
+### **Role**
+
+This endpoint exposes one public challenge record for the public challenge page.
+
+No Explorer token is required.
+
+### **Notes**
+
+* `/api/v1/challenges/:id` returns one challenge for the public challenge page.  
+* This route remains openly shareable outside the Explorer flow.
+
+### **Core principle**
+
+This route is public, read-only, and safe to expose without Explorer authentication.
+
+---
+
+## **EXPLORER DATA API**
+### **Endpoints**
+
+* `` `/api/v1/challenges` ``  
+* `` `/api/v1/challenges/delta` ``
+
+### **Role**
+
+These endpoints expose Explorer challenge data for authenticated Explorer sessions.
+
+### **Access model**
+
+* Explorer token required  
+* Explorer paid entitlement required  
+* dataset scope derived server-side from verified token identity  
+* demo users receive the restricted dataset  
+* full users receive the full dataset
+
+### **Notes**
+
+* `/api/v1/challenges` returns the Explorer collection feed  
+* `/api/v1/challenges/delta` returns incremental Explorer updates  
+* frontend sends Bearer auth for both endpoints  
+* these routes are read-only but not public
+
+---
+
+## **COMMAND API**
+
+Base path: \``` /api/v1/command` ``
+
+### **Role**
+
+This route family handles external user command ingress.  
+It receives command payloads from chat-connected systems and routes them into the backend command-processing layer after authentication and rate limiting.
+
+### **Typical responsibilities**
+
+* receive command payloads from external bot / loyalty systems
+
+* authenticate and resolve the acting user
+
+* apply rate limiting before command execution
+
+* forward commands into the centralized command dispatcher
+
+---
+
+## **TOKEN / ACCESS API**
+
+### **Endpoints**
+
+* `/api/v1/token/verify-challengesubmitform`  
+* `/api/v1/token/verify-explorer`  
+* `/api/v1/token/grant-explorer-access`
+
+### **Role**
+
+These endpoints handle identity verification and gated web-feature access. They are used for:
+
+* secure access to the challenge submit form  
+* gated access to the Explorer  
+* paid Explorer access grant / extension
+
+### **Notes**
+
+* `/api/v1/token/verify-challengesubmitform` verifies the token received from chat, resolves the user identity, and returns the submit-form context. This includes:  
+  * username  
+  * platform  
+  * daily submission count  
+  * server-calculated base cost  
+* `/api/v1/token/verify-explorer` verifies identity and returns current Explorer access state. This includes:  
+  * username  
+  * platform  
+  * current access validity  
+  * remaining Explorer minutes  
+  * merit pricing eligibility  
+  * demo/full identity scope
+
+* `/api/v1/token/grant-explorer-access` verifies identity, deducts NUMBERS, and grants or extends Explorer access. This includes:
+
+  * paid access window creation / extension
+
+  * merit-based price calculation
+
+  * demo unlock clamping to one unit
+
+  * granted minutes and remaining minutes in response
+
+### **Core principle**
+
+These routes separate three concerns:
+
+* authentication
+
+* access-state verification
+
+* paid entitlement grant
+
+---
+
+## **USER ACTION API**
+
+### **Endpoints**
+
+* `/api/v1/user/*`
+
+### **Role**
+
+These endpoints handle direct game actions initiated by a player. This includes:
+
+* challenge submission  
+* web form challenge submission  
+* push quote  
+* push confirm  
+* digout  
+* disrupt  
+* challenge removal
+
+### **Notes**
+
+This route group is player-facing game control. It is not admin control. It exists to let a verified user perform actions that affect:
+
+* their own balance  
+* their own challenge actions  
+* the shared challenge system
+
+### **Important distinction**
+
+User routes are not just generic “control” routes. They are the normal gameplay action layer for players.
+
+### **Examples**
+
+* A player submits a challenge  
+* A player pushes a challenge  
+* A player revives an archived challenge  
+* A player removes their own challenge under allowed rules
+
+---
+
+## **GAME MASTER / PRIVILEGED CONTROL API**
+### **Endpoints**
+
+* `/api/v1/gamemaster/*`
+
+### **Role**
+
+These endpoints handle privileged control over the game state. This includes:
+
+* executing a challenge manually  
+* forcing a challenge status  
+* other low-level control actions reserved for privileged roles
+
+### **Notes**
+
+This route group is different from normal player actions. It is used for:
+
+* the streamer  
+* future moderators or privileged operators  
+* special roles that need deeper control over the system
+
+### **Important distinction**
+
+* **User routes** \= normal player actions  
+* **GM routes** \= privileged control over the system itself
+
+---
+
+## **STREAM API**
+
+### **Endpoints**
+
+* `/api/v1/stream/live`  
+* `/api/v1/stream/offline`  
+* `/api/v1/stream/stats`
+
+### **Role**
+
+These endpoints handle stream state changes and stream status retrieval. They are used for:
+
+* detecting when the stream goes live  
+* detecting when the stream goes offline  
+* providing current stream status to the website
+
+### **Notes**
+
+* `/api/v1/stream/live` processes the live event  
+* `/api/v1/stream/offline` processes the offline event  
+* `/api/v1/stream/stats` returns current stream status and global stream stats
+
+---
+
+## **REFERENCE / SUBMISSION UX API**
+### **Endpoints**
+
+* `/api/v1/references/title`
+
+### **Role**
+
+This endpoint improves the challenge submission experience. It is used to fetch the title of a reference URL when the user pastes a link into the submit form.
+
+### **Notes**
+
+The goal is to reduce friction during challenge submission. Instead of asking the user to manually fill every reference title, the system tries to resolve it automatically. Supported sources currently include:
+
+* YouTube  
+* Vimeo  
+* SoundCloud  
+* Spotify  
+* Wikipedia  
+* generic public pages
+
+### **Core principle**
+
+This route is not part of the game logic itself. It is a submission UX helper.
+
+---
+
+## **ADMIN / SYSTEM MONITORING API**
+
+### **Endpoints**
+
+* `/api/v1/admin/pulse`
+
+### **Role**
+
+This endpoint is used for internal system monitoring. It provides a quick overview of:
+
+* system health  
+* database / Redis availability  
+* global economy totals  
+* maintenance state  
+* global counters
+
+### **Notes**
+
+This route is protected by an admin secret. It is not a public product endpoint. It exists to monitor the operational state of the system, not to support player-facing gameplay.
+
+---
+
+## **CLOCK / MAINTENANCE API**
+### **Endpoints**
+
+* `/api/v1/clock/run-daily-maintenance`
+
+### **Role**
+
+This endpoint is used to trigger daily maintenance safely. It handles recurring system maintenance tasks that should not be run manually without authorization.
+
+### **Notes**
+
+This route is protected by a cron secret. It is an internal operational endpoint. It belongs to the maintenance layer, not the gameplay layer.
+
+Daily maintenance is tied to the system’s UTC-based daily reset logic and should execute in alignment with that schedule.
+
+---
+
+## **CORE SEPARATION**
+
+The API follows a strict separation of responsibilities.
+
+* **Public API**: Read-only challenge data  
+* **Command API:** external user command ingress, identity resolution, and routing into the backend command-processing layer.  
+* **Token / Access API**: Identity verification and access control for protected web tools  
+* **User Action API**: Normal player actions that affect gameplay  
+* **Game Master / Privileged Control API**: Privileged control over the game state  
+* **Stream API**: Live / offline events and stream status  
+* **Reference / Submission UX API**: Submission quality-of-life helpers  
+* **Admin / System Monitoring API**: System health and economy monitoring  
+* **Clock / Maintenance API**: Protected maintenance execution
+
+---
+
+## **WHY THIS MATTERS**
+
+This separation keeps the product easier to understand, safer to maintain, and easier to scale. It also makes the boundary very clear between:
+
+* public browsing  
+* player actions  
+* privileged control  
+* stream state  
+* maintenance  
+* internal monitoring.
+
+===== FILE: dmg-doc/technical-implementation/00-technical-implementation.md =====
+
+# Technical Implementation
+This section documents how the architecture and features are implemented in code and infrastructure.
+
+## Notes
+- api endpoint summary
+- backend logic
+- codebase structure reference
+- database
+- integrations
+- streaming production setup
+- transaction handling
+
