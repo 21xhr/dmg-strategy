@@ -11,7 +11,7 @@ That operating model is:
 
 The roadmap remains useful as a record of the package-seam decisions, migration order, and completion thresholds that shaped that move.
 
-See the [roadmap index](../roadmap.md) for the active roadmap list.
+See the [roadmap index](../../roadmap.md) for the active roadmap list.
 
 Shareable documentation placement and repo-governance rules are defined in `/Users/mac/dmg-workspace/apps/docs/system-architecture/documentation-system.md`.
 

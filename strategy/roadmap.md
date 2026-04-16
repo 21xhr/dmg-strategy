@@ -86,6 +86,11 @@ Status:
 - completed enough to stop treating it as an active roadmap
 - keep the migration notes only as historical record and for narrow residual cleanup
 
+Archived records:
+
+- `strategy/roadmaps/archive/2026-04-16-monorepo-migration-roadmap.md`
+- `strategy/roadmaps/archive/2026-04-16-monorepo-phase-one-bootstrap-checklist.md`
+
 Completed outcome:
 
 - `dmg-workspace` is now the active engineering workspace
@@ -188,7 +193,7 @@ Outputs to produce next:
 - route and surface inventory
 - settings and operator UX roadmap
 
-### 7. Runtime notifications
+### 6. Runtime notifications
 
 Goal:
 

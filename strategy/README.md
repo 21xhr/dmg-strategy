@@ -2,6 +2,12 @@
 
 This directory holds the durable product-direction and planning notes for DMG.
 
+This index is selective rather than exhaustive.
+
+List stable lanes and anchor notes here, not every single file.
+
+Add more detail only when a directory becomes hard to navigate or a specific note becomes a recurring entry point.
+
 ## Notes
 
 - backlog

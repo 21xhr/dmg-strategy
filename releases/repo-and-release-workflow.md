@@ -193,6 +193,8 @@ Only move material into `dmg-workspace/apps/docs` after it has been rewritten as
 
 Once a change clearly belongs in `dmg-workspace`, run the review-target assembler before merge, tag, or baseline work when the change could affect more than one durable doc.
 
+Treat that as part of the standard release-quality check for shareable documentation, not as an optional reminder.
+
 Use:
 
 - `pnpm docs:review-targets -- --event <event-type> --path <touched-path>`
