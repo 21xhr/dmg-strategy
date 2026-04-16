@@ -37,11 +37,6 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 - shared API contract work is now tracked in `strategy/roadmaps/shared-api-contract-roadmap.md`
 - TODO: contractize one next admin or operator action surface after the current `/admin/pulse` and public-app-config editor seams
 
-### Monorepo migration
-
-- monorepo migration work is now tracked in `strategy/roadmaps/monorepo-migration-roadmap.md`
-- TODO: align the local workspace rename with the public GitHub repository rename once remote repo settings are updated
-
 ### Configuration governance
 
 - formalize config governance tiers so public runtime config, operator-editable tenant policy, owner-only sensitive settings, and internal bootstrap or support controls do not remain mixed in one surface

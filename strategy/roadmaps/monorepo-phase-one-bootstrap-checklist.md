@@ -6,6 +6,11 @@ This checklist turns the first monorepo migration pass into a mechanical sequenc
 
 Use it alongside `strategy/roadmaps/monorepo-migration-roadmap.md`.
 
+Status:
+
+- completed as the first migration pass
+- keep this checklist as historical reference for the order that was used, not as an active to-do list
+
 ## Bootstrap order
 
 1. Create the root workspace shell.

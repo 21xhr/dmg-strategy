@@ -4,9 +4,11 @@
 
 This note captures a planning model for how documentation updates could scale across DMG work.
 
-It is not current product architecture.
+The shareable standing-rule implementation now lives in `/Users/mac/dmg-workspace/apps/docs/system-architecture/documentation-update-dependency-model.md` and `/Users/mac/dmg-workspace/apps/docs/system-architecture/documentation-update-manifest.json`.
 
-It is a private planning note that can later inform shareable documentation rules, operator workflows, or tenant-facing structuring tools if those ideas become concrete.
+This note is not the source of truth for shareable product architecture.
+
+It remains a private planning note for private-first boundary decisions, cross-repo implications, operator workflows, and tenant-facing structuring ideas that are not yet rewritten into shareable current-state or standing-rule docs.
 
 ## Core idea
 
@@ -64,7 +66,13 @@ That is a later product or operations question, not current shareable architectu
 
 ## Working rule
 
-Keep this note in private planning until it becomes concrete enough to translate into:
+Keep this note in private planning for planning-only extensions that do not yet belong in the shareable docs app.
+
+If the boundary is unclear, default to keeping the material here until the shareable/private split is explicit.
+
+Promote concrete shareable rules into the docs app instead of duplicating them here.
+
+Use this note only when the material still needs to translate into:
 
 - a shareable current-state documentation rule
 - a roadmap with implementation scope

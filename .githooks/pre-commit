@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+
+repo_root=$(git rev-parse --show-toplevel)
+
+if [ "${DOC_CHAT_OK:-}" = "1" ]; then
+  exit 0
+fi
+
+"$repo_root/scripts/check-doc-chat-phrasing.sh"

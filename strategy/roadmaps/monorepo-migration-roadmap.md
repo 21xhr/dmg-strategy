@@ -2,7 +2,14 @@
 
 ## Purpose
 
-This roadmap defines when and how DMG should consolidate its multi-repo layout into one monorepo without interrupting the current implementation cadence.
+This roadmap now serves as the completion record for the DMG move out of the legacy multi-repo layout and into the current operating model.
+
+That operating model is:
+
+- one active engineering workspace in `/Users/mac/dmg-workspace`
+- one private planning workspace in `/Users/mac/dmg-strategy`
+
+The roadmap remains useful as a record of the package-seam decisions, migration order, and completion thresholds that shaped that move.
 
 See the [roadmap index](../roadmap.md) for the active roadmap list.
 
@@ -103,24 +110,30 @@ Recommended timing:
 
 In practice, that means the monorepo migration should begin before the entire shared API contract roadmap is complete, but after the current contract system has proved its real package seams.
 
-## Current recommendation
+## Current status
 
 For DMG as it exists now:
 
-- treat the explorer challenge read family as the first completed frontend-consumed challenge read seam
-- use that seam to close Phase 1 decisions instead of waiting for every remaining contract slice
-- do not treat current cross-repo friction as acceptable long-term operating cost
-- prepare the monorepo migration next, rather than leaving it as a distant future idea
+- the explorer challenge read family was enough to close the Phase 1 package-seam decision
+- cross-repo friction is no longer the primary operating model for active engineering work
+- the migration should now be treated as completed groundwork rather than an active execution track
 
-The migration is now strategically relevant because code is already changing in coordinated slices across `dmg-api`, `dmg-webapp`, and `dmg-doc`.
+The migration is no longer just strategically relevant.
 
-The first mechanical move and first shared-package extraction now exist in the shell:
+It has already been executed where it mattered operationally.
+
+The first mechanical move and first shared-package extraction now exist in the workspace:
 
 - the current API repo is mirrored under `apps/api` with its current build, test, and contract-export flow preserved
 - the current web repo is mirrored under `apps/web` with generated browser contracts still emitted under `js/generated`
 - the future shared docs app under `apps/docs` contains only team-shareable product and engineering material, while strategy and other confidential notes remain outside the shell
 - `packages/contracts` now contains the backend-owned contract modules and is imported by `apps/api` as a real workspace package
 - `packages/tooling` now contains the workspace-level browser-contract export script instead of leaving that codegen path inside `apps/api`
+
+The repo-boundary cleanup around that move is also now done:
+
+- `dmg-workspace` and `dmg-strategy` are the active repos
+- legacy repos are archived historical references rather than part of the active delivery path
 
 ## Phase 1 decision outcome
 
@@ -133,6 +146,8 @@ The current package-seam decisions are now concrete enough to record:
 - initial tooling ownership rule: the contract-export script and related validation helpers are the first tooling candidates to relocate into `packages/tooling`
 
 This is enough to begin workspace-shell preparation without pretending that every later shared package boundary is already mature.
+
+It is also enough to stop treating the migration as one of the main active roadmap tracks.
 
 ## Phase 2 bootstrap contents
 
@@ -258,6 +273,12 @@ Targets:
 - stale generated artifact detection at workspace level
 - one review surface for contract source, generated artifacts, and consumer updates
 - deploy pipelines that can still target `api`, `web`, and `docs` independently
+
+Status:
+
+- partial as migration-specific work
+- the workspace now has one local task graph through `pnpm` plus Turborepo, which was the important migration threshold
+- further CI hardening should now be treated as ordinary workspace/platform evolution rather than as a blocker keeping monorepo migration active
 
 ## Phase 6 - Reduce transitional duplication
 

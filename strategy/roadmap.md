@@ -15,7 +15,7 @@ It exists to separate:
 
 Shareable documentation placement and instruction-boundary rules are defined in `/Users/mac/dmg-workspace/apps/docs/system-architecture/documentation-system.md`.
 
-This file is the roadmap index. When a new dedicated roadmap is created under `dmg-doc/strategy/roadmaps/`, add it here.
+This file is the roadmap index. When a new dedicated roadmap is created under `strategy/roadmaps/`, add it here.
 
 ## Completed groundwork
 
@@ -74,6 +74,25 @@ Current extracted fundraising notes:
 - `fundraising/briefs/audience-pitch-notes.md`
 - `fundraising/plans/market-feedback-and-loi-plan.md`
 
+### Monorepo migration
+
+Goal:
+
+- complete the split from the legacy multi-repo layout into one active engineering workspace plus one private planning workspace
+- keep package seams, docs boundaries, and release workflow notes aligned with the new operating model
+
+Status:
+
+- completed enough to stop treating it as an active roadmap
+- keep the migration notes only as historical record and for narrow residual cleanup
+
+Completed outcome:
+
+- `dmg-workspace` is now the active engineering workspace
+- `dmg-strategy` is now the active private planning workspace
+- legacy repos were archived and the public rename cleanup is no longer an open planning item
+- the first workspace shell, app moves, and initial `contracts` plus `tooling` package seams are in place
+
 ## Active roadmap
 
 ### 1. SaaS-readiness foundation
@@ -93,6 +112,12 @@ Scope note:
 
 - keep tenant settings and config migration work in these roadmap files
 - do not fold separate economy-ledger migration work into the config-to-database roadmap once it has its own dedicated track
+
+Current next slice:
+
+- finish the remaining tenant-runtime hardening that still leaks bootstrap-era deployment assumptions
+- prefer tenant-aware or request-host-aware frontend runtime resolution over stale legacy hosted defaults
+- keep the slice small enough to preserve current operator flows while removing old deployment coupling
 
 ### 2. Economy and ledger redesign
 
@@ -149,34 +174,7 @@ Recommended scope boundary:
 - finish the boundary cleanup needed to keep the command core provider-agnostic
 - do not treat second-provider support or full provider management as a prerequisite to tenant and config migration
 
-### 5. Monorepo migration
-
-Goal:
-
-- consolidate the codebase into one workspace once the shared package seams are clear enough to deserve first-class ownership
-- keep independent deployment boundaries while removing cross-repo coordination friction
-- make contracts, tooling, and future shared packages evolve inside one review and CI graph
-
-Status:
-
-- started
-- now strategically relevant because product slices already land across backend, webapp, and docs together
-- phase-one trigger is now materially stronger because the first frontend-consumed challenge read family is contractized in addition to the earlier token and mutation slices
-- a first workspace-shell bootstrap now exists with `pnpm` workspaces, Turborepo, placeholder app boundaries, and the initial `contracts` plus `tooling` package seams
-- the first mechanical app move is now in place under `apps/api`, `apps/web`, and a confidentiality-filtered `apps/docs`
-- the first real extracted shared package is now `packages/contracts`, and the moved API imports it directly
-- `packages/tooling` now owns the browser-contract export script in the workspace instead of leaving that codegen path inside `apps/api`
-- should begin before the full shared-contract roadmap is complete, but not before the first shared package seams are stable enough to avoid cargo-cult package extraction
-
-Primary roadmap file:
-
-- `strategy/roadmaps/monorepo-migration-roadmap.md`
-
-Supporting checklist:
-
-- `strategy/roadmaps/monorepo-phase-one-bootstrap-checklist.md`
-
-### 6. Frontend productization
+### 5. Frontend productization
 
 Goal:
 
@@ -210,11 +208,12 @@ Latest completed slice:
 
 Next execution order:
 
-1. keep the shared API contract track close behind active backend route changes so frontend payload drift stops accumulating while the tenant model is still moving
+1. finish the remaining SaaS-readiness hardening slices that still depend on bootstrap-era tenant or deployment assumptions
 2. continue the remaining economy-ledger migration slices instead of reopening schema design that already exists in code
-3. finish the ingress boundary cleanup needed to keep provider logic out of the command core
-4. continue frontend component and surface cleanup against the roadmap rather than ad hoc
-5. shape runtime notifications as a dedicated transport layer instead of leaving challenge-event delivery at the current log-only subscriber layer
+3. keep the shared API contract track close behind active backend route changes so frontend payload drift stops accumulating while the tenant model is still moving
+4. finish the ingress boundary cleanup needed to keep provider logic out of the command core
+5. continue frontend component and surface cleanup against the roadmap rather than ad hoc
+6. shape runtime notifications as a dedicated transport layer instead of leaving challenge-event delivery at the current log-only subscriber layer
 
 Execution rule:
 

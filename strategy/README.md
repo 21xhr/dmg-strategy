@@ -1,7 +1,9 @@
 # Strategy
-This section captures high-level direction and planning for product evolution.
+
+This directory holds the durable product-direction and planning notes for DMG.
 
 ## Notes
+
 - backlog
 - roadmap
 - market analysis

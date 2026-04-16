@@ -21,8 +21,6 @@ So `releases/` is a better home than `fundraising/`.
   Active shareable engineering workspace. It contains the monorepo apps, packages, hooks, and shareable docs app.
 - `dmg-strategy`
   Private planning workspace. It contains strategy, fundraising, network notes, release workflow notes, and baseline manifests.
-- `dmg-doc-legacy`
-  Archive only. Keep it for historical reference, not for new work.
 
 Do not create a new repo for every new idea or vertical.
 Keep one active engineering repo and one private planning repo unless the product genuinely diverges into a separate codebase.
@@ -45,7 +43,7 @@ It is a known git revision that you can always return to.
 
 ### Step A - Make a clean commit
 
-In each active repo, commit the exact state you want to preserve.
+In each repo that matters for the baseline, commit the exact state you want to preserve.
 
 ### Step B - Create an annotated tag
 
@@ -53,11 +51,9 @@ An annotated tag is a named marker attached to a commit.
 
 ### Step C - Record the SHAs in a manifest
 
-Because DMG now spans two active repos, create a manifest in `releases/demo-baselines/` that records the exact commit SHA of each repo for that baseline.
+Create a manifest in `releases/demo-baselines/` that records the exact commit SHA of each repo included in that baseline.
 
 That file becomes your cross-repo reference point.
-
-If the baseline is intentionally historical and predates the monorepo split, say that explicitly in the manifest and keep the old repo SHAs there.
 
 ## 4. What a branch is
 
@@ -186,6 +182,24 @@ That separation makes it easier to extract:
 - what exists now
 - what is next
 - what is still exploratory
+
+### Documentation review rule across repos
+
+Set the repo boundary first.
+
+If a note is still strategic, exploratory, migration-sequencing-heavy, or unclear in scope, keep it in `dmg-strategy`.
+
+Only move material into `dmg-workspace/apps/docs` after it has been rewritten as current-state or standing-rule documentation.
+
+Once a change clearly belongs in `dmg-workspace`, run the review-target assembler before merge, tag, or baseline work when the change could affect more than one durable doc.
+
+Use:
+
+- `pnpm docs:review-targets -- --event <event-type> --path <touched-path>`
+
+Treat the command as a normal review aid.
+
+It does not decide whether docs must change, but it should be part of the standard check for shareable doc-impacting work.
 
 ## 9. What to show investors
 
