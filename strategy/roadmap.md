@@ -217,6 +217,16 @@ Primary roadmap file:
 
 - `strategy/roadmaps/runtime-notification-roadmap.md`
 
+### 7. Team onboarding and environment preparation
+
+Goal:
+
+- close the operational gaps that still rely on builder memory or direct handoff before a broader team starts using the current workspace
+
+Primary checklist file:
+
+- `strategy/roadmaps/team-onboarding-and-environment-preparation-checklist.md`
+
 ## Suggested near-term execution order
 
 Latest completed slice:
