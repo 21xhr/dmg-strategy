@@ -17,6 +17,16 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 
 This file is the roadmap index. When a new dedicated roadmap is created under `strategy/roadmaps/`, add it here.
 
+## Roadmap writing rule
+
+Write active roadmap files with enough signal that archive decisions do not depend on memory.
+
+Each active roadmap should include:
+
+- a current status snapshot
+- explicit completion criteria or exit conditions
+- concrete checkpoint signals or key metrics that make “mostly done” legible before archival review
+
 ## Completed groundwork
 
 ### Documentation cleanup before more code
@@ -112,11 +122,13 @@ Primary roadmap files:
 
 - `strategy/roadmaps/config-to-database-roadmap.md`
 - `strategy/roadmaps/config-to-database-schema-roadmap.md`
+- `strategy/roadmaps/drift-reduction-roadmap.md`
 
 Scope note:
 
 - keep tenant settings and config migration work in these roadmap files
 - do not fold separate economy-ledger migration work into the config-to-database roadmap once it has its own dedicated track
+- keep cross-cutting drift reduction visible as its own active roadmap so runtime default cleanup, bootstrap fallback cleanup, and scheduler hardening do not get lost inside larger migration tracks
 
 Current next slice:
 

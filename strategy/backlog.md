@@ -48,7 +48,6 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 - continue moving scattered fallback defaults into dedicated config modules or tenant-backed records so `tenantSettingsService.ts` stays an assembly layer rather than a long-term home for business-rule literals
 - define the expected development, staging, and production secret tiers for database and infrastructure credentials before repository handoff to a broader engineering team
 - decide whether automatic challenge lifecycle scheduling stays an always-on server capability or becomes tenant-scoped, feature-gated, or operator-configurable in the SaaS model
-- use `analysis/workspace-drift-prone-code-audit-2026-04-17.md` as the source note for the next consolidation pass on runtime defaults, bootstrap fallbacks, and scheduler behavior
 
 ### Identity and access
 

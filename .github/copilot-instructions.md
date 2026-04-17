@@ -17,6 +17,7 @@ This is the private planning workspace.
 - Before landing strategy or architecture-impacting material, check `strategy/backlog.md` and any relevant `strategy/roadmaps/` note so new work stays aligned with the tracked plan.
 - Preserve clean documentation tone. Avoid rhetorical questions, filler bridges, and wording that reads like inline chat.
 - Before creating a new note, check whether the content belongs in an existing source note or should be a short derivative that links back to one.
+- When creating or reshaping a roadmap, include a status snapshot and explicit completion criteria or checkpoint signals so archival decisions do not rely on memory or gut feel.
 - When a roadmap's own completion criteria or status markers indicate that the track is mostly finished, ask whether it should be archived instead of leaving it in the active roadmap lane.
 
 ## Repo boundary
