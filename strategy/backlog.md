@@ -21,6 +21,11 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 
 - runtime notification transport is now tracked in `strategy/roadmaps/runtime-notification-roadmap.md`
 
+### Documentation tooling
+
+- decide whether `apps/docs` stays a content-only package or gets a real preview, build, lint, and validation toolchain, then remove the current no-op package-script placeholders once that operating model is chosen
+- define the documentation linting or prose-validation boundary for the workspace so shareable docs style checks do not rely only on manual review
+
 ### Naming and scope cleanup
 
 - run a multi-repo naming pass across docs, backend, and frontend so tenant scope, session scope, maintenance state, and provider boundaries are explicit instead of implied
@@ -41,6 +46,9 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 
 - formalize config governance tiers so public runtime config, operator-editable tenant policy, owner-only sensitive settings, and internal bootstrap or support controls do not remain mixed in one surface
 - continue moving scattered fallback defaults into dedicated config modules or tenant-backed records so `tenantSettingsService.ts` stays an assembly layer rather than a long-term home for business-rule literals
+- define the expected development, staging, and production secret tiers for database and infrastructure credentials before repository handoff to a broader engineering team
+- decide whether automatic challenge lifecycle scheduling stays an always-on server capability or becomes tenant-scoped, feature-gated, or operator-configurable in the SaaS model
+- use `analysis/workspace-drift-prone-code-audit-2026-04-17.md` as the source note for the next consolidation pass on runtime defaults, bootstrap fallbacks, and scheduler behavior
 
 ### Identity and access
 
