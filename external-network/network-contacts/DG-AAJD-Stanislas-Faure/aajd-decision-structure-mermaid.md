@@ -2,14 +2,21 @@
 
 ```mermaid
 flowchart TD
-    A[Orientations des politiques publiques<br/>appels a projet<br/>mission et valeurs associatives] --> B[Evaluation strategique du projet]
+    A[Orientations des politiques publiques<br/>appels a projet<br/>mission et valeurs associatives] --> B[Evaluation strategique]
     B --> C[Calibrage technique et economique<br/>budget<br/>adequation RH<br/>ressources disponibles]
-    C --> D[Verification operationnelle<br/>disponibilite des equipes<br/>charge de mise en oeuvre<br/>adequation au besoin]
-    D --> E[Arbitrage interne par la DG AAJD<br/>et les fonctions support]
-    E --> F[Consultations ou validations selon les cas<br/>gouvernance<br/>representation du personnel<br/>financeurs externes]
-    F --> G[Mise en oeuvre]
+    B --> D[Verification operationnelle<br/>disponibilite des equipes<br/>charge de mise en oeuvre<br/>adequation au besoin]
+    C --> E[Arbitrage interne<br/>DG et fonctions support]
+    D --> E
 
-    H[Realite de terrain et retours des equipes] --> I[Informations de terrain mieux formulees<br/>et plus fiables pour la decision]
+    H[Realite de terrain<br/>retours d'equipes<br/>GEPP] --> I[Elements repris<br/>structures et clarifies]
     I --> D
     I --> E
+
+    J[AGEVAL<br/>tracabilite<br/>suivi des objectifs] --> I
+    K[SDI<br/>organisation des priorités et objectifs] --> E
+
+    E --> L{Selon le sujet<br/>et le niveau d'engagement}
+    L --> M[Mise en oeuvre]
+    L --> N[Consultations ou validations complementaires<br/>gouvernance<br/>CSE<br/>financeurs externes]
+    N --> M
 ```

@@ -114,8 +114,10 @@ The same pattern may later be worth testing in financially healthy organizations
 ### Language corrections worth keeping
 
 - `pertinence` sounded elitist in this context
-- `reliability` is stronger than `relevance` for describing better input quality in the English-language notes derived from this call
+- use `reliability` rather than `relevance` in English-language notes derived from this call
 - `clear framing of the issue being brought for decision` is a stronger formulation for this context
+- in French follow-up material, prefer concrete wording about several decision levels and field signal that is clear and reliable enough to reach decision over abstract expressions such as `centre d'arbitrage` or `remontee horizontale`
+- avoid wording that implies AAJD first has a broken upward flow; Stan described a functioning collegial system and emphasized `fiabilite` as signal quality once it is structured, coordinated, and clear enough to reach decision
 
 The useful framing is not that some people are relevant and others are noise.
 
@@ -137,7 +139,7 @@ He reacted negatively to the idea of being dependent on AI analysis for the deci
 
 That distinction should stay explicit in future presentations.
 
-The call reinforced a broader product boundary now captured in `dmg-doc/strategy/decision-support-boundaries.md`: structuring inputs, synthesizing them, recommending actions, and holding final decision authority are separate layers.
+The call reinforced a broader product boundary now captured in `strategy/decision-support-boundaries.md`: structuring inputs, synthesizing them, recommending actions, and holding final decision authority are separate layers.
 
 DMG becomes easier to position in this environment when it is framed first as governance infrastructure for clearer field inputs and explicit decision boundaries, not as a machine that replaces decision-makers.
 
