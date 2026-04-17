@@ -33,8 +33,10 @@ Completion signal:
 
 - [ ] keep `.env.example` current for local development without adding real secrets
 - [ ] define which variables are required for development, staging, and production
+- [ ] require distinct `JWT_SECRET` values for development, staging, and production rather than reusing one secret across environments
 - [ ] decide the secrets distribution model across local work, CI, and deployment surfaces
 - [ ] decide whether the current manual `.env` distribution posture is sufficient or whether a secrets tool such as Infisical or Doppler is justified
+- [ ] decide whether any team-shared staging env file is only a short transitional bootstrap or an accepted operating model, and replace it once broader onboarding or CI access makes that posture too loose
 - [ ] document who owns secret rotation when a credential leak or offboarding event happens
 
 ## 3. Environment separation
@@ -62,6 +64,8 @@ Completion signal:
 
 - Supabase project access is primarily project-scoped and does not by itself provide fine-grained schema or table permissions without additional SQL or policy work
 - if staging is created from production-derived data, masking and data minimization should be treated as a prerequisite rather than a cleanup step
+- a team-shared staging env file can be a temporary transition tool while the team is still tiny, but it should not become the long-term substitute for per-environment secret ownership and rotation
+- `JWT_SECRET` should be treated as an environment-specific secret with separate values and rotation paths for development, staging, and production
 - the current workspace is closer to a hardened solo-to-team transition baseline than to a finished team onboarding system
 
 ## References
