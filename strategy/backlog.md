@@ -45,9 +45,15 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 ### Configuration governance
 
 - formalize config governance tiers so public runtime config, operator-editable tenant policy, owner-only sensitive settings, and internal bootstrap or support controls do not remain mixed in one surface
+- define which challenge and player actions stay globally available and which ones become tenant-scoped or feature-gated so livestream use and in-app use can diverge cleanly per tenant
+- decide whether operator execution routes need request throttling or duplicate-action guards beyond session authentication, especially for `EXECUTE CHALLENGE` and other destructive controls
 - continue moving scattered fallback defaults into dedicated config modules or tenant-backed records so `tenantSettingsService.ts` stays an assembly layer rather than a long-term home for business-rule literals
 - define the expected development, staging, and production secret tiers for database and infrastructure credentials before repository handoff to a broader engineering team
 - decide whether automatic challenge lifecycle scheduling stays an always-on server capability or becomes tenant-scoped, feature-gated, or operator-configurable in the SaaS model
+
+### Admin surface polish
+
+- add concise tooltips or helper copy for operator-editable public runtime fields when the labels alone are not enough to explain launch-time defaults or tenant scope
 
 ### Identity and access
 
