@@ -131,7 +131,7 @@ Scope note:
 
 Current next slice:
 
-- add the interrupted-session warning path for operator execution so stopped-but-unfinished challenges are clearly distinguished, then continue with the next admin or operator action surface unless a higher-priority docs cleanup slice blocks it
+- add duplicate-action or throttle safeguards for operator challenge controls, starting with repeated execute requests, now that interrupted-session warnings distinguish a normal challenge handoff from a stopped run with unfinished sessions remaining
 - keep tenant-runtime hardening attached to the specific settings or contract slice it blocks rather than reopening a separate cleanup roadmap
 
 Archived record:
