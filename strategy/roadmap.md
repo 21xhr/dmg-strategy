@@ -131,7 +131,7 @@ Scope note:
 
 Current next slice:
 
-- continue contractizing the remaining admin and operator action surfaces that still rely on handwritten browser-side payload assumptions
+- continue contractizing the remaining admin and operator action surfaces that still rely on handwritten browser-side payload assumptions, with the next likely candidate being one dedicated disrupt or other privileged action surface
 - keep tenant-runtime hardening attached to the specific settings or contract slice it blocks rather than reopening a separate cleanup roadmap
 
 Archived record:
