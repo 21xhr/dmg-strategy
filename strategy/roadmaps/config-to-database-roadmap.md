@@ -84,10 +84,30 @@ The clearest reading order is therefore:
 
 ### Remaining major migration work
 
-- remove remaining deploy bootstrap URL defaults once tenant/domain-aware runtime resolution is authoritative
-- replace the minimal JSON-backed operator editor with a more structured settings surface once the field set stabilizes
+- immediate next slice: finish operator-control safeguard hardening for repeated status changes and other destructive admin or operator actions that can still be replayed too easily from the current surfaces
 - continue replacing default-tenant assumptions with explicit tenant-context resolution where routes and background workflows still rely on one ambient tenant
 - decide which remaining operator-private settings belong in tenant-backed policy versus internal bootstrap or support configuration
+- remove remaining deploy bootstrap URL defaults once tenant/domain-aware runtime resolution is authoritative
+- replace the minimal JSON-backed operator editor with a more structured settings surface once the field set stabilizes
+
+#### Immediate next slice checklist
+
+- add or document explicit replay policy for repeated status-change requests instead of relying on browser behavior or session presence alone
+- apply the same duplicate, replay, or idempotency rule to the other destructive operator controls that can still be retried too easily from the current admin surfaces
+- capture any remaining exceptions as narrower follow-up items tied to a specific route, policy surface, or tenant-context dependency rather than keeping one broad safeguard placeholder alive
+
+Checkpoint signals for closing the immediate next slice:
+
+- repeated destructive actions have a documented server-side policy instead of only a UI-level expectation
+- operator safeguard follow-up work is narrow enough to live under specific settings, policy, or route slices
+- this roadmap can move back to tenant-context resolution and config-governance cleanup as the main remaining dependency work
+
+#### Ordered follow-up after the immediate slice
+
+1. continue explicit tenant-context resolution where active routes and background workflows still assume one ambient tenant
+2. separate tenant-backed operator policy from internal bootstrap or support-only settings so the config surface stops mixing authority tiers
+3. remove remaining deploy bootstrap URL defaults once tenant or domain-aware resolution is authoritative
+4. replace the minimal JSON-backed operator editor with a structured settings surface once the field set is stable enough to avoid churn
 
 ### Boundary with the economy roadmap
 
@@ -111,6 +131,7 @@ Execution rule:
 
 - keep the remaining config-to-database follow-up work in this roadmap rather than folding it into economy migration
 - treat explicit tenant-context resolution as the main shared dependency boundary with other active tracks
+- finish the immediate safeguard slice before treating the rest of the remaining work as a loose parallel cleanup lane
 
 ### Final hardening and launch cleanup
 
