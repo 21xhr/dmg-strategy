@@ -122,19 +122,21 @@ Primary roadmap files:
 
 - `strategy/roadmaps/config-to-database-roadmap.md`
 - `strategy/roadmaps/config-to-database-schema-roadmap.md`
-- `strategy/roadmaps/drift-reduction-roadmap.md`
 
 Scope note:
 
 - keep tenant settings and config migration work in these roadmap files
 - do not fold separate economy-ledger migration work into the config-to-database roadmap once it has its own dedicated track
-- keep cross-cutting drift reduction visible as its own active roadmap so runtime default cleanup, bootstrap fallback cleanup, and scheduler hardening do not get lost inside larger migration tracks
+- keep any remaining drift-like cleanup attached to the concrete roadmap it affects instead of reopening a separate broad cleanup track by default
 
 Current next slice:
 
-- finish the remaining tenant-runtime hardening that still leaks bootstrap-era deployment assumptions
-- prefer tenant-aware or request-host-aware frontend runtime resolution over stale legacy hosted defaults
-- keep the slice small enough to preserve current operator flows while removing old deployment coupling
+- continue contractizing the remaining admin and operator action surfaces that still rely on handwritten browser-side payload assumptions
+- keep tenant-runtime hardening attached to the specific settings or contract slice it blocks rather than reopening a separate cleanup roadmap
+
+Archived record:
+
+- `strategy/roadmaps/archive/2026-04-18-drift-reduction-roadmap.md`
 
 ### 2. Economy and ledger redesign
 

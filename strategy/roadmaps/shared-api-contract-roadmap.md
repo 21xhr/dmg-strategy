@@ -46,6 +46,7 @@ What exists now is:
 
 - one backend-owned contract module for `POST /token/verify-challengesubmitform`
 - one backend-owned contract module for `GET /references/app-config`
+- one backend-owned contract module for `POST /admin/session` and `GET /admin/session`
 - one backend-owned contract module for `GET /admin/pulse`
 - one backend-owned contract module for `GET /operator/public-app-config` and `PUT /operator/public-app-config`
 - one backend-owned contract module for `GET /stream/stats`
@@ -56,7 +57,7 @@ What exists now is:
 - one backend-owned contract module for `POST /user/push/quote` and `POST /user/push/confirm`
 - one backend-owned contract module for `POST /user/digout` and `POST /user/challenge/remove`
 - one export step that publishes generated browser contract artifacts into `dmg-webapp/js/generated/`
-- frontend runtime guards in the challenge-submit form, app-config bootstrap loader, admin dashboard pulse loader, admin public-app-config editor flow, shared stream-status helper, explorer verification flow, explorer access-grant flow, explorer challenge list polling flow, and public challenge detail page that consume those generated artifacts instead of trusting untyped payloads
+- frontend runtime guards in the challenge-submit form, app-config bootstrap loader, admin session restore and login flow, admin dashboard pulse loader, admin public-app-config editor flow, shared stream-status helper, explorer verification flow, explorer access-grant flow, explorer challenge list polling flow, and public challenge detail page that consume those generated artifacts instead of trusting untyped payloads
 - exported push and challenge-lifecycle artifacts now exist, but the current classic-script webapp still has no dedicated browser-side action UI that consumes them directly
 
 The missing pieces are:
@@ -125,7 +126,7 @@ Current thin slices already live:
 
 Next thin slices after that:
 
-- one next admin or operator action surface after the current read and settings-editor seams
+- one next admin or operator action surface after the current admin-session, pulse, and settings-editor seams
 - one disrupt flow if it remains a real product surface rather than a placeholder command
 
 ## Phase 4 - Expand to route families
