@@ -92,13 +92,19 @@ The clearest reading order is therefore:
 
 #### Immediate next slice checklist
 
-- add or document explicit replay policy for repeated status-change requests instead of relying on browser behavior or session presence alone
-- apply the same duplicate, replay, or idempotency rule to the other destructive operator controls that can still be retried too easily from the current admin surfaces
+- map the current admin action forms to their real server endpoints so the safeguard pass is scoped to actual operator mutations, not a hypothetical control list
+- keep `POST /api/v1/operator/challenge/execute` as the reference pattern for server-side protection because it already blocks duplicate execute requests against the currently executing challenge
+- add explicit replay policy for `PUT /api/v1/operator/challenge/:challengeId/status`, which still allows repeated status updates through `setChallengeStatusByAdmin(...)` without a documented idempotency or duplicate-request rule
+- decide whether repeated status requests should be treated as idempotent no-op success, explicit conflict, or a narrower status-transition rule, then enforce that policy in the service layer instead of depending on browser timing
+- confirm that the current admin UI trigger points are the `operator-execute-form` and `operator-status-form`, then keep any UI disable or feedback cleanup secondary to the server-side contract
+- leave `GET /api/v1/admin/pulse`, `GET/POST/DELETE /api/v1/admin/session`, and `GET /api/v1/operator/public-app-config` out of this safeguard slice because they are read or auth flows rather than destructive operator controls
+- treat `PUT /api/v1/operator/public-app-config` as configuration mutation, not part of the destructive-control safeguard slice unless save-conflict handling later proves it needs separate concurrency rules
 - capture any remaining exceptions as narrower follow-up items tied to a specific route, policy surface, or tenant-context dependency rather than keeping one broad safeguard placeholder alive
 
 Checkpoint signals for closing the immediate next slice:
 
 - repeated destructive actions have a documented server-side policy instead of only a UI-level expectation
+- the current operator route inventory clearly distinguishes the already-guarded execute path from the still-open status-update path
 - operator safeguard follow-up work is narrow enough to live under specific settings, policy, or route slices
 - this roadmap can move back to tenant-context resolution and config-governance cleanup as the main remaining dependency work
 
