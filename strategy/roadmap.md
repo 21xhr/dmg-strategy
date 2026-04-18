@@ -108,37 +108,55 @@ Completed outcome:
 - legacy repos were archived and the public rename cleanup is no longer an open planning item
 - the first workspace shell, app moves, and initial `contracts` plus `tooling` package seams are in place
 
-## Active roadmap
+## Active execution sequence
 
-### 1. SaaS-readiness foundation
+This section is ordered for execution, not just for topic grouping.
+
+Use the dedicated roadmap files for detailed implementation notes, but use this index to decide what should happen now, what should start next, and what should stay deliberately later.
+
+### Now
+
+#### 1. SaaS-readiness foundation
 
 Goal:
 
-- make tenant-scoped settings real
-- move hard-coded business rules toward database-backed configuration
-- prepare admin visibility and future operator ownership
+- make tenant-scoped settings and operator policy boundaries explicit enough that later work does not keep inheriting bootstrap-era assumptions
+- finish the remaining hardening work before opening the next architecture-heavy migration slice
 
 Primary roadmap files:
 
 - `strategy/roadmaps/config-to-database-roadmap.md`
 - `strategy/roadmaps/config-to-database-schema-roadmap.md`
 
-Scope note:
+Immediate close-out slice:
 
-- keep tenant settings and config migration work in these roadmap files
-- do not fold separate economy-ledger migration work into the config-to-database roadmap once it has its own dedicated track
-- keep any remaining drift-like cleanup attached to the concrete roadmap it affects instead of reopening a separate broad cleanup track by default
+- finish operator-control safeguard hardening for repeated status changes and other destructive admin or operator actions that can still be replayed too easily from the current surfaces
+- keep tenant-runtime hardening attached to the specific settings or contract slice it blocks rather than reopening a separate broad cleanup lane
 
-Current next slice:
+Checkpoint signals for closing the immediate slice:
 
-- expand operator control safeguards beyond duplicate execute blocking, starting with repeated status-change requests and any other destructive control that can still be replayed too easily from the admin surface
-- keep tenant-runtime hardening attached to the specific settings or contract slice it blocks rather than reopening a separate cleanup roadmap
+- repeated status-change requests are either rejected, made idempotent, or otherwise guarded so one stale browser action cannot replay a destructive state transition
+- destructive operator controls beyond execute have an explicit duplicate or replay policy instead of relying only on session authentication and optimistic browser behavior
+- the active backlog no longer needs a broad “extend operator safeguards” placeholder because the remaining follow-up work is captured as narrower config or policy items
+
+Next slice inside this same track:
+
+- continue the remaining explicit tenant-context hardening where routes, background workflows, or deploy/bootstrap resolution still assume one ambient tenant
+- then decide which remaining settings belong in tenant-backed operator policy versus internal bootstrap or support configuration
+
+Checkpoint signals for moving beyond this track:
+
+- tenant context is explicit wherever active economy or operator flows still depend on it
+- deploy/bootstrap URL defaults are no longer the hidden source of runtime authority where tenant or domain-aware resolution should win
+- the remaining work in this track is mostly structured settings-editor replacement, session-policy cleanup, and later launch hardening rather than foundational tenant-boundary cleanup
 
 Archived record:
 
 - `strategy/roadmaps/archive/2026-04-18-drift-reduction-roadmap.md`
 
-### 2. Economy and ledger redesign
+### Next
+
+#### 2. Economy and ledger redesign
 
 Goal:
 
@@ -150,7 +168,15 @@ Primary roadmap file:
 
 - `strategy/roadmaps/economy-ledger-redesign-roadmap.md`
 
-### 3. Shared API contract
+Why this is next:
+
+- this is the biggest remaining implementation slice, but it should start after the SaaS-readiness track stops leaving tenant and operator-policy ambiguity at the runtime boundary
+
+Checkpoint to start this track cleanly:
+
+- the current SaaS-readiness slice has already removed the main tenant-context ambiguity that would otherwise leak into economy records, pools, and summaries
+
+#### 3. Shared API contract
 
 Goal:
 
@@ -171,7 +197,11 @@ Primary roadmap file:
 
 - `strategy/roadmaps/shared-api-contract-roadmap.md`
 
-### 4. Provider and ingress abstraction
+Execution rule for this track:
+
+- keep this track close behind active backend route changes while the tenant model and operator surfaces are still moving, but do not let it outrank the remaining tenant-boundary work or the core economy migration
+
+#### 4. Provider and ingress abstraction
 
 Goal:
 
@@ -194,7 +224,9 @@ Recommended scope boundary:
 - finish the boundary cleanup needed to keep the command core provider-agnostic
 - do not treat second-provider support or full provider management as a prerequisite to tenant and config migration
 
-### 5. Frontend productization
+### Later
+
+#### 5. Frontend productization
 
 Goal:
 
@@ -202,13 +234,17 @@ Goal:
 - decide which surfaces stay pilot-specific versus reusable
 - make the UI evolve by surface boundaries rather than one-off hacks
 
-Outputs to produce next:
+Outputs to produce when this track becomes active:
 
 - component inventory
 - route and surface inventory
 - settings and operator UX roadmap
 
-### 6. Runtime notifications
+Checkpoint for promotion out of later:
+
+- tenant policy boundaries, economy records, and the highest-risk route contracts are stable enough that frontend cleanup is productizing durable surfaces instead of transitional ones
+
+#### 6. Runtime notifications
 
 Goal:
 
@@ -220,7 +256,11 @@ Primary roadmap file:
 
 - `strategy/roadmaps/runtime-notification-roadmap.md`
 
-### 7. Team onboarding and environment preparation
+Checkpoint for promotion out of later:
+
+- challenge execution state, tenant ownership, and operator-action boundaries are stable enough that the notification transport is being designed around settled runtime events rather than moving targets
+
+#### 7. Team onboarding and environment preparation
 
 Goal:
 
@@ -230,22 +270,17 @@ Primary checklist file:
 
 - `strategy/roadmaps/team-onboarding-and-environment-preparation-checklist.md`
 
-## Suggested near-term execution order
+Checkpoint for promotion out of later:
+
+- the current execution sequence has stopped shifting the basic local-development and operator workflow assumptions underneath new contributors
+
+## Current status snapshot
 
 Latest completed slice:
 
 - explicit tenant-context cleanup now covers challenge mutation flows, challenge removal, auth-driven account creation, stats rendering, token duration caps, daily submission context, maintenance-state reads, and stream helper entrypoints that previously relied on one ambient default tenant
 
-Next execution order:
+Current execution rule:
 
-1. finish the remaining SaaS-readiness hardening slices that still depend on bootstrap-era tenant or deployment assumptions
-2. continue the remaining economy-ledger migration slices instead of reopening schema design that already exists in code
-3. keep the shared API contract track close behind active backend route changes so frontend payload drift stops accumulating while the tenant model is still moving
-4. finish the ingress boundary cleanup needed to keep provider logic out of the command core
-5. continue frontend component and surface cleanup against the roadmap rather than ad hoc
-6. shape runtime notifications as a dedicated transport layer instead of leaving challenge-event delivery at the current log-only subscriber layer
-
-Execution rule:
-
-- finish one active roadmap slice before opening the next implementation-heavy slice when there is a dependency boundary between them
+- finish the active SaaS-readiness close-out slice before opening the next implementation-heavy migration slice that depends on tenant or operator-policy clarity
 - keep separate tracks separate in documentation even when the implementation order is sequential
