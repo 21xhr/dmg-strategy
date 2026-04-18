@@ -58,8 +58,8 @@ What exists now is:
 - one backend-owned contract module for `POST /user/push/quote` and `POST /user/push/confirm`
 - one backend-owned contract module for `POST /user/digout`, `POST /user/disrupt`, and `POST /user/challenge/remove`
 - one export step that publishes generated browser contract artifacts into `dmg-webapp/js/generated/`
-- frontend runtime guards in the challenge-submit form, app-config bootstrap loader, admin session restore and login flow, admin dashboard pulse loader, admin public-app-config editor flow, admin challenge execute and status-update controls, shared stream-status helper, explorer verification flow, explorer access-grant flow, explorer challenge list polling flow, and public challenge detail page that consume those generated artifacts instead of trusting untyped payloads
-- exported push and challenge-lifecycle artifacts now exist for push, digout, disrupt, and challenge-removal flows, but the current classic-script webapp still has no dedicated browser-side action UI that consumes them directly
+- frontend runtime guards in the challenge-submit form, app-config bootstrap loader, admin session restore and login flow, admin dashboard pulse loader, admin public-app-config editor flow, admin challenge execute and status-update controls, shared stream-status helper, explorer verification flow, explorer access-grant flow, explorer challenge list polling flow, explorer push quote and confirm flow, and public challenge detail page that consume those generated artifacts instead of trusting untyped payloads
+- exported challenge-lifecycle artifacts now exist for digout, disrupt, and challenge-removal flows, but the current classic-script webapp still has no dedicated browser-side action UI that consumes them directly
 
 The missing pieces are:
 
@@ -128,7 +128,7 @@ Current thin slices already live:
 
 Next thin slices after that:
 
-- one next browser-side action surface that consumes the already-exported push or challenge-lifecycle artifacts directly
+- one next browser-side action surface that consumes the already-exported challenge-lifecycle artifacts directly
 - one next admin or operator action surface after the current admin-session, pulse, settings-editor, and operator challenge-control seams
 
 ## Phase 4 - Expand to route families
