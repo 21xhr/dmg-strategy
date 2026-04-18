@@ -131,7 +131,7 @@ Scope note:
 
 Current next slice:
 
-- add duplicate-action or throttle safeguards for operator challenge controls, starting with repeated execute requests, now that interrupted-session warnings distinguish a normal challenge handoff from a stopped run with unfinished sessions remaining
+- expand operator control safeguards beyond duplicate execute blocking, starting with repeated status-change requests and any other destructive control that can still be replayed too easily from the admin surface
 - keep tenant-runtime hardening attached to the specific settings or contract slice it blocks rather than reopening a separate cleanup roadmap
 
 Archived record:
@@ -164,6 +164,7 @@ Status:
 - backend-owned contract artifacts now cover the challenge-submit token verification response, the public app-config bootstrap payload, the public stream-status read, the explorer token verification and access-grant responses, the explorer challenge list, delta, and detail reads, the challenge web-submission response, the push quote and push confirm responses, and the digout, disrupt, and challenge-removal responses
 - backend-owned contract artifacts now also cover the admin dashboard pulse read
 - backend-owned contract artifacts now also cover the operator-side public-app-config editor surface
+- operator challenge execute now reports interrupted-session context and blocks duplicate execute requests against the currently running challenge
 - generated browser contracts are exported into the webapp; the current classic-script frontend now consumes the challenge-submit, app-config, admin pulse, operator public-app-config, stream-status, explorer access, explorer challenge-read, explorer push-action, Explorer digout, Explorer challenge-removal, and Explorer disrupt artifacts as runtime guards
 
 Primary roadmap file:
