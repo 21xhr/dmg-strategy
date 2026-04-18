@@ -12,14 +12,17 @@ See the [roadmap index](../roadmap.md) for the active roadmap list.
 
 Current state:
 
-- the main drift-prone clusters are identified
-- some early hardening is already in place, including better local runtime startup checks, placeholder Upstash detection, and cleaner frontend-to-API local host alignment
-- the remaining work is now a consolidation and boundary-clarification track rather than one large migration event
+- runtime port and host defaults have one authoritative default chain
+- bootstrap public app config states are explicit instead of reading like stable tenant runtime
+- environment tier and scheduler posture are explicit runtime policy rather than a production-versus-non-production split
+- placeholder configuration values are quarantined from live runtime behavior
+- tenant-resolution source is explicit across middleware, public app config, and browser runtime
+- the remaining scope is narrow and centered on confirming that host and API-base fallback signals are explicit enough to archive this roadmap safely
 
 Why this remains active:
 
-- active roadmap work can still reintroduce duplicated runtime defaults or preserve bootstrap fallbacks unless this cleanup stays explicit
-- several of the remaining risks cut across config, frontend runtime, admin access, and scheduler behavior rather than belonging to one feature slice
+- one last pass is still useful to confirm that the remaining host and API-base fallback paths are explicit enough rather than ambient runtime guesses
+- if no broader drift-prone clusters remain after that pass, this roadmap should be archived instead of left open by default
 
 ## Completion criteria
 
@@ -127,7 +130,7 @@ Current hotspots:
 
 Risk:
 
-- tenant and host resolution mistakes can be masked instead of surfaced quickly
+- the remaining tenant and host fallback paths need explicit runtime signal so staging or routing mistakes do not stay invisible
 
 ## Execution order
 
@@ -174,3 +177,16 @@ Checkpoint signals:
 
 - placeholder values are rejected or loudly quarantined where appropriate
 - the remaining silent fallbacks are deliberate, documented, and narrow
+
+## Remaining scope pass
+
+Completed slices covered:
+
+- Phase 1 runtime-default consolidation
+- Phase 2 bootstrap-fallback reduction in public runtime config
+- Phase 3 explicit environment and scheduler policy
+- Phase 4 placeholder-value quarantine and explicit tenant-resolution source
+
+Remaining review question:
+
+- are the surviving host and API-base fallbacks explicit enough that this roadmap can be archived, or does one more narrow follow-up slice still need to harden browser/API host derivation further?
