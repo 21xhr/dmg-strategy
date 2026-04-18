@@ -131,7 +131,7 @@ Scope note:
 
 Current next slice:
 
-- continue with the next admin or operator action surface now that the current challenge-lifecycle browser seams are consumed, unless a higher-priority docs cleanup slice blocks it
+- add the interrupted-session warning path for operator execution so stopped-but-unfinished challenges are clearly distinguished, then continue with the next admin or operator action surface unless a higher-priority docs cleanup slice blocks it
 - keep tenant-runtime hardening attached to the specific settings or contract slice it blocks rather than reopening a separate cleanup roadmap
 
 Archived record:

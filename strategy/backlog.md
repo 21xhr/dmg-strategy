@@ -54,6 +54,7 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 ### Admin surface polish
 
 - add concise tooltips or helper copy for operator-editable public runtime fields when the labels alone are not enough to explain launch-time defaults or tenant scope
+- warn when an executing challenge is stopped before it completes so the operator log can distinguish a normal finalization from an interrupted session
 
 ### Identity and access
 
