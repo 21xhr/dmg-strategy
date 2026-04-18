@@ -58,8 +58,8 @@ What exists now is:
 - one backend-owned contract module for `POST /user/push/quote` and `POST /user/push/confirm`
 - one backend-owned contract module for `POST /user/digout`, `POST /user/disrupt`, and `POST /user/challenge/remove`
 - one export step that publishes generated browser contract artifacts into `dmg-webapp/js/generated/`
-- frontend runtime guards in the challenge-submit form, app-config bootstrap loader, admin session restore and login flow, admin dashboard pulse loader, admin public-app-config editor flow, admin challenge execute and status-update controls, shared stream-status helper, explorer verification flow, explorer access-grant flow, explorer challenge list polling flow, explorer push quote, push confirm, and digout flows, and public challenge detail page that consume those generated artifacts instead of trusting untyped payloads
-- exported challenge-lifecycle artifacts now power the Explorer digout browser action directly, while disrupt and challenge-removal still remain export-only until a dedicated browser-side action surface consumes them
+- frontend runtime guards in the challenge-submit form, app-config bootstrap loader, admin session restore and login flow, admin dashboard pulse loader, admin public-app-config editor flow, admin challenge execute and status-update controls, shared stream-status helper, explorer verification flow, explorer access-grant flow, explorer challenge list polling flow, explorer push quote, push confirm, digout, and challenge-removal flows, and public challenge detail page that consume those generated artifacts instead of trusting untyped payloads
+- exported challenge-lifecycle artifacts now power the Explorer digout and challenge-removal browser actions directly, while disrupt remains export-only until a dedicated browser-side action surface consumes it
 
 The missing pieces are:
 
@@ -128,7 +128,7 @@ Current thin slices already live:
 
 Next thin slices after that:
 
-- one next browser-side action surface for the remaining challenge-lifecycle artifacts, starting with challenge removal if the current authenticated Explorer surface remains the cleanest fit
+- one next browser-side action surface for the remaining challenge-lifecycle artifacts, with disrupt now the main remaining export-only seam if the current authenticated Explorer surface remains the cleanest fit
 - one next admin or operator action surface after the current admin-session, pulse, settings-editor, and operator challenge-control seams
 
 ## Phase 4 - Expand to route families

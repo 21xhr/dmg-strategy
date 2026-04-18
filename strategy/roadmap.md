@@ -131,7 +131,7 @@ Scope note:
 
 Current next slice:
 
-- continue with one browser-side action surface for the remaining exported challenge-lifecycle artifacts, or the next admin or operator action surface if browser work remains blocked
+- continue with one browser-side action surface for the remaining exported challenge-lifecycle artifacts, with disrupt now the main remaining export-only seam, or the next admin or operator action surface if browser work remains blocked
 - keep tenant-runtime hardening attached to the specific settings or contract slice it blocks rather than reopening a separate cleanup roadmap
 
 Archived record:
@@ -164,7 +164,7 @@ Status:
 - backend-owned contract artifacts now cover the challenge-submit token verification response, the public app-config bootstrap payload, the public stream-status read, the explorer token verification and access-grant responses, the explorer challenge list, delta, and detail reads, the challenge web-submission response, the push quote and push confirm responses, and the digout, disrupt, and challenge-removal responses
 - backend-owned contract artifacts now also cover the admin dashboard pulse read
 - backend-owned contract artifacts now also cover the operator-side public-app-config editor surface
-- generated browser contracts are exported into the webapp; the current classic-script frontend now consumes the challenge-submit, app-config, admin pulse, operator public-app-config, stream-status, explorer access, explorer challenge-read, explorer push-action, and Explorer digout artifacts as runtime guards, while challenge removal and disrupt remain the main exported challenge-lifecycle seams without dedicated browser-side action surfaces
+- generated browser contracts are exported into the webapp; the current classic-script frontend now consumes the challenge-submit, app-config, admin pulse, operator public-app-config, stream-status, explorer access, explorer challenge-read, explorer push-action, Explorer digout, and Explorer challenge-removal artifacts as runtime guards, while disrupt remains the main exported challenge-lifecycle seam without a dedicated browser-side action surface
 
 Primary roadmap file:
 
