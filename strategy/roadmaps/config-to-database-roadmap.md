@@ -84,36 +84,35 @@ The clearest reading order is therefore:
 
 ### Remaining major migration work
 
-- immediate next slice: finish operator-control safeguard hardening for repeated status changes and other destructive admin or operator actions that can still be replayed too easily from the current surfaces
-- continue replacing default-tenant assumptions with explicit tenant-context resolution where routes and background workflows still rely on one ambient tenant
+- immediate next slice: continue replacing default-tenant assumptions with explicit tenant-context resolution where routes and background workflows still rely on one ambient tenant
 - decide which remaining operator-private settings belong in tenant-backed policy versus internal bootstrap or support configuration
 - remove remaining deploy bootstrap URL defaults once tenant/domain-aware runtime resolution is authoritative
 - replace the minimal JSON-backed operator editor with a more structured settings surface once the field set stabilizes
 
-#### Immediate next slice checklist
+#### Completed safeguard slice
 
-- map the current admin action forms to their real server endpoints so the safeguard pass is scoped to actual operator mutations, not a hypothetical control list
-- keep `POST /api/v1/operator/challenge/execute` as the reference pattern for server-side protection because it already blocks duplicate execute requests against the currently executing challenge
-- add explicit replay policy for `PUT /api/v1/operator/challenge/:challengeId/status`, which still allows repeated status updates through `setChallengeStatusByAdmin(...)` without a documented idempotency or duplicate-request rule
-- decide whether repeated status requests should be treated as idempotent no-op success, explicit conflict, or a narrower status-transition rule, then enforce that policy in the service layer instead of depending on browser timing
-- confirm that the current admin UI trigger points are the `operator-execute-form` and `operator-status-form`, then keep any UI disable or feedback cleanup secondary to the server-side contract
-- leave `GET /api/v1/admin/pulse`, `GET/POST/DELETE /api/v1/admin/session`, and `GET /api/v1/operator/public-app-config` out of this safeguard slice because they are read or auth flows rather than destructive operator controls
-- treat `PUT /api/v1/operator/public-app-config` as configuration mutation, not part of the destructive-control safeguard slice unless save-conflict handling later proves it needs separate concurrency rules
-- capture any remaining exceptions as narrower follow-up items tied to a specific route, policy surface, or tenant-context dependency rather than keeping one broad safeguard placeholder alive
+- the current admin action forms were mapped to the real mutation endpoints instead of treating the safeguard pass as a hypothetical control list
+- `POST /api/v1/operator/challenge/execute` remains the reference pattern for destructive operator controls because it rejects duplicate execute requests against the challenge that is already running
+- `PUT /api/v1/operator/challenge/:challengeId/status` now has an explicit replay policy: repeated requests to the same target status return an idempotent no-op success instead of replaying writes or duplicate event publication
+- the current admin UI trigger points remain `operator-execute-form` and `operator-status-form`, with the server-side contract treated as the primary safeguard layer
+- `GET /api/v1/admin/pulse`, `GET/POST/DELETE /api/v1/admin/session`, and `GET /api/v1/operator/public-app-config` remain out of scope for this slice because they are read or auth flows rather than destructive operator controls
+- `PUT /api/v1/operator/public-app-config` remains configuration mutation work and should only enter this safeguard lane later if it needs distinct save-conflict or concurrency rules
 
-Checkpoint signals for closing the immediate next slice:
+Checkpoint signals now satisfied:
 
 - repeated destructive actions have a documented server-side policy instead of only a UI-level expectation
-- the current operator route inventory clearly distinguishes the already-guarded execute path from the still-open status-update path
+- the current operator route inventory clearly distinguishes destructive challenge actions from configuration mutation and read-only admin flows
 - operator safeguard follow-up work is narrow enough to live under specific settings, policy, or route slices
 - this roadmap can move back to tenant-context resolution and config-governance cleanup as the main remaining dependency work
 
-#### Ordered follow-up after the immediate slice
+#### Immediate next slice checklist
 
 1. continue explicit tenant-context resolution where active routes and background workflows still assume one ambient tenant
-2. separate tenant-backed operator policy from internal bootstrap or support-only settings so the config surface stops mixing authority tiers
-3. remove remaining deploy bootstrap URL defaults once tenant or domain-aware resolution is authoritative
-4. replace the minimal JSON-backed operator editor with a structured settings surface once the field set is stable enough to avoid churn
+2. identify the remaining operator or background entrypoints where tenant context is still inferred indirectly from default runtime helpers or bootstrap-era assumptions
+3. keep each tenant-context cleanup attached to the route, workflow, or contract slice it unblocks instead of reopening a broad drift-reduction lane
+4. once the remaining ambient-tenant assumptions are gone, separate tenant-backed operator policy from internal bootstrap or support-only settings so the config surface stops mixing authority tiers
+5. remove remaining deploy bootstrap URL defaults once tenant or domain-aware resolution is authoritative
+6. replace the minimal JSON-backed operator editor with a structured settings surface once the field set is stable enough to avoid churn
 
 ### Boundary with the economy roadmap
 
@@ -137,7 +136,7 @@ Execution rule:
 
 - keep the remaining config-to-database follow-up work in this roadmap rather than folding it into economy migration
 - treat explicit tenant-context resolution as the main shared dependency boundary with other active tracks
-- finish the immediate safeguard slice before treating the rest of the remaining work as a loose parallel cleanup lane
+- keep the completed safeguard slice documented here as the current operator-control baseline, but treat explicit tenant-context resolution as the active dependency work now
 
 ### Final hardening and launch cleanup
 

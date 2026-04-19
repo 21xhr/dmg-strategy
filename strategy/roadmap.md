@@ -128,16 +128,12 @@ Primary roadmap files:
 - `strategy/roadmaps/config-to-database-roadmap.md`
 - `strategy/roadmaps/config-to-database-schema-roadmap.md`
 
-Immediate close-out slice:
+Latest completed slice:
 
-- finish operator-control safeguard hardening for repeated status changes and other destructive admin or operator actions that can still be replayed too easily from the current surfaces
-- keep tenant-runtime hardening attached to the specific settings or contract slice it blocks rather than reopening a separate broad cleanup lane
-
-Checkpoint signals for closing the immediate slice:
-
-- repeated status-change requests are either rejected, made idempotent, or otherwise guarded so one stale browser action cannot replay a destructive state transition
-- destructive operator controls beyond execute have an explicit duplicate or replay policy instead of relying only on session authentication and optimistic browser behavior
-- the active backlog no longer needs a broad “extend operator safeguards” placeholder because the remaining follow-up work is captured as narrower config or policy items
+- operator-control safeguard hardening now covers the real destructive admin action surfaces in the current dashboard
+- `POST /api/v1/operator/challenge/execute` rejects duplicate execute requests against the challenge that is already running
+- `PUT /api/v1/operator/challenge/:challengeId/status` now treats repeated requests to the same status as an idempotent no-op success instead of replaying writes or duplicate event publication
+- the remaining admin mutation surface is `PUT /api/v1/operator/public-app-config`, which stays tracked as configuration-governance work rather than as part of the destructive-control safeguard slice
 
 Next slice inside this same track:
 
@@ -279,6 +275,7 @@ Checkpoint for promotion out of later:
 Latest completed slice:
 
 - explicit tenant-context cleanup now covers challenge mutation flows, challenge removal, auth-driven account creation, stats rendering, token duration caps, daily submission context, maintenance-state reads, and stream helper entrypoints that previously relied on one ambient default tenant
+- operator-control safeguard hardening now covers the destructive operator challenge actions on the current admin surface: duplicate execute requests are rejected, and repeated status updates to the same target state are idempotent no-op success responses
 
 Current execution rule:
 
