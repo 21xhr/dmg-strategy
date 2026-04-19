@@ -84,10 +84,73 @@ The clearest reading order is therefore:
 
 ### Remaining major migration work
 
-- immediate next slice: formalize which remaining settings belong in tenant-backed operator policy versus internal bootstrap or support-only configuration now that the main ambient-tenant runtime paths are closed
-- decide which remaining operator-private settings belong in tenant-backed policy versus internal bootstrap or support configuration
-- remove remaining deploy bootstrap URL defaults once tenant/domain-aware runtime resolution is authoritative
-- replace the minimal JSON-backed operator editor with a more structured settings surface once the field set stabilizes
+- governance-tier separation is implemented at the baseline level: public runtime config, operator-manageable tenant policy, owner-only tenant policy, and internal bootstrap values no longer share one mixed editor
+- Explorer entitlement state is tenant-scoped on `TenantUserState` instead of living as ambient access on the global `User` record
+- `Challenge` and the main maintenance or operator lifecycle paths already carry explicit tenant scope
+
+The remaining major work is therefore narrower and should happen in this order:
+
+1. remove the remaining deploy or bootstrap runtime fallbacks that still let tenant URL resolution rely on hidden defaults outside deliberate local-development exceptions
+2. define the tenant-scoped user-state and stats read model so operator-visible player metrics and entitlements stop depending on ad hoc stitched reads from global and tenant tables
+3. finish the structured role-scoped admin surfaces so public runtime, operator policy, owner policy, and future stats views remain isolated as the multi-admin model expands
+4. close the last bootstrap-era access assumptions by moving admin-session lifetime and related private operator-session rules behind explicit private policy surfaces
+
+#### Ordered execution detail
+
+1. Deploy and runtime authority cleanup
+
+Status snapshot:
+
+- tenant and domain-aware runtime resolution exists
+- request-host fallback still exists as a compatibility path for some frontend base URL resolution cases
+- the remaining question is no longer how tenant context is discovered; it is where fallback behavior is still tolerated
+
+Completion criteria:
+
+- production runtime URLs resolve from explicit tenant or domain-aware configuration rather than silent bootstrap defaults
+- allowed-origin and frontend-base-url behavior has one authoritative resolution path plus a deliberate local-development exception only
+- shareable docs and operator guidance describe the same runtime authority model without explaining it through migration history
+
+2. Tenant user-state and stats read model
+
+Status snapshot:
+
+- tenant-scoped maintenance counters and Explorer entitlement already live on `TenantUserState`
+- several progression and analytics totals still live only on global `User`
+- operator-visible player insight is still assembled through service-specific reads rather than one durable tenant-facing read model
+
+Completion criteria:
+
+- the roadmap explicitly classifies which user fields stay DMG-global versus which ones gain tenant-scoped companions or derived stats views
+- a tenant user-stats surface can read one durable model instead of reconstructing player state ad hoc
+- future tenant-only entitlements or privacy rules can attach to tenant-scoped state without reopening global user semantics each time
+
+3. Structured role-scoped admin surfaces
+
+Status snapshot:
+
+- the baseline governance split is implemented in route, contract, and admin UI form
+- the remaining admin editor still needs follow-up work so new fields do not drift back into generic JSON-like editing patterns
+- the long-term target is many admins with different access boundaries, not one permanent two-role shortcut
+
+Completion criteria:
+
+- public runtime config, operator policy, owner policy, and future stats or support surfaces each keep separate contracts and route ownership
+- additional admin roles can gain narrower views without reopening the mixed-surface problem
+- higher-sensitivity fields remain isolated enough to support future per-user privacy or policy slicing on demand
+
+4. Private operator-session policy
+
+Status snapshot:
+
+- tenant membership already drives admin session role resolution
+- bootstrap-era compatibility paths still shape some operator access assumptions and session behavior
+
+Completion criteria:
+
+- legacy bootstrap admin-secret compatibility is retired once the supported operator access path is stable
+- admin-session lifetime and related private access controls live behind explicit private operator policy instead of ambient bootstrap constants
+- session policy hardening can proceed without reopening tenant config governance or user-state boundaries
 
 #### Completed safeguard slice
 
@@ -105,21 +168,13 @@ Checkpoint signals now satisfied:
 - operator safeguard follow-up work is narrow enough to live under specific settings, policy, or route slices
 - this roadmap can move back to tenant-context resolution and config-governance cleanup as the main remaining dependency work
 
-#### Immediate next slice checklist
-
-1. classify the remaining tenant-related fields by governance tier so public runtime config, operator-editable tenant policy, owner-only sensitive settings, and internal bootstrap controls stop sharing one mixed surface
-2. identify the remaining operator or background settings that still ride on bootstrap-era defaults even though tenant context is already explicit in the main runtime paths
-3. keep each settings-governance cleanup attached to the route, workflow, or contract slice it unblocks instead of reopening a broad drift-reduction lane
-4. remove remaining deploy bootstrap URL defaults once tenant or domain-aware resolution is authoritative
-5. replace the minimal JSON-backed operator editor with a structured settings surface once the field set is stable enough to avoid churn
-
 #### Challenge tenant migration plan
 
 Status snapshot:
 
 - main schema and runtime hardening slice implemented
-- `Challenge` now carries explicit `tenantId`, transient quote records are tenant-scoped explicitly, and maintenance fanout now updates tenant-scoped user activity instead of relying on one remaining legacy global path
-- the next dependency boundary is no longer challenge lifecycle isolation itself; it is settings governance and deploy cleanup around the now-explicit tenant model
+- `Challenge` carries explicit `tenantId`, transient quote records are tenant-scoped explicitly, and maintenance fanout updates tenant-scoped user activity
+- challenge lifecycle isolation is no longer the active dependency risk inside this roadmap; the remaining dependency work is runtime fallback cleanup plus tenant stats and session policy boundaries
 
 Completion criteria:
 
@@ -147,9 +202,9 @@ Checkpoint signals:
 
 Current follow-up focus:
 
-- separate operator-editable tenant policy from internal bootstrap or support-only controls so the config surface stops mixing authority tiers
 - remove the remaining deploy bootstrap URL defaults once tenant or domain-aware runtime resolution is authoritative
-- replace the minimal JSON-backed operator editor with a structured settings surface after the field set stabilizes
+- define the tenant user-state and stats read model so remaining global-versus-tenant field ownership becomes explicit
+- continue the structured admin-surface split so future roles and user-stats views do not collapse back into a mixed editor
 
 ### Boundary with the economy roadmap
 

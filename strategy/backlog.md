@@ -49,17 +49,14 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 
 ### Configuration governance
 
-- formalize config governance tiers so public runtime config, operator-editable tenant policy, owner-only sensitive settings, and internal bootstrap or support controls do not remain mixed in one surface
 - define which challenge and player actions stay globally available and which ones become tenant-scoped or feature-gated so livestream use and in-app use can diverge cleanly per tenant
 - continue moving scattered fallback defaults into dedicated config modules or tenant-backed records so `tenantSettingsService.ts` stays an assembly layer rather than a long-term home for business-rule literals
 - define the expected development, staging, and production secret tiers for database and infrastructure credentials before repository handoff to a broader engineering team
 - decide whether automatic challenge lifecycle scheduling stays an always-on server capability or becomes tenant-scoped, feature-gated, or operator-configurable in the SaaS model
-- review whether explorer access duration and related grant windows still belong on global `User` records or should be tenant-scoped policy and state instead
 
 ### Tenant state and analytics
 
 - review which user progression fields belong globally on `User` versus per-tenant on `TenantUserState`, including whether totals such as `totalChallengesSubmitted` should remain DMG-global or gain tenant-scoped companions
-- move `explorerAccessUntil` off the global user model if explorer access is meant to be tenant-scoped rather than ambient across every tenant
 - add a durable stats/read-model plan for a tenant user-stats page instead of leaving operator-visible player metrics split across ad hoc service reads
 - add `uniquePusher` or equivalent explicit per-challenge uniqueness tracking once the analytics consumer is clear enough to avoid another placeholder field rename later
 - implement a tenant-safe "total unique pushers in session" metric once the challenge/session analytics boundary is explicit
