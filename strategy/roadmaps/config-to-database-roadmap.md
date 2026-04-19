@@ -145,11 +145,11 @@ Status snapshot:
 
 - tenant membership already drives admin session role resolution
 - a private owner-only session-policy surface controls admin-session lifetime per tenant under a system ceiling
-- bootstrap-era compatibility paths still shape some operator access assumptions and session behavior
+- admin session issuance resolves only through verified tenant operator identity and tenant membership
 
 Completion criteria:
 
-- legacy bootstrap admin-secret compatibility is retired once the supported operator access path is stable
+- legacy bootstrap admin-secret compatibility is retired
 - admin-session lifetime and related private access controls live behind explicit private operator policy instead of ambient bootstrap constants
 - session policy hardening can proceed without reopening tenant config governance or user-state boundaries
 
