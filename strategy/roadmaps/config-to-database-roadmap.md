@@ -90,20 +90,19 @@ The clearest reading order is therefore:
 
 The remaining major work is therefore narrower and should happen in this order:
 
-1. remove the remaining deploy or bootstrap runtime fallbacks that still let tenant URL resolution rely on hidden defaults outside deliberate local-development exceptions
-2. define the tenant-scoped user-state and stats read model so operator-visible player metrics and entitlements stop depending on ad hoc stitched reads from global and tenant tables
-3. finish the structured role-scoped admin surfaces so public runtime, operator policy, owner policy, and future stats views remain isolated as the multi-admin model expands
-4. close the last bootstrap-era access assumptions by moving admin-session lifetime and related private operator-session rules behind explicit private policy surfaces
+1. define the tenant-scoped user-state and stats read model so operator-visible player metrics and entitlements stop depending on ad hoc stitched reads from global and tenant tables
+2. finish the structured role-scoped admin surfaces so public runtime, operator policy, owner policy, and future stats views remain isolated as the multi-admin model expands
+3. close the last bootstrap-era access assumptions by moving admin-session lifetime and related private operator-session rules behind explicit private policy surfaces
 
 #### Ordered execution detail
 
-1. Deploy and runtime authority cleanup
+Completed slice: Deploy and runtime authority cleanup
 
 Status snapshot:
 
 - tenant and domain-aware runtime resolution exists
-- request-host fallback still exists as a compatibility path for some frontend base URL resolution cases
-- the remaining question is no longer how tenant context is discovered; it is where fallback behavior is still tolerated
+- non-local secure link generation now requires explicit tenant frontend runtime configuration instead of falling back to the request host
+- local-development loopback and LAN defaults remain the only deliberate fallback path
 
 Completion criteria:
 
@@ -111,26 +110,26 @@ Completion criteria:
 - allowed-origin and frontend-base-url behavior has one authoritative resolution path plus a deliberate local-development exception only
 - shareable docs and operator guidance describe the same runtime authority model without explaining it through migration history
 
-2. Tenant user-state and stats read model
+1. Tenant user-state and stats read model
 
 Status snapshot:
 
 - tenant-scoped maintenance counters and Explorer entitlement already live on `TenantUserState`
 - several progression and analytics totals still live only on global `User`
-- operator-visible player insight is still assembled through service-specific reads rather than one durable tenant-facing read model
+- a first structured tenant user-stats read model now exists behind the admin surface, but it still reads from a mix of global user totals and tenant user state rather than from a more explicit classified model
 
 Completion criteria:
 
 - the roadmap explicitly classifies which user fields stay DMG-global versus which ones gain tenant-scoped companions or derived stats views
-- a tenant user-stats surface can read one durable model instead of reconstructing player state ad hoc
+- a tenant user-stats surface can read one durable model without service-specific reconstruction logic leaking into each caller
 - future tenant-only entitlements or privacy rules can attach to tenant-scoped state without reopening global user semantics each time
 
-3. Structured role-scoped admin surfaces
+2. Structured role-scoped admin surfaces
 
 Status snapshot:
 
 - the baseline governance split is implemented in route, contract, and admin UI form
-- the remaining admin editor still needs follow-up work so new fields do not drift back into generic JSON-like editing patterns
+- the admin UI now exposes session role visibility explicitly and includes a dedicated tenant user-stats surface instead of leaving those concerns implicit or ad hoc
 - the long-term target is many admins with different access boundaries, not one permanent two-role shortcut
 
 Completion criteria:
@@ -139,7 +138,7 @@ Completion criteria:
 - additional admin roles can gain narrower views without reopening the mixed-surface problem
 - higher-sensitivity fields remain isolated enough to support future per-user privacy or policy slicing on demand
 
-4. Private operator-session policy
+3. Private operator-session policy
 
 Status snapshot:
 
@@ -202,9 +201,9 @@ Checkpoint signals:
 
 Current follow-up focus:
 
-- remove the remaining deploy bootstrap URL defaults once tenant or domain-aware runtime resolution is authoritative
 - define the tenant user-state and stats read model so remaining global-versus-tenant field ownership becomes explicit
 - continue the structured admin-surface split so future roles and user-stats views do not collapse back into a mixed editor
+- move admin-session lifetime and related private operator-session rules behind explicit private policy surfaces
 
 ### Boundary with the economy roadmap
 

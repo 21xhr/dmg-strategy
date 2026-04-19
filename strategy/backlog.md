@@ -65,7 +65,6 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 
 - add concise tooltips or helper copy for operator-editable public runtime fields when the labels alone are not enough to explain launch-time defaults or tenant scope
 - continue replacing the minimal JSON-backed admin editor with more structured tenant-policy and operator views once the governance-tier field list stabilizes
-- design and ship a user-stats admin or operator page once the tenant-state and analytics model is settled enough to avoid churn
 
 ### Identity and access
 
