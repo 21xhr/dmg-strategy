@@ -129,6 +129,7 @@ Status snapshot:
 
 - the baseline governance split is implemented in route, contract, and admin UI form
 - the admin UI now exposes session role visibility explicitly and includes a dedicated tenant user-stats surface instead of leaving those concerns implicit or ad hoc
+- the dashboard now loads a backend-owned surface-access manifest so current card visibility and editability stop depending only on hardcoded frontend role checks
 - the long-term target is many admins with different access boundaries, not one permanent two-role shortcut
 
 Completion criteria:
