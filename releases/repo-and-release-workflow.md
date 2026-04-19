@@ -94,6 +94,23 @@ For a solo builder, keep it simple:
 
 See [[releases/git-glossary-and-useful-commands]] for the line-by-line explanation of the example commands.
 
+## 6.5 Commit discipline and roadmap checks
+
+Treat commits as named slices, not as session dumps.
+
+Working rules:
+
+1. use explicit commit messages that describe the actual slice that landed, not the broader umbrella theme of the week
+2. split unrelated implementation, planning, and release-workflow changes into separate commits even if they were worked on in one continuous session
+3. before committing code that changes behavior, contracts, schema boundaries, admin surfaces, or runtime policy, check whether the relevant roadmap or backlog notes in `dmg-strategy/strategy/` should be updated in the same overall work pass
+4. if the change affects shareable current-state docs in `dmg-workspace/apps/docs`, run the review-target assembler before commit, merge, tag, or baseline work
+5. if a roadmap checkpoint is now materially satisfied or the next blocking slice changed, update the roadmap before treating the slice as complete
+
+This rule exists to avoid two recurring failure modes:
+
+- commits that are too broad to explain what actually changed
+- roadmap or backlog notes that fall behind the real implementation sequence
+
 ## 7. How to think about streaming, SaaS, and B2B versions
 
 Do not think of them as separate copied products.
@@ -202,6 +219,10 @@ Use:
 Treat the command as a normal review aid.
 
 It does not decide whether docs must change, but it should be part of the standard check for shareable doc-impacting work.
+
+Pair this with the commit-discipline rule above.
+
+If code moved the real implementation boundary, update the relevant roadmap or backlog note before or alongside the commit rather than relying on memory to reconcile planning later.
 
 ## 9. What to show investors
 

@@ -84,7 +84,7 @@ The clearest reading order is therefore:
 
 ### Remaining major migration work
 
-- immediate next slice: continue replacing default-tenant assumptions with explicit tenant-context resolution where routes and background workflows still rely on one ambient tenant
+- immediate next slice: formalize which remaining settings belong in tenant-backed operator policy versus internal bootstrap or support-only configuration now that the main ambient-tenant runtime paths are closed
 - decide which remaining operator-private settings belong in tenant-backed policy versus internal bootstrap or support configuration
 - remove remaining deploy bootstrap URL defaults once tenant/domain-aware runtime resolution is authoritative
 - replace the minimal JSON-backed operator editor with a more structured settings surface once the field set stabilizes
@@ -107,12 +107,49 @@ Checkpoint signals now satisfied:
 
 #### Immediate next slice checklist
 
-1. continue explicit tenant-context resolution where active routes and background workflows still assume one ambient tenant
-2. identify the remaining operator or background entrypoints where tenant context is still inferred indirectly from default runtime helpers or bootstrap-era assumptions
-3. keep each tenant-context cleanup attached to the route, workflow, or contract slice it unblocks instead of reopening a broad drift-reduction lane
-4. once the remaining ambient-tenant assumptions are gone, separate tenant-backed operator policy from internal bootstrap or support-only settings so the config surface stops mixing authority tiers
-5. remove remaining deploy bootstrap URL defaults once tenant or domain-aware resolution is authoritative
-6. replace the minimal JSON-backed operator editor with a structured settings surface once the field set is stable enough to avoid churn
+1. classify the remaining tenant-related fields by governance tier so public runtime config, operator-editable tenant policy, owner-only sensitive settings, and internal bootstrap controls stop sharing one mixed surface
+2. identify the remaining operator or background settings that still ride on bootstrap-era defaults even though tenant context is already explicit in the main runtime paths
+3. keep each settings-governance cleanup attached to the route, workflow, or contract slice it unblocks instead of reopening a broad drift-reduction lane
+4. remove remaining deploy bootstrap URL defaults once tenant or domain-aware resolution is authoritative
+5. replace the minimal JSON-backed operator editor with a structured settings surface once the field set is stable enough to avoid churn
+
+#### Challenge tenant migration plan
+
+Status snapshot:
+
+- main schema and runtime hardening slice implemented
+- `Challenge` now carries explicit `tenantId`, transient quote records are tenant-scoped explicitly, and maintenance fanout now updates tenant-scoped user activity instead of relying on one remaining legacy global path
+- the next dependency boundary is no longer challenge lifecycle isolation itself; it is settings governance and deploy cleanup around the now-explicit tenant model
+
+Completion criteria:
+
+- `Challenge` stores `tenantId` directly and backfills existing rows safely
+- challenge creation writes `tenantId` from resolved tenant settings instead of inferring tenant scope only through the proposer relationship
+- high-risk lifecycle reads and writes reject or skip cross-tenant rows by filtering on `tenantId`
+- background session ticking and operator challenge controls operate on tenant-scoped challenge queries instead of global executing-challenge assumptions
+- demo reset and seed helpers stop inferring challenge scope indirectly from proposer membership alone
+
+Execution order:
+
+1. add `Challenge.tenantId` with a backfill rule that prefers the proposer's primary tenant membership and otherwise falls back to the first tenant row
+2. update challenge creation, demo reset filters, and seed or reset helpers so all new challenge rows are written with explicit tenant scope
+3. convert the most exposed runtime paths to tenant-scoped queries first: operator execute, operator status update, active challenge reads, session tick, stream finalization, archival, and public explorer reads
+4. move maintenance and cadence enforcement onto tenant-scoped challenge queries so background workflows stop depending on one global challenge set
+5. close the remaining action paths that still touch challenges through global identifiers only, including push, digout, and removal settlement validation
+6. only after the challenge lifecycle is tenant-safe, decide whether quotes or other adjacent tables also need explicit tenant keys for stronger isolation and easier indexing
+
+Checkpoint signals:
+
+- no live entrypoint that mutates a challenge can operate without a tenant-backed runtime
+- no operator route can execute or change the status of a challenge outside the current tenant
+- public challenge feeds and detail reads are filtered by the resolved tenant instead of only by demo-user shape
+- the remaining work is narrowed to secondary hardening rather than the primary schema boundary
+
+Current follow-up focus:
+
+- separate operator-editable tenant policy from internal bootstrap or support-only controls so the config surface stops mixing authority tiers
+- remove the remaining deploy bootstrap URL defaults once tenant or domain-aware runtime resolution is authoritative
+- replace the minimal JSON-backed operator editor with a structured settings surface after the field set stabilizes
 
 ### Boundary with the economy roadmap
 
