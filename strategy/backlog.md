@@ -28,6 +28,7 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 
 - decide whether `apps/docs` stays a content-only package or gets a real preview, build, lint, and validation toolchain, then remove the current no-op package-script placeholders once that operating model is chosen
 - define the documentation linting or prose-validation boundary for the workspace so shareable docs style checks do not rely only on manual review
+- extend the current change-relative phrasing checks so private roadmap status snapshots and other live-state planning notes also reject migration-history wording when they are meant to describe the present boundary
 - check whether glossary-worthy term changes are reviewed automatically and consistently enough across the current documentation dependency model, review-target tooling, and standing instructions
 - audit private planning notes that still point at pre-monorepo paths or older workspace assumptions, including `strategy/decision-support-boundaries.md` references when related notes now assume the current two-repo structure
 
@@ -65,6 +66,7 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 
 - add concise tooltips or helper copy for operator-editable public runtime fields when the labels alone are not enough to explain launch-time defaults or tenant scope
 - continue replacing the minimal JSON-backed admin editor with more structured tenant-policy and operator views once the governance-tier field list stabilizes
+- define the longer-term role-scoped admin visibility matrix beyond the current manifest baseline so support/read, operator-write, owner-sensitive, and future privacy-limited surfaces stay explicit as more admin roles appear
 
 ### Identity and access
 
@@ -75,6 +77,7 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 - check whether the previous guided demo flow still works cleanly on top of the new tenant-scoped perennial-token and demo-policy model, and document the intended replacement if it does not
 - TODO: add operator and user-facing token issuance flows on top of the new `tenantId` plus purpose model
 - TODO: add tenant-level defaults and per-token overrides for whether a perennial token purpose stays a direct bearer link or is exchanged for a cookie-backed browser session on first use
+- formalize the standing rule that `User` remains DMG-internal identity and analytics state, while tenant-visible reads must stay tenant-scoped and must not expose cross-tenant or DMG-global user fields without explicit portability consent
 
 ### Demo policy
 

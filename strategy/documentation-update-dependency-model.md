@@ -66,6 +66,12 @@ That is a later product or operations question, not current shareable architectu
 
 ## Working rule
 
+When a roadmap, backlog status snapshot, or other live-state planning note describes the present system boundary, write it in direct present-state language.
+
+Do not use change-relative phrasing such as `now`, `no longer`, `previously`, `used to`, or similar transition-history wording unless the note is explicitly historical.
+
+If the sentence is about current state, rewrite it so the current boundary stands on its own.
+
 Keep this note in private planning for planning-only extensions that do not yet belong in the shareable docs app.
 
 If the boundary is unclear, default to keeping the material here until the shareable/private split is explicit.

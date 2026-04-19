@@ -114,8 +114,8 @@ Completion criteria:
 Status snapshot:
 
 - tenant-scoped maintenance counters, Explorer entitlement, progression totals, and refund-facing stats now live on `TenantUserState`
-- explicit DMG-wide context now reads separately from the game-wide user fields instead of reusing ambiguous tenant-facing totals
-- the admin user-stats surface now reads the classified model directly, and tenant-facing submission feedback also reports tenant-scoped totals
+- DMG-wide `User` fields remain internal-only and are not part of tenant-visible operator or player stats reads
+- the admin user-stats surface and tenant-facing submission feedback use tenant-scoped totals directly
 
 Completion criteria:
 
@@ -128,8 +128,9 @@ Completion criteria:
 Status snapshot:
 
 - the baseline governance split is implemented in route, contract, and admin UI form
-- the admin UI now exposes session role visibility explicitly and includes a dedicated tenant user-stats surface instead of leaving those concerns implicit or ad hoc
-- the dashboard now loads a backend-owned surface-access manifest so current card visibility and editability stop depending only on hardcoded frontend role checks
+- the admin UI exposes session role visibility explicitly and includes a dedicated tenant user-stats surface
+- a backend-owned surface-access manifest defines dashboard card visibility and editability for the active session
+- a support/read admin role can inspect read surfaces without inheriting operator write access
 - the long-term target is many admins with different access boundaries, not one permanent two-role shortcut
 
 Completion criteria:
@@ -143,6 +144,7 @@ Completion criteria:
 Status snapshot:
 
 - tenant membership already drives admin session role resolution
+- a private owner-only session-policy surface controls admin-session lifetime per tenant under a system ceiling
 - bootstrap-era compatibility paths still shape some operator access assumptions and session behavior
 
 Completion criteria:
