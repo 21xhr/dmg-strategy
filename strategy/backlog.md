@@ -34,11 +34,14 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 ### Naming and scope cleanup
 
 - run a multi-repo naming pass across docs, backend, and frontend so tenant scope, session scope, maintenance state, and provider boundaries are explicit instead of implied
+- execute the planned file or module rename for `adminRoutes` and `operatorRoutes` only when the next boundary split creates enough leverage to justify churn, while keeping the current HTTP path split stable unless a later launch cleanup requires route alias removal
+- keep later route-family rename cleanup as backlog-only work unless a real boundary split earns the churn; do not reopen the archived config-to-database roadmap for naming polish alone
 - run a naming pass across database fields, APIs, and docs so `NUMBERS` and related economy vocabulary cleanly separate current DMG branding from broader wedge-neutral tenant terminology
 - review wedge-specific submission prose and field naming so broader product paths can evolve beyond the current `challenge` wording without collapsing current DMG semantics during migration
 - brainstorm how to handle the `challenge` term across DMG and broader wedges so the shared core can support better neutral naming without breaking the current product language abruptly
 - review terse infrastructure variable names in multi-step service logic so transaction and policy boundaries stay readable once helpers grow beyond tiny local scopes
 - continue removing duplicated default values and legacy literal phrasing from shared-domain docs and comments so the authoritative config reference remains the only source for live defaults
+- treat later wording and editor-shape cleanup as backlog maintenance unless it changes where runtime settings, tenant policy, or private session controls are owned
 - review future-leaning generic guidance sentences in shareable docs and either rewrite them as current scoped rules or move them back into private planning notes
 - review later whether `fundraising/plans/market-feedback-and-loi-plan.md` should remain one bridge note or split into separate external-network discovery and fundraising-proof packaging notes once those responsibilities diverge more clearly
 
@@ -51,6 +54,7 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 
 - define which challenge and player actions stay globally available and which ones become tenant-scoped or feature-gated so livestream use and in-app use can diverge cleanly per tenant
 - continue moving scattered fallback defaults into dedicated config modules or tenant-backed records so `tenantSettingsService.ts` stays an assembly layer rather than a long-term home for business-rule literals
+- treat future browser or helper literal scans as spot cleanup unless they reveal a real ownership-boundary regression in app-config or tenant-backed policy
 - define the expected development, staging, and production secret tiers for database and infrastructure credentials before repository handoff to a broader engineering team
 - decide whether automatic challenge lifecycle scheduling stays an always-on server capability or becomes tenant-scoped, feature-gated, or operator-configurable in the SaaS model
 
@@ -65,6 +69,7 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 
 - add concise tooltips or helper copy for operator-editable public runtime fields when the labels alone are not enough to explain launch-time defaults or tenant scope
 - continue replacing the minimal JSON-backed admin editor with more structured tenant-policy and operator views once the governance-tier field list stabilizes
+- keep low-leverage editor-shape and helper-copy cleanup in backlog unless it changes policy ownership, route boundaries, or tenant scope
 - define the longer-term role-scoped admin visibility matrix beyond the current manifest baseline so support/read, operator-write, owner-sensitive, and future privacy-limited surfaces stay explicit as more admin roles appear
 
 ### Identity and access

@@ -34,7 +34,7 @@ Every recurring documentation workflow should define three things:
 2. the default durable notes to review
 3. the threshold for when each reviewed note actually changes
 
-For environment or startup surface changes, include the touched `.env.example` or equivalent source env artifact in the update set instead of treating README prose as the only documentation surface.
+For environment or startup surface changes, include the touched source env artifact in the update set so the runtime contract is documented where it is actually defined.
 
 ## Example source event types
 
@@ -72,7 +72,7 @@ When a roadmap, backlog status snapshot, or other live-state planning note descr
 
 Do not use change-relative phrasing such as `now`, `no longer`, `previously`, `used to`, or similar transition-history wording unless the note is explicitly historical.
 
-Avoid comparison-led phrasing such as `instead of ...` when the sentence is really stating the present boundary. State the present model directly unless the comparison is analytically necessary.
+Avoid unnecessary comparison-led phrasing such as `instead of ...` or `rather than ...` when the sentence is really stating the present boundary. State the present model directly unless the comparison is analytically necessary.
 
 If the sentence is about current state, rewrite it so the current boundary stands on its own.
 

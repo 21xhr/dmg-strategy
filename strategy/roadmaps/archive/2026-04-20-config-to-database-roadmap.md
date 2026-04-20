@@ -2,9 +2,16 @@
 
 ## Purpose
 
-This is a forward-looking implementation roadmap.
+This roadmap captured the first SaaS-readiness migration path for tenant-backed runtime settings, operator policy boundaries, and public app-config ownership.
 
-It lives under `strategy/roadmaps/` so current-state technical documentation can stay easier to reuse for demos, presentations, and external reading. Documentation placement and repo-governance rules are defined in `system-architecture/documentation-system.md`.
+Archived on 2026-04-20 after the final private operator-session close-out lane completed and the remaining naming or editor polish was moved back into backlog-level cleanup.
+
+Archive outcome:
+
+- tenant-backed runtime settings, public runtime config, operator policy, owner policy, and private session-policy ownership boundaries are explicit enough to stop treating this as an active roadmap
+- admin bootstrap compatibility cleanup and the last high-value browser timing drift in this lane were finished before archiving
+
+See the [roadmap index](../roadmap.md) for the current active execution order.
 
 ## Core model to preserve
 
@@ -59,13 +66,13 @@ First candidates:
 
 This roadmap is no longer at the purely forward-looking stage.
 
-Several major migration slices are already implemented, and the remaining work is now mostly editor polish, deploy cleanup, and explicit tenant-context hardening.
+Several major migration slices are already implemented, the final close-out lane is complete, and the roadmap is now archive-ready.
 
 The clearest reading order is therefore:
 
 1. completed foundation work
 2. remaining major migration work
-3. final hardening and launch cleanup
+3. completed final hardening and launch cleanup
 
 ## Status snapshot
 
@@ -88,10 +95,10 @@ The clearest reading order is therefore:
 - Explorer entitlement state is tenant-scoped on `TenantUserState` instead of living as ambient access on the global `User` record
 - `Challenge` and the main maintenance or operator lifecycle paths already carry explicit tenant scope
 
-The remaining major work is therefore narrower and should happen in this order:
+The remaining major work is therefore one final close-out sequence:
 
-1. finish the structured role-scoped admin surfaces so public runtime, operator policy, owner policy, and future stats views remain isolated as the multi-admin model expands
-2. close the last bootstrap-era access assumptions by moving admin-session lifetime and related private operator-session rules behind explicit private policy surfaces
+1. close the last bootstrap-era access assumptions by moving admin-session lifetime and related private operator-session rules behind explicit private policy surfaces
+2. finish launch cleanup by retiring compatibility paths and removing the remaining high-value literal or fallback drift that would otherwise reopen mixed-surface behavior later
 
 #### Ordered execution detail
 
@@ -140,19 +147,68 @@ Completion criteria:
 - additional admin roles can gain narrower views without reopening the mixed-surface problem
 - higher-sensitivity fields remain isolated enough to support future per-user privacy or policy slicing on demand
 
-2. Private operator-session policy
+**Completed slice: Shared operator vocabulary baseline**
+
+Status snapshot:
+
+- shareable glossary and naming rules now define tenant, tenant operator, owner, admin session, public runtime config, operator policy, owner policy, and private operator-session policy explicitly
+- shareable docs no longer need to lean on legacy gamemaster wording to describe privileged surfaces
+- comparison-led wording checks are narrowed so direct current-state writing is enforced without turning every comparative sentence into a false positive
+
+Completion criteria:
+
+- shareable docs have one durable vocabulary source for the main privileged-surface and policy terms
+- future route, UI, and policy work can reuse those terms without re-explaining them from scratch in each slice
+- later code renames such as route-family naming cleanup can be evaluated against one explicit vocabulary baseline instead of ad hoc wording preferences
+
+**Completed slice: Route-family naming cleanup plan**
+
+Status snapshot:
+
+- the current HTTP boundary already separates `/api/v1/admin/session` and `/api/v1/admin/pulse` from `/api/v1/operator/*`
+- file and module names still compress those responsibilities into broader `adminRoutes` and `operatorRoutes` labels
+- the vocabulary baseline now gives the rename work an explicit boundary vocabulary instead of leaving it to taste or drift
+
+Completion criteria:
+
+- the near-term rename plan keeps the current external HTTP path split stable while clarifying internal module naming later
+- `adminRoutes.ts` has a clear first rename target when the session and monitoring concerns need separate ownership
+- `operatorRoutes.ts` stays the umbrella name until there is real pressure to split read, policy, or action families into narrower route modules
+
+Planned rename order:
+
+1. keep `/api/v1/admin/*` and `/api/v1/operator/*` path behavior stable during the naming pass unless a later launch cleanup needs alias removal
+2. rename internal files and imports before considering any public route-path rename
+3. split `adminRoutes.ts` toward `adminSessionRoutes.ts` or another explicit session-plus-monitoring name only when that boundary earns its own module
+4. keep `operatorRoutes.ts` as the umbrella until there is enough behavior to justify narrower modules such as operator-surface, operator-policy, or operator-action routes
+
+**Completed slice: Private operator-session policy and roadmap close-out**
 
 Status snapshot:
 
 - tenant membership already drives admin session role resolution
 - a private owner-only session-policy surface controls admin-session lifetime per tenant under a system ceiling
 - admin session issuance resolves only through verified tenant operator identity and tenant membership
+- route-family naming now has an explicit internal rename plan, so the remaining work no longer depends on unresolved naming debates
+- admin session bootstrap now accepts only the tenant operator token shape used by the stable login flow
+- the browser submit flow no longer carries page-level timing fallbacks for token reverification or Explorer polling when app-config already provides those values
 
 Completion criteria:
 
 - legacy bootstrap admin-secret compatibility is retired
 - admin-session lifetime and related private access controls live behind explicit private operator policy instead of ambient bootstrap constants
 - session policy hardening can proceed without reopening tenant config governance or user-state boundaries
+- the remaining cleanup list is narrow enough that any leftover naming or editor polish can move to backlog instead of keeping this roadmap open
+
+Checkpoint signals:
+
+- privileged admin access no longer depends on bootstrap secret compatibility
+- admin-session duration policy is private and tenant-scoped rather than ambient bootstrap config
+- the remaining config-to-database work is limited to backlog-level polish or to other focused roadmaps such as economy, domain runtime, or custom-domain work
+
+Archive signal:
+
+- this roadmap is now archive-ready because the remaining work no longer changes where runtime settings, admin policy, or tenant context are owned
 
 #### Completed safeguard slice
 
@@ -204,9 +260,8 @@ Checkpoint signals:
 
 Current follow-up focus:
 
-- define the tenant user-state and stats read model so remaining global-versus-tenant field ownership becomes explicit
-- continue the structured admin-surface split so future roles and user-stats views do not collapse back into a mixed editor
-- move admin-session lifetime and related private operator-session rules behind explicit private policy surfaces
+- keep any later naming, wording, or editor-shape polish in backlog unless it reopens runtime-settings ownership or privileged-policy boundaries
+- leave future tenant-domain, economy, or admin-surface evolution to their own focused roadmaps rather than extending this one again
 
 ### Boundary with the economy roadmap
 
@@ -222,9 +277,9 @@ This roadmap should stay focused on settings and tenant-policy boundaries, while
 Not blockers for ongoing economy cleanup:
 
 - structured operator settings-editor replacement
-- later admin-session hardening and operator-session policy work
+- later admin-surface polish that does not reopen policy ownership boundaries
 
-These remain valid config-to-database follow-up work, but they do not need to delay the remaining economy migration slices.
+These remain valid follow-up work, but they do not need to delay the remaining economy migration slices.
 
 Execution rule:
 
@@ -234,9 +289,10 @@ Execution rule:
 
 ### Final hardening and launch cleanup
 
-- retire the legacy bootstrap admin secret compatibility path after tenant operator token login is the stable entry path
-- move admin session lifetime behind a private operator session policy surface
-- continue explicit hardcoded-literal scans where page logic can still drift from backend settings
+- tenant operator token login is now the only supported admin bootstrap path
+- admin session lifetime now lives behind a private owner-only operator session policy surface
+- the last page-level timing fallbacks identified in this roadmap were removed so browser timing reads flow through app-config helpers
+- any residual polish should stay in backlog or narrower follow-up roadmaps rather than extending this roadmap again
 
 ## Phases
 
@@ -542,11 +598,9 @@ Suggested future capability boundary:
 
 ### Final hardening and launch cleanup
 
-### Phase 12 - Retire bootstrap admin secret compatibility
+### Phase 12 - Retired bootstrap admin secret compatibility
 
-The admin surface already exchanges one admin credential once and uses a short-lived `httpOnly` session cookie for subsequent admin requests.
-
-The remaining work is to make tenant operator token login the only supported path and remove the legacy bootstrap admin secret compatibility branch.
+The admin surface exchanges a tenant operator token once and uses a short-lived `httpOnly` session cookie for subsequent admin requests.
 
 Current implemented state:
 
@@ -554,7 +608,7 @@ Current implemented state:
 - admin dashboard restore and monitoring calls use the cookie-backed session flow
 - privileged operator routes now live under `/api/v1/operator/*`
 - tenant membership is the current authority boundary for privileged operator actions
-- the legacy bootstrap admin secret compatibility branch still exists and remains a cleanup target
+- the legacy bootstrap admin secret compatibility branch is removed
 
 Target architecture:
 
@@ -570,9 +624,9 @@ Target architecture:
 
 Reference flow note:
 
-- see [appendix/flows/admin-authentication-and-dashboard-flow.md](/Users/mac/dmg-doc/dmg-doc/appendix/flows/admin-authentication-and-dashboard-flow.md) for the current token-or-secret exchange, cookie session issuance, dashboard restore flow, and protected pulse access
+- see [admin-authentication-and-dashboard-flow.md](/Users/mac/dmg-workspace/apps/docs/appendix/flows/admin-authentication-and-dashboard-flow.md) for the current token exchange, cookie session issuance, dashboard restore flow, and protected pulse access
 
-Migration shape:
+Implemented migration shape:
 
 1. keep the admin session creation endpoint limited to returning only a server-managed session cookie
 2. keep admin routes on session validation middleware rather than request-header secrets

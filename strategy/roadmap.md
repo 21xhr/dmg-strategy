@@ -121,15 +121,15 @@ Use the dedicated roadmap files for detailed implementation notes, but use this 
 Goal:
 
 - make tenant-scoped settings and operator policy boundaries explicit enough that later work does not keep inheriting bootstrap-era assumptions
-- finish the remaining hardening work before opening the next architecture-heavy migration slice
+- keep the remaining active work scoped to schema follow-through and explicit tenant-context cleanup rather than reopening completed launch-hardening work
 
-Primary roadmap files:
+Primary roadmap file:
 
-- `strategy/roadmaps/config-to-database-roadmap.md`
 - `strategy/roadmaps/config-to-database-schema-roadmap.md`
 
 Latest completed slice:
 
+- the config-to-database implementation roadmap is completed and archived after the private operator-session close-out lane finished
 - operator-control safeguard hardening now covers the real destructive admin action surfaces in the current dashboard
 - `POST /api/v1/operator/challenge/execute` rejects duplicate execute requests against the challenge that is already running
 - `PUT /api/v1/operator/challenge/:challengeId/status` now treats repeated requests to the same status as an idempotent no-op success instead of replaying writes or duplicate event publication
@@ -144,10 +144,11 @@ Checkpoint signals for moving beyond this track:
 
 - tenant context is explicit wherever active economy or operator flows still depend on it
 - deploy/bootstrap URL defaults are no longer the hidden source of runtime authority where tenant or domain-aware resolution should win
-- the remaining work in this track is mostly structured settings-editor replacement, session-policy cleanup, and later launch hardening rather than foundational tenant-boundary cleanup
+- the remaining work in this track is mostly schema follow-through, structured settings-editor replacement, and narrower backlog cleanup rather than foundational tenant-boundary cleanup
 
-Archived record:
+Archived records:
 
+- `strategy/roadmaps/archive/2026-04-20-config-to-database-roadmap.md`
 - `strategy/roadmaps/archive/2026-04-18-drift-reduction-roadmap.md`
 
 ### Next
