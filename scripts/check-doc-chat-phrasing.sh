@@ -20,6 +20,7 @@ fi
 
 pattern='^Here([,:]|[[:space:]]).*(means|refers to)\b|that is what .* means here|WDYM|What ".*" Means Here|^Yes,[[:space:]]|^No,[[:space:]]|^In plain terms,[[:space:]]|^This note provides\b|^This brief turns\b'
 present_boundary_transition_pattern='\bno longer\b|\bused to\b|\bpreviously\b|\bformerly\b|\bbefore this change\b|\bafter this change\b|\bbefore migration\b|\bbefore the migration\b|\bafter migration\b|\bafter the migration\b|\bnow (depends|loads|runs|uses|includes|returns|separates|carries|lives|flows|ships|binds|resolves|stores|tracks|reads|writes)\b'
+present_boundary_comparison_pattern='^Instead of\b|\binstead of (relying|using|remaining|treating|collapsing|replaying|forcing|leaving|building|routing)\b'
 
 printf '%s\n' "$staged_files" | while IFS= read -r file; do
   [ -z "$file" ] && continue
@@ -37,6 +38,7 @@ printf '%s\n' "$staged_files" | grep -E '^(strategy/backlog\.md|strategy/roadmap
   [ -z "$file" ] && continue
 
   git show ":$file" | grep -niE "$present_boundary_transition_pattern" | sed "s|^|$file:|" >> "$tmp_scope_output" || true
+  git show ":$file" | grep -niE "$present_boundary_comparison_pattern" | sed "s|^|$file:|" >> "$tmp_scope_output" || true
 done || true
 
 if [ -s "$tmp_output" ] || [ -s "$tmp_scope_output" ]; then
@@ -48,7 +50,7 @@ if [ -s "$tmp_output" ] || [ -s "$tmp_scope_output" ]; then
   fi
 
   if [ -s "$tmp_scope_output" ]; then
-    echo "Blocked commit: present-boundary planning notes may contain migration-history wording." >&2
+    echo "Blocked commit: present-boundary planning notes may contain migration-history wording or comparison-led framing." >&2
     echo >&2
     cat "$tmp_scope_output" >&2
     echo >&2

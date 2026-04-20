@@ -123,12 +123,13 @@ Completion criteria:
 - a tenant user-stats surface can read one durable model without service-specific reconstruction logic leaking into each caller
 - future tenant-only entitlements or privacy rules can attach to tenant-scoped state without reopening global user semantics each time
 
-1. Structured role-scoped admin surfaces
+**Completed slice: Structured role-scoped admin surfaces**
 
 Status snapshot:
 
 - the baseline governance split is implemented in route, contract, and admin UI form
 - the admin UI exposes session role visibility explicitly and includes a dedicated tenant user-stats surface
+- tenant user stats now resolve through a dedicated operator read route and contract instead of sharing the admin-session route family
 - a backend-owned surface-access manifest defines dashboard card visibility and editability for the active session
 - a support/read admin role can inspect read surfaces without inheriting operator write access
 - the long-term target is many admins with different access boundaries, not one permanent two-role shortcut
