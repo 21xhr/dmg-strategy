@@ -24,7 +24,7 @@ The migration should preserve these core roles:
 - explicit economy policy
 - explicit read-model summaries
 
-The migration is not complete when new tables merely exist. It is complete when shared economy behavior no longer depends on `User ID 1` or the special `community_chest` account convention.
+Completion for this roadmap means shared economy behavior is fully owned by dedicated economy records and no longer relies on `User ID 1` or the special `community_chest` account convention.
 
 ## Current state
 
@@ -68,7 +68,7 @@ Today that means:
 
 - `src/routes/tokenRoutes.ts`
 
-	Explorer-access purchases already route through the economy layer, and explorer merit now reads tenant-scoped spend from `TenantUserState`. The remaining work is contract and coverage hardening, not first-time migration.
+	Explorer-access purchases already route through the economy layer, and explorer merit now reads tenant-scoped spend from `TenantUserState`. The remaining work here is contract and coverage hardening around the active tenant-scoped path.
 
 ### Runtime read paths
 
@@ -88,7 +88,7 @@ Today that means:
 
 - Phase 1 schema introduction is complete
 - Phase 2 runtime write migration is materially started and already covers the main spend, settlement, and explorer-merit decision paths
-- Phase 3 balance and shared-pool migration is materially started because the active seed path no longer creates a bootstrap world-ledger user
+- Phase 3 balance and shared-pool migration is materially started because the active seed path uses tenant-scoped economy records directly
 - Phase 4 read migration is materially started because admin pulse totals now use `EconomySummary`
 - Phase 5 compatibility cleanup is materially started because legacy `User` economy fields are removed from the active schema
 
@@ -96,6 +96,34 @@ Today that means:
 
 - add any missing rebuild tooling required to re-derive tenant economy summaries safely from explicit economy records when bulk cleanup or migration paths need it
 - decide whether the remaining rebuild-tooling work is narrow enough to move to backlog and archive this roadmap
+
+### Current rebuild-tooling slice
+
+A tenant-scoped replay and diff CLI now exists in the workspace repo, and the follow-up guarded apply mode now exists for explicit operator repair.
+
+Current command boundary:
+
+- `pnpm --filter dmg-api run economy:rebuild:diff -- --tenant-slug <slug>`
+- `pnpm --filter dmg-api run economy:rebuild:apply -- --tenant-slug <slug> --confirm-tenant <slug>`
+- alternate selector: `--tenant-id <id>`
+- optional windowing: `--since <iso>` and `--until <iso>`
+- operator or CI usage: `--json` and `--fail-on-diff`
+
+Current scope:
+
+- replay immutable `EconomyTransaction` history for one tenant
+- project expected `EconomySummary` values from transaction history
+- project expected shared-pool balances from source and destination balance movements
+- diff those projections against the current tenant summary and pool-balance records without mutating live state
+- allow explicit full-history repair of the tenant summary and shared-pool balances only when operator confirmation and apply gating are both present
+- warn when older removal transactions do not carry enough metadata to replay `totalToPushers` exactly
+
+Completion signal for this slice:
+
+- one operator-safe audit command exists for tenant economy drift detection
+- one separately gated apply command exists for explicit tenant repair workflows
+- new removal settlements record enough metadata to support exact future replay for `totalToPushers`
+- any later broader repair workflow still treats apply as an explicit operator action rather than a hidden side effect of diff mode
 
 ## Migration phases
 
@@ -414,7 +442,7 @@ During this phase, it is acceptable to keep legacy counters temporarily synchron
 Status:
 
 - partially complete
-- explicit pools and balances exist, and the active seed path no longer creates a bootstrap world-ledger user
+- explicit pools and balances exist, and the active seed path uses tenant-scoped economy records directly
 - reset tooling and seeded push accounting use tenant-scoped pool balances directly
 
 Replace the special `community_chest` account convention and stop using identity rows as shared fund holders.

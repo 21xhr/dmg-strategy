@@ -20,6 +20,108 @@ Completion signal:
 
 - a new contributor can receive the correct development access, populate local environment variables safely, start the workspace, and understand which credentials and services belong to development, staging, and production without relying on private chat context
 
+## Current reference - environment matrix
+
+This section is the current operating reference for environment separation.
+
+Local development:
+
+- local API runtime uses `apps/api/.env` on each developer machine
+- local runtime uses `APP_ENV=development`
+- local runtime should use a development-only database and development-only secrets
+- local runtime may omit Upstash credentials when rate limiting is not needed during development
+
+Staging or non-production shared environment:
+
+- shared non-production runtime uses `APP_ENV=staging`
+- staging uses a non-production database that is separate from production
+- staging uses distinct `JWT_SECRET`, admin secrets, and infrastructure credentials
+- staging should not reuse production database credentials or production bearer secrets
+
+Production:
+
+- production uses `APP_ENV=production`
+- production uses the production database and production-only secrets
+- production rollout should come from managed secrets in the deployment platform or CI
+- production should not share database, JWT, or infrastructure credentials with development or staging
+
+## Current reference - Supabase baseline
+
+This section captures the current recommended baseline for the DMG transition from solo operation to a team-managed setup.
+
+Current account shape:
+
+- one separate Supabase organization now exists for production: `DMG Prod`
+- one separate Supabase organization now exists for non-production: `DMG Non-Prod`
+- one project exists inside each organization, currently using the organization name as the project name
+- the older project in the previous `21xhr` organization has been paused
+
+Current assessment:
+
+- this split is directionally good because it separates production and non-production access earlier than the previous single-org posture
+- it is acceptable to retire the old paused project if its data is disposable and the active runtime will be repointed to the new production and non-production projects
+- before deleting the old project, confirm no runtime still points at its connection string and no manual reference data needs to be copied out
+
+Recommended layout:
+
+- create one Supabase project for production, such as `DMG Prod`
+- create one separate Supabase project for non-production, such as `DMG Non-Prod`
+- keep production and non-production in separate projects even if broader environment automation does not exist yet
+
+Settings reference:
+
+| Setting | What it controls | Current recommendation | Notes |
+| --- | --- | --- | --- |
+| Data API | Supabase HTTP access to project resources | Leave enabled | The current backend-owned architecture does not depend on exposing tables directly to browsers, but this setting is not harmful by itself. |
+| Automatically expose new tables and functions | Whether new resources are surfaced through the Data API automatically | Acceptable to leave enabled for now | Revisit later if stricter platform-surface control becomes important. |
+| Automatic RLS for new tables | Whether new tables start with Row Level Security enabled | Leave disabled by default | The current product relies on the DMG backend as the main access boundary rather than direct browser-to-Supabase access. |
+| Enforce SSL on incoming connections | Rejects non-TLS database connections | Enable for both production and non-production | This is the explicit toggle behind the "SSL should be enforced" recommendation. |
+| Connection pooling | Provides pooled runtime database connections | Use for long-lived or bursty application runtime connections | Keep direct connection access available separately for Prisma migration workflows. |
+| Direct connection string | Non-pooled database connection | Keep available for migrations and administrative tasks | This is the safer default for Prisma migrate and other schema-changing workflows. |
+| Network restrictions | IP-based access control for database connections | Leave off unless the hosting model supports stable egress controls | This is usually not the first move for low-cost early hosting setups. |
+| Replication destinations | Cross-region or downstream replication targets | Do not configure yet | Not needed in the current operating model. |
+
+Current settings baseline:
+
+- Data API can remain enabled; the current backend-owned model does not depend on exposing tables directly to browsers
+- automatically exposing new tables and functions can remain enabled for now, though it is not the main access boundary for the current product
+- automatic RLS enablement for new tables should stay off by default in the current backend-owned architecture
+- SSL should be enforced for incoming non-local connections
+- connection pooling is appropriate for runtime application connections; direct migration access should stay available for Prisma migration workflows
+- replication destinations are not required in the current operating model
+- network restrictions should only be enabled when the deployment platform provides a stable and supportable egress model
+
+Connection-string operating rule:
+
+- use the pooled Supabase connection string for the deployed application runtime when connection churn or serverless-style concurrency makes pooling valuable
+- use the direct connection string for Prisma migration workflows and other schema-management tasks
+- do not point local development at production merely because only one direct connection string is easy to copy
+
+Access model note:
+
+- the current production and non-production org split is a reasonable response to the free-plan project-limit and visibility constraints already encountered
+- if later paid-plan features or team-role controls make a single-org structure safe and simpler, revisit the split only when the operational upside is clear
+
+Certificate note:
+
+- enabling SSL enforcement does not mean every ordinary runtime has to manage a downloaded certificate file manually
+- use the provider's SSL-enabled connection strings as the default starting point
+- only introduce manual certificate distribution when a client library or hosting environment genuinely requires certificate pinning beyond the normal connection-string posture
+
+## Current reference - Vercel environment matrix
+
+Web runtime:
+
+- production web deployment needs an explicit production API base URL
+- preview web deployment needs an explicit non-production API base URL
+- local web development can use local origin or explicit local `API_BASE_URL` override
+
+API runtime:
+
+- production API deployment needs production `APP_ENV`, database, JWT, admin, and infrastructure secrets
+- preview or staging API deployment needs non-production `APP_ENV`, database, JWT, admin, and infrastructure secrets
+- preview and staging should not point at the production database
+
 ## 1. Database and access
 
 - [ ] ensure a dedicated development database exists in Supabase and is not the production database
