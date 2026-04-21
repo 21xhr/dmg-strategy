@@ -6,7 +6,7 @@ Archived on 2026-04-21 after tenant-context hardening, runtime-authority cleanup
 
 This file is the archived schema-planning record for the config-to-database migration.
 
-It lives in the planning repo because it is roadmap and design work, not an executable Prisma artifact. Documentation placement and repo-governance rules are defined in `system-architecture/documentation-system.md`.
+It lives in the strategy repo because it is roadmap and design work, not an executable Prisma artifact. Documentation placement and repo-governance rules are defined in `system-architecture/documentation-system.md`.
 
 The API repo should contain the real schema, migrations, and seed logic once implementation starts.
 

@@ -35,7 +35,8 @@ Today that means:
 - dedicated `EconomyActor`, `EconomyPool`, `EconomyBalance`, `EconomyTransaction`, `EconomyPolicy`, and `EconomySummary` records exist in the schema
 - challenge spend, removal settlement, and explorer-access spend already route through `economyService.ts`
 - operator-facing pulse reads already use `EconomySummary` instead of `User ID 1`
-- legacy identity-based counters still exist as compatibility surfaces in `User` and a few bootstrap paths
+- active runtime spend, refund, and explorer-merit decisions now use tenant-scoped economy or tenant-user-state records instead of mirroring shared totals into global `User` counters
+- legacy identity-based counters still exist in `User` as schema compatibility surfaces pending a later cleanup migration
 
 ## Current legacy touchpoints
 
@@ -43,7 +44,7 @@ Today that means:
 
 - `prisma/seedUsers.ts`
 
-	Creates `User ID 1` as the world ledger record and seeds the dedicated `community_chest` account. These should become explicit economy pool and balance records instead of bootstrap identity artifacts.
+	Seeds tenant economy foundation records directly and resets the user identity sequence after explicit bootstrap inserts. The old `User ID 1` world-ledger artifact is removed from the active seed path.
 
 - `prisma/seedPushes.ts`
 
@@ -59,15 +60,15 @@ Today that means:
 
 - `src/services/challengeRemovalService.ts`
 
-	Removal settlement already records tenant-scoped economy transactions and summary updates, but it still mirrors some totals into legacy `User` counters for compatibility. Those compatibility writes should be retired after dependent reads are removed.
+	Removal settlement already records tenant-scoped economy transactions and summary updates without mirroring removal totals into legacy `User` counters.
 
 - `src/services/challengeService.ts`
 
-	Submission, push, digout, and disrupt spend paths already route through tenant-scoped economy spend helpers. The remaining work here is removing any leftover compatibility writes once all dependent reads have moved.
+	Submission, push, digout, and disrupt spend paths already route through tenant-scoped economy spend helpers and tenant-scoped user-state counters. The remaining work here is follow-through cleanup, not first-time migration.
 
 - `src/routes/tokenRoutes.ts`
 
-	Explorer-access purchases already route through the economy layer. The remaining work is contract and coverage hardening, not first-time migration.
+	Explorer-access purchases already route through the economy layer, and explorer merit now reads tenant-scoped spend from `TenantUserState`. The remaining work is contract and coverage hardening, not first-time migration.
 
 ### Runtime read paths
 
@@ -79,20 +80,20 @@ Today that means:
 
 - `prisma/schema.prisma`
 
-	The `User` model still carries both player metrics and shared-ledger counters, while the `Account` model carries the special `community_chest` sink balance. Player activity metrics may remain user-linked, but shared economy state should move to economy actors, pools, balances, transactions, policy, and summaries.
+	The `User` model still carries older global counters as compatibility fields even though active runtime reads and writes have moved to tenant-scoped economy and tenant-user-state records. Shared economy state should continue to converge on economy actors, pools, balances, transactions, policy, and summaries.
 
 ## Status snapshot
 
 ### Completed or materially started
 
 - Phase 1 schema introduction is complete
-- Phase 2 runtime write migration is materially started and already covers the main spend and settlement paths
+- Phase 2 runtime write migration is materially started and already covers the main spend, settlement, and explorer-merit decision paths
+- Phase 3 balance and shared-pool migration is materially started because the active seed path no longer creates a bootstrap world-ledger user
 - Phase 4 read migration is materially started because admin pulse totals now use `EconomySummary`
 
 ### Real remaining work
 
-- remove legacy compatibility counter writes once no runtime or reporting path still depends on them
-- move shared-pool bootstrap behavior fully off identity artifacts such as the `community_chest` account convention
+- remove legacy compatibility fields from `User` once no reporting or migration path still depends on them
 - remove the default-tenant runtime assumption from challenge spend flows so explicit tenant attribution is end-to-end rather than partially inferred
 - add any missing rebuild tooling required to re-derive tenant economy summaries safely from explicit economy records when bulk cleanup or migration paths need it
 
@@ -390,7 +391,8 @@ Status:
 - materially started
 - challenge spend, removal settlement, and explorer-access spend already route through the economy layer
 - seed push adjustments now route through the economy layer as well
-- remaining work is concentrated in compatibility counter removal and full tenant attribution across all challenge flows
+- explorer merit decisions now use tenant-scoped spend instead of global user counters
+- remaining work is concentrated in schema cleanup and full tenant attribution across all challenge flows
 
 Replace direct shared-counter writes in runtime flows.
 
@@ -411,7 +413,8 @@ During this phase, it is acceptable to keep legacy counters temporarily synchron
 Status:
 
 - partially complete
-- explicit pools and balances exist, but bootstrap identity artifacts still remain for compatibility
+- explicit pools and balances exist, and the active seed path no longer creates a bootstrap world-ledger user
+- remaining cleanup is schema-field removal and any reset tooling that still assumes older identity-era counters
 
 Replace the special `community_chest` account convention and stop using identity rows as shared fund holders.
 
@@ -441,7 +444,7 @@ Priority targets:
 Status:
 
 - not complete
-- the main remaining gaps are bootstrap identity artifacts, compatibility-counter paths, and default-tenant runtime assumptions rather than core schema or first-time runtime write migration
+- the main remaining gaps are schema cleanup, rebuild tooling, and default-tenant attribution follow-through rather than core schema or first-time runtime write migration
 
 Delete the remaining `User ID 1` world-ledger assumptions and the `community_chest` sink convention.
 

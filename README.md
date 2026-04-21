@@ -1,6 +1,6 @@
 # dmg-strategy
 
-Private planning workspace for DMG project.
+Strategy repo for the DMG project.
 
 This repository contains:
 - Strategy planning and roadmap documents
