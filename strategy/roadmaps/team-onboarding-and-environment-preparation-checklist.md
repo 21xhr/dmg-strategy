@@ -76,8 +76,8 @@ Settings reference:
 | Automatically expose new tables and functions | Whether new resources are surfaced through the Data API automatically | Acceptable to leave enabled for now | Revisit later if stricter platform-surface control becomes important. |
 | Automatic RLS for new tables | Whether new tables start with Row Level Security enabled | Leave disabled by default | The current product relies on the DMG backend as the main access boundary rather than direct browser-to-Supabase access. |
 | Enforce SSL on incoming connections | Rejects non-TLS database connections | Enable for both production and non-production | This is the explicit toggle behind the "SSL should be enforced" recommendation. |
-| Connection pooling | Provides pooled runtime database connections | Use for long-lived or bursty application runtime connections | Keep direct connection access available separately for Prisma migration workflows. |
-| Direct connection string | Non-pooled database connection | Keep available for migrations and administrative tasks | This is the safer default for Prisma migrate and other schema-changing workflows. |
+| Connection pooling | Provides pooled runtime database connections | Use for hosted application runtime connections | Best fit for deployed API processes that may open many short-lived connections. |
+| Direct connection string | Non-pooled database connection | Use for Prisma migrations, schema changes, and most local development | This is the safer default for Prisma migrate and other schema-changing workflows. |
 | Network restrictions | IP-based access control for database connections | Leave off unless the hosting model supports stable egress controls | This is usually not the first move for low-cost early hosting setups. |
 | Replication destinations | Cross-region or downstream replication targets | Do not configure yet | Not needed in the current operating model. |
 
@@ -93,8 +93,9 @@ Current settings baseline:
 
 Connection-string operating rule:
 
-- use the pooled Supabase connection string for the deployed application runtime when connection churn or serverless-style concurrency makes pooling valuable
-- use the direct connection string for Prisma migration workflows and other schema-management tasks
+- local development should use the direct non-production connection string unless a later local-ops reason makes pooling necessary
+- the deployed API runtime should use the pooled non-production or production connection string for its own environment
+- Prisma migration workflows should use the direct connection string for the matching environment
 - do not point local development at production merely because only one direct connection string is easy to copy
 
 Access model note:
@@ -107,6 +108,39 @@ Certificate note:
 - enabling SSL enforcement does not mean every ordinary runtime has to manage a downloaded certificate file manually
 - use the provider's SSL-enabled connection strings as the default starting point
 - only introduce manual certificate distribution when a client library or hosting environment genuinely requires certificate pinning beyond the normal connection-string posture
+
+## Current reference - hosting model baseline
+
+This section captures the current recommended deployment posture for a credible early-stage but portable setup.
+
+Recommended split:
+
+- deploy the browser-facing web runtime on Vercel
+- deploy the API on a plain Node-friendly host rather than reshaping the current Express server into a Vercel-native serverless surface
+- keep Supabase as the managed Postgres provider rather than coupling runtime hosting and database hosting into one vendor decision
+
+Current recommendation:
+
+- treat a portable deployment model as the primary operating principle
+- prefer hosting choices that keep the API close to an ordinary Node process or container so later migration to another provider is operationally straightforward
+- avoid making the current API architecture look more serverless-native than it really is just to fit a free-tier platform constraint
+
+Provider baseline:
+
+- Vercel remains the preferred web host because static and frontend deployment workflows are clear and team-friendly there
+- Render is the current recommended API host because it fits a boring Node-service deployment story more naturally than forcing the existing API into serverless shape
+- a later move to another Node or container host should remain feasible because the API should stay deployable as a conventional service
+
+Practical note:
+
+- a fully free early setup is possible for experimentation, but a stable production-grade API host should be treated as a budgeted infrastructure dependency rather than a forever-free assumption
+
+Why this model is credible:
+
+- it keeps the browser-facing deployment simple
+- it keeps the API aligned with its real runtime architecture
+- it avoids unnecessary provider-specific rewrites before product and team shape justify them
+- it preserves optionality for later infrastructure migration
 
 ## Current reference - Vercel environment matrix
 
