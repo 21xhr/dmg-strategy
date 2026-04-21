@@ -89,6 +89,7 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 - expand the lean private tenant demo settings wedge only when a dedicated demo-config model is justified by field count or workflow complexity
 - support tenant-specific demo user identities rather than one shared demo identity pool when clean analytics and future data aggregation matter more than short-term convenience
 - design operator-issued demo access so tenants can generate scoped test access for their own users without leaking into public runtime config
+- add an owner-gated demo dataset reset surface backed by the existing `resetDemoScope` flow once destructive operator-action governance is explicit enough to expose it beyond scripts
 
 ### Internationalization and architecture governance
 

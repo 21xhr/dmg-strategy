@@ -60,6 +60,7 @@ What exists now is:
 - one export step that publishes generated browser contract artifacts into `dmg-webapp/js/generated/`
 - frontend runtime guards in the challenge-submit form, app-config bootstrap loader, admin session restore and login flow, admin dashboard pulse loader, admin public-app-config editor flow, admin challenge execute and status-update controls, shared stream-status helper, explorer verification flow, explorer access-grant flow, explorer challenge list polling flow, explorer push quote, push confirm, digout, challenge-removal, and disrupt flows, and public challenge detail page that consume those generated artifacts instead of trusting untyped payloads
 - exported challenge-lifecycle artifacts now power the Explorer digout, challenge-removal, and disrupt browser actions directly
+- public app-config artifacts now carry tenant demo-boundary metadata, and explorer verification plus access-grant artifacts now carry the resolved dataset scope so the browser can label demo-only datasets explicitly
 
 The missing pieces are:
 

@@ -167,6 +167,7 @@ Status:
 - backend-owned contract artifacts now also cover the admin dashboard pulse read
 - backend-owned contract artifacts now also cover the operator-side public-app-config editor surface
 - operator challenge execute now reports interrupted-session context and blocks duplicate execute requests against the currently running challenge
+- public app-config and explorer access contracts now also surface demo-boundary metadata so browser UX can label demo-tenant rendering and demo-scoped Explorer datasets explicitly
 - generated browser contracts are exported into the webapp; the current classic-script frontend now consumes the challenge-submit, app-config, admin pulse, operator public-app-config, stream-status, explorer access, explorer challenge-read, explorer push-action, Explorer digout, Explorer challenge-removal, and Explorer disrupt artifacts as runtime guards
 
 Primary roadmap file:

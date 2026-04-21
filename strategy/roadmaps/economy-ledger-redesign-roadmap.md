@@ -35,8 +35,8 @@ Today that means:
 - dedicated `EconomyActor`, `EconomyPool`, `EconomyBalance`, `EconomyTransaction`, `EconomyPolicy`, and `EconomySummary` records exist in the schema
 - challenge spend, removal settlement, and explorer-access spend already route through `economyService.ts`
 - operator-facing pulse reads already use `EconomySummary` instead of `User ID 1`
-- active runtime spend, refund, and explorer-merit decisions now use tenant-scoped economy or tenant-user-state records instead of mirroring shared totals into global `User` counters
-- legacy identity-based counters still exist in `User` as schema compatibility surfaces pending a later cleanup migration
+- active runtime spend, refund, and explorer-merit decisions use tenant-scoped economy records and `TenantUserState`
+- the `User` schema carries identity and relationship data while tenant activity totals live in `TenantUserState`
 
 ## Current legacy touchpoints
 
@@ -48,13 +48,13 @@ Today that means:
 
 - `prisma/seedPushes.ts`
 
-	Now records seeded push spending through explicit economy seed-adjustment records instead of incrementing `User ID 1`. Remaining cleanup here is improving tenant attribution once challenge runtime stops depending on the default-tenant assumption.
+	Records seeded push spending through explicit economy seed-adjustment records and applies those adjustments to the tenant that owns the seeded challenges.
 
 ### Reset and rebuild paths
 
 - `prisma/resetDemoScope.ts`
 
-	Now removes demo-scope challenge and explorer spend from explicit economy summary and shared-fund balances instead of rebuilding the old ledger user. Remaining cleanup here is broader transaction-derived rebuild tooling if later reset flows need full economy recomputation.
+	Removes demo-scope challenge and explorer spend from the demo tenant's economy summary and tenant shared fund pool. Remaining cleanup here is broader transaction-derived rebuild tooling if later reset flows need full economy recomputation.
 
 ### Runtime write paths
 
@@ -80,7 +80,7 @@ Today that means:
 
 - `prisma/schema.prisma`
 
-	The `User` model still carries older global counters as compatibility fields even though active runtime reads and writes have moved to tenant-scoped economy and tenant-user-state records. Shared economy state should continue to converge on economy actors, pools, balances, transactions, policy, and summaries.
+	The `User` model carries identity and relationship data. Tenant spend, refund, and activity totals live in `TenantUserState`, and shared economy state lives in economy actors, pools, balances, transactions, policy, and summaries.
 
 ## Status snapshot
 
@@ -90,12 +90,12 @@ Today that means:
 - Phase 2 runtime write migration is materially started and already covers the main spend, settlement, and explorer-merit decision paths
 - Phase 3 balance and shared-pool migration is materially started because the active seed path no longer creates a bootstrap world-ledger user
 - Phase 4 read migration is materially started because admin pulse totals now use `EconomySummary`
+- Phase 5 compatibility cleanup is materially started because legacy `User` economy fields are removed from the active schema
 
 ### Real remaining work
 
-- remove legacy compatibility fields from `User` once no reporting or migration path still depends on them
-- remove the default-tenant runtime assumption from challenge spend flows so explicit tenant attribution is end-to-end rather than partially inferred
 - add any missing rebuild tooling required to re-derive tenant economy summaries safely from explicit economy records when bulk cleanup or migration paths need it
+- decide whether the remaining rebuild-tooling work is narrow enough to move to backlog and archive this roadmap
 
 ## Migration phases
 
@@ -392,7 +392,8 @@ Status:
 - challenge spend, removal settlement, and explorer-access spend already route through the economy layer
 - seed push adjustments now route through the economy layer as well
 - explorer merit decisions now use tenant-scoped spend instead of global user counters
-- remaining work is concentrated in schema cleanup and full tenant attribution across all challenge flows
+- seeded push adjustments and demo-scope resets use the tenant that owns the seeded activity
+- remaining work is concentrated in rebuild tooling and archival review rather than active runtime migration
 
 Replace direct shared-counter writes in runtime flows.
 
@@ -414,7 +415,7 @@ Status:
 
 - partially complete
 - explicit pools and balances exist, and the active seed path no longer creates a bootstrap world-ledger user
-- remaining cleanup is schema-field removal and any reset tooling that still assumes older identity-era counters
+- reset tooling and seeded push accounting use tenant-scoped pool balances directly
 
 Replace the special `community_chest` account convention and stop using identity rows as shared fund holders.
 
@@ -444,7 +445,7 @@ Priority targets:
 Status:
 
 - not complete
-- the main remaining gaps are schema cleanup, rebuild tooling, and default-tenant attribution follow-through rather than core schema or first-time runtime write migration
+- the main remaining gap is rebuild tooling for bulk recomputation or cleanup paths that may need to derive summaries from explicit economy records
 
 Delete the remaining `User ID 1` world-ledger assumptions and the `community_chest` sink convention.
 

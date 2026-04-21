@@ -19,7 +19,7 @@ This is the strategy repo.
 - Before creating a new note, check whether the content belongs in an existing source note or should be a short derivative that links back to one.
 - When creating or reshaping a roadmap, include a status snapshot and explicit completion criteria or checkpoint signals so archival decisions do not rely on memory or gut feel.
 - When a roadmap's own completion criteria or status markers indicate that the track is mostly finished, ask whether it should be archived instead of leaving it in the active roadmap lane.
-- When referring to repositories, call `/Users/mac/dmg-strategy` the strategy repo and call `/Users/mac/dmg-workspace` the workspace repo or shareable repo. Do not call them the planning repo or docs repo.
+- When referring to repositories, use `strategy repo` for `/Users/mac/dmg-strategy` and `workspace repo` or `shareable repo` for `/Users/mac/dmg-workspace`.
 
 ## Repo boundary
 - Treat `strategy/` as source material for internal reasoning and reusable theses.
