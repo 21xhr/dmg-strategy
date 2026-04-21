@@ -202,3 +202,62 @@ Backend fallback:
 The ideal steady state is seeded config rows for all active tenants.
 
 The backend fallback exists as operational safety, not as the primary business-rule store.
+
+## Settings ownership decision snapshot
+
+The current split is clear enough to treat as the working model for the remaining SaaS-readiness lane.
+
+### Tenant-backed public runtime config
+
+These belong in tenant-editable public runtime config because they shape browser-visible behavior, link generation, or public branding for one tenant:
+
+- frontend base URL
+- allowed browser origins
+- share handle
+- share hashtags
+- Ko-fi username and derived donation embed override
+
+### Tenant-backed operator policy
+
+These belong in operator-manageable tenant policy because they shape normal gameplay or economy behavior for one tenant without crossing into private operator security:
+
+- initial balance
+- daily reset hour
+- session duration for gameplay
+- submission base cost
+- push base cost
+- push quote limit
+- disrupt cost
+- Explorer standard and merit costs
+- Explorer access step minutes
+- demo Explorer grant cap
+- Explorer merit threshold
+- live discount numerator
+- digout percentage numerator
+- removal refund percentage numerator
+
+### Owner-sensitive tenant policy
+
+These belong in owner-only tenant policy because they affect tenant security posture or issuance authority rather than day-to-day operator tuning:
+
+- operator-issued demo-token enablement
+- demo token TTL
+- max token duration
+
+### Private operator-session policy
+
+These belong in the separate owner-only session-policy surface because they control privileged dashboard session lifetime rather than gameplay or public runtime behavior:
+
+- admin session duration override
+
+### Internal bootstrap or support configuration
+
+These should stay outside normal tenant-editable policy surfaces unless a later product requirement justifies promoting them:
+
+- system token and admin-session caps
+- default fallback durations used when a tenant override is absent
+- static bootstrap defaults that exist only as migration or operational safety rails
+- cron secrets, database credentials, and other deployment-only infrastructure settings
+- support-only or operational feature gates such as whether public challenge detail pages stay open, are disabled, or sit behind a password wall until a broader tenant feature-availability model is shaped
+
+The main remaining governance task is to gather per-tenant availability and activation switches into one explicit feature-availability layer instead of scattering them across bootstrap defaults, public runtime config, and support-only operational notes.

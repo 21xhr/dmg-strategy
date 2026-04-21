@@ -53,6 +53,7 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 ### Configuration governance
 
 - define which challenge and player actions stay globally available and which ones become tenant-scoped or feature-gated so livestream use and in-app use can diverge cleanly per tenant
+- add per-tenant availability controls for public challenge detail pages, including whether a tenant can disable public challenge pages entirely or place them behind a lightweight password wall
 - continue moving scattered fallback defaults into dedicated config modules or tenant-backed records so `tenantSettingsService.ts` stays an assembly layer rather than a long-term home for business-rule literals
 - treat future browser or helper literal scans as spot cleanup unless they reveal a real ownership-boundary regression in app-config or tenant-backed policy
 - define the expected development, staging, and production secret tiers for database and infrastructure credentials before repository handoff to a broader engineering team

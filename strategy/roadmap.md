@@ -133,16 +133,20 @@ Latest completed slice:
 - operator-control safeguard hardening now covers the real destructive admin action surfaces in the current dashboard
 - `POST /api/v1/operator/challenge/execute` rejects duplicate execute requests against the challenge that is already running
 - `PUT /api/v1/operator/challenge/:challengeId/status` now treats repeated requests to the same status as an idempotent no-op success instead of replaying writes or duplicate event publication
-- the remaining admin mutation surface is `PUT /api/v1/operator/public-app-config`, which stays tracked as configuration-governance work rather than as part of the destructive-control safeguard slice
+- explicit tenant-context hardening now requires a requested tenant on `/api/v1/admin`, `/api/v1/operator`, `/api/v1/challenges`, `/api/v1/token`, and `/api/v1/user` instead of letting those route families inherit the default tenant implicitly
+- local operator bootstrap now prints a tenant-qualified admin URL and the admin page refuses to establish or restore a privileged session until the URL carries explicit tenant context
+- command ingress now requires explicit tenant context as well, including tenant selectors carried in ingress payload metadata, and scheduler or maintenance fanout no longer falls back to one ambient default tenant when no tenant-backed runtime list resolves
 
 Next slice inside this same track:
 
-- continue the remaining explicit tenant-context hardening where routes, background workflows, or deploy/bootstrap resolution still assume one ambient tenant
-- then decide which remaining settings belong in tenant-backed operator policy versus internal bootstrap or support configuration
+- continue the remaining explicit tenant-context hardening where deploy/bootstrap resolution or older helper paths still assume one ambient tenant
+- then implement the remaining settings-ownership split already decided in the schema roadmap note, especially where feature availability or support-only runtime controls still sit in mixed config layers
 
 Checkpoint signals for moving beyond this track:
 
 - tenant context is explicit wherever active economy or operator flows still depend on it
+- the remaining ambient-tenant assumptions are limited to narrower ingress or background paths rather than the main privileged and browser-driven route families
+- command ingress and recurring background maintenance no longer recover by assuming one default tenant when no tenant-backed runtime is named or enumerated
 - deploy/bootstrap URL defaults are no longer the hidden source of runtime authority where tenant or domain-aware resolution should win
 - the remaining work in this track is mostly schema follow-through, structured settings-editor replacement, and narrower backlog cleanup rather than foundational tenant-boundary cleanup
 
@@ -276,6 +280,7 @@ Checkpoint for promotion out of later:
 Latest completed slice:
 
 - explicit tenant-context cleanup now covers challenge mutation flows, challenge removal, auth-driven account creation, stats rendering, token duration caps, daily submission context, maintenance-state reads, and stream helper entrypoints that previously relied on one ambient default tenant
+- explicit tenant-context cleanup now also covers command ingress and recurring background maintenance fanout, so those paths no longer recover by assuming one default tenant when the runtime should name or enumerate tenant-backed targets directly
 - operator-control safeguard hardening now covers the destructive operator challenge actions on the current admin surface: duplicate execute requests are rejected, and repeated status updates to the same target state are idempotent no-op success responses
 
 Current execution rule:
