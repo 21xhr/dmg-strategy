@@ -116,68 +116,43 @@ Use the dedicated roadmap files for detailed implementation notes, but use this 
 
 ### Now
 
-#### 1. SaaS-readiness foundation
-
-Goal:
-
-- make tenant-scoped settings and operator policy boundaries explicit enough that later work does not keep inheriting bootstrap-era assumptions
-- keep the remaining active work scoped to schema follow-through and explicit tenant-context cleanup rather than reopening completed launch-hardening work
-
-Primary roadmap file:
-
-- `strategy/roadmaps/config-to-database-schema-roadmap.md`
-
-Latest completed slice:
-
-- the config-to-database implementation roadmap is completed and archived after the private operator-session close-out lane finished
-- operator-control safeguard hardening now covers the real destructive admin action surfaces in the current dashboard
-- `POST /api/v1/operator/challenge/execute` rejects duplicate execute requests against the challenge that is already running
-- `PUT /api/v1/operator/challenge/:challengeId/status` now treats repeated requests to the same status as an idempotent no-op success instead of replaying writes or duplicate event publication
-- explicit tenant-context hardening now requires a requested tenant on `/api/v1/admin`, `/api/v1/operator`, `/api/v1/challenges`, `/api/v1/token`, and `/api/v1/user` instead of letting those route families inherit the default tenant implicitly
-- local operator bootstrap now prints a tenant-qualified admin URL and the admin page refuses to establish or restore a privileged session until the URL carries explicit tenant context
-- command ingress now requires explicit tenant context as well, including tenant selectors carried in ingress payload metadata, and scheduler or maintenance fanout no longer falls back to one ambient default tenant when no tenant-backed runtime list resolves
-
-Next slice inside this same track:
-
-- continue the remaining explicit tenant-context hardening where deploy/bootstrap resolution or older helper paths still assume one ambient tenant
-- then implement the remaining settings-ownership split already decided in the schema roadmap note, especially where feature availability or support-only runtime controls still sit in mixed config layers
-
-Checkpoint signals for moving beyond this track:
-
-- tenant context is explicit wherever active economy or operator flows still depend on it
-- the remaining ambient-tenant assumptions are limited to narrower ingress or background paths rather than the main privileged and browser-driven route families
-- command ingress and recurring background maintenance no longer recover by assuming one default tenant when no tenant-backed runtime is named or enumerated
-- deploy/bootstrap URL defaults are no longer the hidden source of runtime authority where tenant or domain-aware resolution should win
-- the remaining work in this track is mostly schema follow-through, structured settings-editor replacement, and narrower backlog cleanup rather than foundational tenant-boundary cleanup
-
-Archived records:
-
-- `strategy/roadmaps/archive/2026-04-20-config-to-database-roadmap.md`
-- `strategy/roadmaps/archive/2026-04-18-drift-reduction-roadmap.md`
-
-### Next
-
-#### 2. Economy and ledger redesign
+#### 1. Economy and ledger redesign
 
 Goal:
 
 - replace the legacy `User ID 1` world-ledger pattern with dedicated economy records
 - move shared pools, balances, and summaries out of identity-based shortcuts
-- keep economy migration scoped separately so the config-to-database roadmap stays focused on tenant and settings work
+- keep economy migration scoped separately from the completed SaaS-readiness foundation
 
 Primary roadmap file:
 
 - `strategy/roadmaps/economy-ledger-redesign-roadmap.md`
 
-Why this is next:
+Why this is now active:
 
-- this is the biggest remaining implementation slice, but it should start after the SaaS-readiness track stops leaving tenant and operator-policy ambiguity at the runtime boundary
+- tenant and settings boundaries are explicit enough that the remaining work stops competing with the next implementation-heavy migration slice
+- the SaaS-readiness foundation no longer blocks tenant-attributed economy records, pools, or summaries
 
 Checkpoint to start this track cleanly:
 
-- the current SaaS-readiness slice has already removed the main tenant-context ambiguity that would otherwise leak into economy records, pools, and summaries
+- the SaaS-readiness foundation has already removed the main tenant-context ambiguity that would otherwise leak into economy records, pools, and summaries
 
-#### 3. Shared API contract
+#### SaaS-readiness foundation
+
+Status:
+
+- completed enough to stop competing with active execution priorities
+- archived after tenant-context hardening, settings-ownership decisions, and runtime-authority boundaries became explicit enough for the next migration track
+
+Archived records:
+
+- `strategy/roadmaps/archive/2026-04-21-config-to-database-schema-roadmap.md`
+- `strategy/roadmaps/archive/2026-04-20-config-to-database-roadmap.md`
+- `strategy/roadmaps/archive/2026-04-18-drift-reduction-roadmap.md`
+
+### Next
+
+#### 2. Shared API contract
 
 Goal:
 
@@ -200,9 +175,9 @@ Primary roadmap file:
 
 Execution rule for this track:
 
-- keep this track close behind active backend route changes while the tenant model and operator surfaces are still moving, but do not let it outrank the remaining tenant-boundary work or the core economy migration
+- keep this track close behind active backend route changes while the tenant model and operator surfaces are still moving, but do not let it outrank the core economy migration
 
-#### 4. Provider and ingress abstraction
+#### 3. Provider and ingress abstraction
 
 Goal:
 
@@ -227,7 +202,7 @@ Recommended scope boundary:
 
 ### Later
 
-#### 5. Frontend productization
+#### 4. Frontend productization
 
 Goal:
 
@@ -245,7 +220,7 @@ Checkpoint for promotion out of later:
 
 - tenant policy boundaries, economy records, and the highest-risk route contracts are stable enough that frontend cleanup is productizing durable surfaces instead of transitional ones
 
-#### 6. Runtime notifications
+#### 5. Runtime notifications
 
 Goal:
 
@@ -261,7 +236,7 @@ Checkpoint for promotion out of later:
 
 - challenge execution state, tenant ownership, and operator-action boundaries are stable enough that the notification transport is being designed around settled runtime events rather than moving targets
 
-#### 7. Team onboarding and environment preparation
+#### 6. Team onboarding and environment preparation
 
 Goal:
 
@@ -279,11 +254,12 @@ Checkpoint for promotion out of later:
 
 Latest completed slice:
 
-- explicit tenant-context cleanup now covers challenge mutation flows, challenge removal, auth-driven account creation, stats rendering, token duration caps, daily submission context, maintenance-state reads, and stream helper entrypoints that previously relied on one ambient default tenant
-- explicit tenant-context cleanup now also covers command ingress and recurring background maintenance fanout, so those paths no longer recover by assuming one default tenant when the runtime should name or enumerate tenant-backed targets directly
-- operator-control safeguard hardening now covers the destructive operator challenge actions on the current admin surface: duplicate execute requests are rejected, and repeated status updates to the same target state are idempotent no-op success responses
+- the SaaS-readiness foundation is archived after tenant-context hardening, runtime-authority cleanup, and settings-ownership decisions became explicit enough to stop competing with active execution priorities
+- explicit tenant-context coverage extends across challenge mutation flows, challenge removal, auth-driven account creation, stats rendering, token duration caps, daily submission context, maintenance-state reads, stream helper entrypoints, command ingress, and recurring background maintenance fanout
+- operator-control safeguard hardening covers the destructive operator challenge actions on the current admin surface: duplicate execute requests are rejected, and repeated status updates to the same target state are idempotent no-op success responses
 
 Current execution rule:
 
-- finish the active SaaS-readiness close-out slice before opening the next implementation-heavy migration slice that depends on tenant or operator-policy clarity
-- keep separate tracks separate in documentation even when the implementation order is sequential
+- keep the economy and ledger redesign as the primary implementation lane
+- keep shared API contract work close behind active backend route changes without letting it outrank economy migration
+- treat residual SaaS-readiness follow-up such as feature availability packaging, neutral capability vocabulary, and editor-shape polish as backlog or narrower follow-up work unless they reopen tenant-boundary ownership

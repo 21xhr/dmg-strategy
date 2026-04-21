@@ -1,10 +1,12 @@
 # Config To Database Schema Roadmap
 
+Archived on 2026-04-21 after tenant-context hardening, runtime-authority cleanup, and settings-ownership decisions finished the SaaS-readiness foundation as an active execution lane. Residual follow-up stays in backlog items or in later tracks such as economy-ledger redesign and tenant feature-availability governance.
+
 ## Purpose
 
-This file is the canonical schema-planning note for the config-to-database migration.
+This file is the archived schema-planning record for the config-to-database migration.
 
-It lives in the docs repo because it is still roadmap and design work, not an executable Prisma artifact. Documentation placement and repo-governance rules are defined in `system-architecture/documentation-system.md`.
+It lives in the planning repo because it is roadmap and design work, not an executable Prisma artifact. Documentation placement and repo-governance rules are defined in `system-architecture/documentation-system.md`.
 
 The API repo should contain the real schema, migrations, and seed logic once implementation starts.
 
@@ -143,9 +145,11 @@ If the first migration happens before there is any real operator user in the dat
 - one seeded `TenantConfig`
 - zero `TenantMembership` rows until the first operator identity exists
 
-## Why `Challenge` and `Stream` should link to `tenantId` later
+## Why tenant-owned domain records should link to `tenantId` later
 
 That relation should exist.
+
+`Challenge` and `Stream` are the current implementation examples, but the principle is broader: tenant-owned operational records should carry direct tenant linkage.
 
 It is listed later because it changes existing domain tables and usually requires data backfill or migration logic.
 
@@ -158,7 +162,7 @@ The safer sequence is:
 
 Even if the current database is still early, that staged migration keeps the first step smaller and easier to validate.
 
-## `GAME_MASTER` note
+## Internal actor marker note
 
 `GAME_MASTER` in the current `PlatformName` enum does not represent tenant ownership.
 
@@ -217,28 +221,21 @@ These belong in tenant-editable public runtime config because they shape browser
 - share hashtags
 - Ko-fi username and derived donation embed override
 
-### Tenant-backed operator policy
+### Tenant-backed operating policy
 
-These belong in operator-manageable tenant policy because they shape normal gameplay or economy behavior for one tenant without crossing into private operator security:
+These belong in tenant-manageable operating policy because they shape one tenant's participation, pricing, pacing, and ledger behavior without crossing into private operator security.
 
-- initial balance
-- daily reset hour
-- session duration for gameplay
-- submission base cost
-- push base cost
-- push quote limit
-- disrupt cost
-- Explorer standard and merit costs
-- Explorer access step minutes
-- demo Explorer grant cap
-- Explorer merit threshold
-- live discount numerator
-- digout percentage numerator
-- removal refund percentage numerator
+- participant starting balance and reset cadence
+- execution-unit duration for tenant activity windows
+- entry, escalation, and spend controls for tenant actions
+- tenant-scoped access-step timing and entitlement thresholds
+- tenant-scoped pricing modifiers and settlement ratios
+
+Current implementation examples include `initialBalance`, `dailyResetHourUtc`, `sessionDurationMinutes`, `submissionBaseCost`, `pushBaseCost`, `pushQuoteLimit`, `disruptCost`, `explorerStandardCost`, `explorerMeritCost`, `explorerAccessStepMinutes`, `demoExplorerGrantUnitCap`, `explorerMeritThreshold`, `liveDiscountMultiplierNumerator`, `digoutPercentageNumerator`, and `removalRefundPercentageNumerator`.
 
 ### Owner-sensitive tenant policy
 
-These belong in owner-only tenant policy because they affect tenant security posture or issuance authority rather than day-to-day operator tuning:
+These belong in owner-only tenant policy because they affect tenant security posture or issuance authority more than routine tenant operations:
 
 - operator-issued demo-token enablement
 - demo token TTL
@@ -246,7 +243,7 @@ These belong in owner-only tenant policy because they affect tenant security pos
 
 ### Private operator-session policy
 
-These belong in the separate owner-only session-policy surface because they control privileged dashboard session lifetime rather than gameplay or public runtime behavior:
+These belong in the separate owner-only session-policy surface because they control privileged dashboard session lifetime, not public runtime behavior or tenant operating policy:
 
 - admin session duration override
 
@@ -260,4 +257,4 @@ These should stay outside normal tenant-editable policy surfaces unless a later 
 - cron secrets, database credentials, and other deployment-only infrastructure settings
 - support-only or operational feature gates such as whether public challenge detail pages stay open, are disabled, or sit behind a password wall until a broader tenant feature-availability model is shaped
 
-The main remaining governance task is to gather per-tenant availability and activation switches into one explicit feature-availability layer instead of scattering them across bootstrap defaults, public runtime config, and support-only operational notes.
+The main remaining governance task is to gather per-tenant availability and activation switches into one explicit feature-availability layer so broader product capability packaging does not stay coupled to the current streaming-wedge mechanic vocabulary.
