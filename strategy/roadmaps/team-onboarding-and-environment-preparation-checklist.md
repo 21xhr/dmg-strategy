@@ -98,6 +98,20 @@ Connection-string operating rule:
 - Prisma migration workflows should use the direct connection string for the matching environment
 - do not point local development at production merely because only one direct connection string is easy to copy
 
+Matching-environment note:
+
+- direct non-production means the direct connection string for the non-production Supabase project
+- direct production means the direct connection string for the production Supabase project
+- the runtime and migration URLs should always point at the same environment tier even when one is pooled and the other is direct
+
+Prisma migration resolution note:
+
+- Prisma does not invent a database target on its own; it reads the datasource URL from the workspace environment configuration
+- in the current workspace repo, `apps/api/prisma.config.ts` resolves `MIGRATION_DATABASE_URL` first and then falls back to `DATABASE_URL`
+- local developer runs can rely on `apps/api/.env` when that file is present on the developer machine
+- shared staging and production rollout should come from managed secrets in CI or the deployment platform rather than from an untracked env file copied around the team
+- this means a team can keep runtime `DATABASE_URL` pooled while keeping `MIGRATION_DATABASE_URL` direct for the same staging or production database
+
 Access model note:
 
 - the current production and non-production org split is a reasonable response to the free-plan project-limit and visibility constraints already encountered
@@ -130,6 +144,18 @@ Provider baseline:
 - Vercel remains the preferred web host because static and frontend deployment workflows are clear and team-friendly there
 - Render is the current recommended API host because it fits a boring Node-service deployment story more naturally than forcing the existing API into serverless shape
 - a later move to another Node or container host should remain feasible because the API should stay deployable as a conventional service
+
+Web-host note:
+
+- Render can also host the web bundle, but the current web runtime benefits more from Vercel's static deployment, preview, and routing ergonomics than from provider unification for its own sake
+- this remains credible for a SaaS path because the current browser runtime is a static multi-page frontend, not a compute-heavy frontend that needs to share a runtime model with the API
+- if the web runtime later grows into a different rendering or compute posture, the hosting choice can be revisited separately from the API host
+
+Serverless note:
+
+- Vercel-native serverless is not inherently better than a conventional Node service
+- it is better only when the API boundary, execution model, cold-start tolerance, and operational budget actually match serverless assumptions
+- the current Express API is a better fit for a conventional service host, so reshaping it into serverless form now would be platform-fitting work rather than product-leverage work
 
 Practical note:
 

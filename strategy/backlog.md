@@ -63,7 +63,7 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 ### Tenant state and analytics
 
 - review which user progression fields belong globally on `User` versus per-tenant on `TenantUserState`, including whether totals such as `totalChallengesSubmitted` should remain DMG-global or gain tenant-scoped companions
-- add a durable stats/read-model plan for a tenant user-stats page instead of leaving operator-visible player metrics split across ad hoc service reads
+- define a durable stats and read-model plan for the tenant user-stats page so operator-visible player metrics have one explicit serving path
 - add `uniquePusher` or equivalent explicit per-challenge uniqueness tracking once the analytics consumer is clear enough to avoid another placeholder field rename later
 - implement a tenant-safe "total unique pushers in session" metric once the challenge/session analytics boundary is explicit
 
@@ -76,7 +76,7 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 
 ### Identity and access
 
-- retire or rename the legacy `master_demo_token` bootstrap artifact so it no longer reads like a demo token
+- rename the `master_demo_token` bootstrap artifact to a scope-accurate operator bootstrap label
 - design the operator and user-facing flows that mint tenant-scoped perennial tokens now that the base `tenantId` and purpose model exists
 - decide when perennial tokens remain direct bearer credentials versus when they should be exchanged for browser sessions or cookies
 - keep perennial-token access as a distinct non-OAuth entry path if the product wants lightweight user-managed links alongside OAuth-based account connections
@@ -95,6 +95,7 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 
 - define the minimum viable i18n boundary early so operator pages and public pages do not hard-code English copy into every surface before localization primitives exist
 - decide whether architecture decision records should exist as a lightweight standing format for cross-repo boundary choices, and if so where they should live and how they should be linked from roadmap work
+- capture the current web-on-Vercel plus API-on-Render deployment model as a lightweight ADR once the first production deployment path is exercised end to end, including the rationale for keeping the API on a conventional Node-service host
 
 ## Working rule
 
