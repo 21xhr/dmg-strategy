@@ -1,0 +1,198 @@
+# Eric And Nathalie / Conseil Evolution Relationship And Discovery Notes
+
+## Purpose
+
+This note preserves durable relationship context, call-prep framing, discovery signal, and follow-up paths for Eric and Nathalie / Conseil Evolution.
+
+Operational next steps live in [[external-network/plans/current-network-action-sheet]].
+
+High-level network context lives in [[external-network/network-contacts/current-network]].
+
+## Relationship frame
+
+- Very warm access.
+- The relationship is useful less as a direct product-buyer path than as a repeated cross-organization signal surface.
+- Conseil Evolution is useful because it sees recurring patterns across audit, training, management-support, evaluation, and research-action work rather than only one internal environment.
+- The strongest value of a first call is sharper problem language, better institutional legibility, and concrete introduction paths into organizations where the pain is real enough to inspect directly.
+
+## Public profile snapshot
+
+- Conseil Evolution publicly presents itself as a consulting and training firm active since 2001.
+- Its homepage language emphasizes tailored support, field experience, research partnership, and improvement of the quality of life of the people served by client organizations.
+- Public sector language on the site points especially toward petite enfance, education, health, disability, and aging environments.
+- Eric Piriou is presented publicly as a psychologist, trainer, consultant, co-manager, and senior consultant.
+- The firm's public description says Eric worked across several medico-social services and establishments and has a strong taste for research-action.
+- Nathalie Rihouey is presented publicly as a co-manager and senior consultant with long operational experience as a special educator, project coordinator, and ESMS director, with a strong taste for mobilizing leadership teams and practitioners.
+- That public positioning suggests Eric is likely to respond better to language about recurring field realities, decision support, and actionable organizational clarity than to startup or technical-product language.
+
+## Public context and source links
+
+Useful public sources worth keeping close to this note:
+
+- https://conseilevolution.com/
+- https://conseilevolution.com/prestations/
+- https://conseilevolution.com/ils-nous-font-confiance/
+
+## First-call prep: 2026-04-22
+
+### Call context
+
+- Eric agreed to a call while driving after work.
+- That constraint makes the right format short, conversational, and question-led rather than presentation-led.
+- The goal is not to explain the whole product.
+- The goal is to learn which recurring management and decision-framing problems he sees often enough that they sound like a real category rather than one isolated anecdote.
+
+### Primary objective
+
+- Extract recurring pain language from Conseil Evolution's intervention environments.
+
+### Secondary objectives
+
+- Test whether DMG sounds more credible as decision-ready field signal, uncertainty reduction, or governance support than as participation tooling.
+- Learn which organization types and operating situations produce the clearest fit.
+- Identify whether Eric sees one or two concrete people or organizations worth speaking to next.
+
+### Best working frame for the call
+
+- Lead with curiosity about repeated patterns he sees across clients.
+- Keep the conversation on situations where managers, directors, or governance bodies need clearer signal before deciding.
+- Avoid long product explanation unless he asks for it.
+- Treat the call as pattern extraction and language calibration first.
+
+### Live call checklist
+
+- Open by framing the call as a short request for pattern learning, not a pitch.
+- Check that the driving context still makes the timing workable.
+- Ask one concrete recurring-problem question first.
+- Stay on one thread long enough to get an example instead of jumping across themes too early.
+- Ask what organizations currently do instead when the signal is weak.
+- Ask which settings show the problem most clearly.
+- Ask what language would sound credible to directors, managers, or governance actors in his environments.
+- If the conversation stays strong, ask who he would speak to next.
+- Close with one narrow follow-up ask, not a broad request.
+
+### Live call flow
+
+#### 0. Opening and permission check
+
+- Thank him for taking the call.
+- Confirm that because he is driving, you will keep the exchange short and simple.
+- State that the goal is to learn from repeated situations he sees across organizations.
+
+#### 1. First question
+
+Use one very clear opener:
+
+"In the organizations you support, what problem comes back most often when leaders need to understand what is really happening before they decide?"
+
+#### 2. Clarify the problem
+
+If he gives a broad answer, narrow it:
+
+"When that happens, what is usually missing: clear feedback from the field, comparison across teams, priority visibility, or something else?"
+
+#### 3. Ask for one real example
+
+"Do you have one concrete situation in mind where that problem was especially visible?"
+
+#### 4. Ask about the current workaround
+
+"Today, how do organizations usually deal with that when they do not have a good way to see it clearly?"
+
+#### 5. Ask where the fit is strongest
+
+"In which environments do you see this most clearly: health, medico-social, associative, municipal, or somewhere else?"
+
+#### 6. Ask the language question
+
+"If someone wanted to speak about this problem in a way that sounds credible to your clients, what words would feel right, and what words would feel wrong or too abstract?"
+
+#### 7. Ask for the next door
+
+"If one person or organization comes to mind where this is concrete enough to inspect, who would you think of?"
+
+#### 8. Close cleanly
+
+- Thank him.
+- Reflect back the strongest problem pattern in one sentence.
+- If relevant, ask whether you may follow up after writing down the main points.
+
+### Short opener
+
+Use a short opener that makes the interview frame explicit:
+
+"I mainly wanted to use this call to learn from what you keep seeing across organizations. I am trying to understand where leaders or teams repeatedly lack clear enough field signal to decide well, especially when the issue is not total dysfunction but weak visibility, delayed escalation, or fragmented feedback."
+
+### Questions worth asking first
+
+1. Across the organizations you support, what problems come back most often when managers need to understand what is really happening on the ground before deciding?
+2. Where do you most often see signal become weak, delayed, filtered, or too hard to compare from one team or site to another?
+3. In those situations, what do organizations usually do today instead?
+4. Which environments show that problem most clearly: municipalities, hospitals, medico-social structures, associative actors, or something else?
+5. When people try to fix it, do they mainly need better upward visibility, better cross-team comparison, better prioritization, or something else?
+
+### Questions worth asking if the conversation opens up
+
+1. Does this sound more like a management-support problem, an evaluation problem, a governance problem, or another category entirely from your point of view?
+2. What wording would sound credible to the kinds of directors or managers you advise, and what wording would sound wrong or too abstract?
+3. If one organization were a good fit for a deeper conversation, who would you think of first?
+4. Is there a setting where the pain is real but the people involved would still be open enough to discuss it concretely?
+
+### Non-goals for this call
+
+- Do not force a demo.
+- Do not try to close a pilot.
+- Do not overload a driving call with feature detail, architecture, or pricing.
+- Do not claim that organizations are broadly broken if Eric describes them as mostly functioning but visibility-limited.
+
+### Good signal from the call
+
+- Eric names recurring situations rather than only one-off stories.
+- He sharpens the language around reliability, clarity, escalation, decision framing, or fragmented field signal.
+- He distinguishes where the problem is real versus where it is too diffuse or too political.
+- He names a concrete role, organization type, or person for follow-up.
+
+### Weak signal from the call
+
+- The discussion stays at a very general level with no repeated pattern.
+- The problem sounds like ordinary communication coaching rather than a decision-signal problem.
+- No environment sounds concrete enough to inspect further.
+- The conversation ends in generic encouragement without sharper language or a next path.
+
+### Recommended close
+
+If the discussion is useful, end with one narrow follow-up ask:
+
+"If one person or organization comes to mind where this kind of signal problem is concrete enough to inspect, I would value an introduction or even just a suggestion on who I should speak to next."
+
+### If he asks what DMG is
+
+Use a short plain-language answer first:
+
+"I am exploring a way to help organizations see field reality more clearly before decisions are made. The core idea is to make weak, scattered, or delayed signal easier to surface, structure, and compare, so leaders are not deciding mainly from fragmented feedback, local escalation, or whoever speaks the loudest."
+
+If he wants one sentence more:
+
+"It is not mainly a communication tool or a survey tool. The stronger idea is a practical support layer that helps an organization turn what people are seeing on the ground into signal that is clearer, more reliable, and more usable for prioritization and decision-making."
+
+If he asks where it fits in his world:
+
+"In environments like the ones you see, I suspect the value is not in replacing professional judgment. It is in helping managers, direction teams, or governance bodies get a clearer view of what is recurring, where tensions are building, and what deserves attention before the issue becomes distorted, overly local, or too late to read properly."
+
+### What to avoid if he asks about the product
+
+- Do not describe it as an app for engagement.
+- Do not describe it as a polling system.
+- Do not describe it as AI-first.
+- Do not make it sound like it removes the need for human judgment.
+- Do not imply that his clients are broadly dysfunctional.
+
+## Immediate follow-up rule
+
+After the call, capture:
+
+- the strongest repeated pain pattern he names
+- any language he accepts or rejects
+- any organization type that sounds especially live
+- any named introduction path
+- whether the stronger wedge sounds like uncertainty reduction, decision-ready signal, governance support, or something narrower
