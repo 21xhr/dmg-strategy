@@ -265,10 +265,23 @@ Operational rule:
 Daily maintenance:
 
 - configure one scheduled caller for `POST /api/v1/clock/run-daily-maintenance`
-- store `PRODUCTION_API_MAINTENANCE_URL` and `PRODUCTION_CRON_SECRET` as GitHub Actions secrets in the workspace repository
+- set `CRON_SECRET` in the production Render service first; this is the secret the API expects in the `x-cron-secret` header
+- set `PRODUCTION_API_MAINTENANCE_URL` as a GitHub Actions secret in the workspace repository; use the full production endpoint URL, currently `https://dmg-api.onrender.com/api/v1/clock/run-daily-maintenance`
+- set `PRODUCTION_CRON_SECRET` as a GitHub Actions secret in the workspace repository; use the same value as the production Render `CRON_SECRET`
 - use the repository workflow `.github/workflows/daily-maintenance.yml` as the scheduled caller
 - send `x-cron-secret: <CRON_SECRET>` on that request
 - keep only one scheduler path active for daily maintenance
+
+Concrete setup sequence:
+
+1. generate one production cron secret, for example with `openssl rand -hex 32`
+2. add that value to the production Render service as `CRON_SECRET`
+3. open the GitHub repository settings for `21xhr/dmg-workspace`
+4. go to `Settings -> Secrets and variables -> Actions`
+5. create `PRODUCTION_API_MAINTENANCE_URL=https://dmg-api.onrender.com/api/v1/clock/run-daily-maintenance`
+6. create `PRODUCTION_CRON_SECRET=<same value as Render CRON_SECRET>`
+7. keep `.github/workflows/daily-maintenance.yml` enabled so GitHub Actions sends the daily POST request
+8. do not configure a second scheduler in Render, Vercel, or another service for the same endpoint
 
 ## Current reference - Vercel web setup checklist
 
@@ -316,11 +329,11 @@ Render API runtime:
 
 - production service name: `dmg-api`
 - shared non-production service name: `<fill-render-non-production-service-name>`
-- production host: `https://<fill-render-production-host>`
+- production host: `https://dmg-api.onrender.com`
 - shared non-production host: `https://<fill-render-non-production-host>`
-- production API base URL: `https://<fill-render-production-host>/api/v1`
+- production API base URL: `https://dmg-api.onrender.com/api/v1`
 - shared non-production API base URL: `https://<fill-render-non-production-host>/api/v1`
-- production maintenance URL: `https://<fill-render-production-host>/api/v1/clock/run-daily-maintenance`
+- production maintenance URL: `https://dmg-api.onrender.com/api/v1/clock/run-daily-maintenance`
 
 Vercel web runtime:
 
