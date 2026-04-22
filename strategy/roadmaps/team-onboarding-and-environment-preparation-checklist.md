@@ -207,6 +207,10 @@ Build and start commands:
 - start command: `pnpm --filter dmg-api start`
 - health check path: `/`
 
+Runtime fit note:
+
+- the current API shape assumes one stable backend service that owns the autonomous scheduler and other backend-managed runtime behavior
+
 Production environment variables:
 
 - `APP_ENV=production`
@@ -233,7 +237,6 @@ Daily maintenance:
 - configure one scheduled caller for `POST /api/v1/clock/run-daily-maintenance`
 - send `x-cron-secret: <CRON_SECRET>` on that request
 - keep only one scheduler path active for daily maintenance
-- the long-running service expectation refers in part to the autonomous scheduler and in part to keeping one stable backend process responsible for owned runtime behavior
 
 ## Current reference - Vercel web setup checklist
 
@@ -267,6 +270,36 @@ Operational rule:
 - preview and production web deployments should target different API base URLs
 - the Vercel web project does not need database secrets or `JWT_SECRET`
 - the current setup implies one deployed non-production API service for preview and staging traffic and one deployed production API service for production traffic
+
+## Current reference - deployment fill-in sheet
+
+Use this section to record the concrete values once the provider projects and domains exist.
+
+Supabase baseline:
+
+- production org and project: `DMG Prod`
+- shared non-production org and project: `DMG Non-Prod`
+
+Render API runtime:
+
+- production service name: `dmg-api`
+- shared non-production service name: `<fill-render-non-production-service-name>`
+- production host: `https://<fill-render-production-host>`
+- shared non-production host: `https://<fill-render-non-production-host>`
+- production API base URL: `https://<fill-render-production-host>/api/v1`
+- shared non-production API base URL: `https://<fill-render-non-production-host>/api/v1`
+- production maintenance URL: `https://<fill-render-production-host>/api/v1/clock/run-daily-maintenance`
+
+Vercel web runtime:
+
+- project name: `<fill-vercel-project-name>`
+- preview `API_BASE_URL`: `https://<fill-render-non-production-host>/api/v1`
+- production `API_BASE_URL`: `https://<fill-render-production-host>/api/v1`
+
+Operational ownership:
+
+- production migrations run from: `<fill-render-shell-or-ci-surface>`
+- production cron caller runs from: `<fill-provider-or-job-surface>`
 
 ## 1. Database and access
 

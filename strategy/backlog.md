@@ -31,6 +31,7 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 - check whether glossary-worthy term changes are reviewed automatically and consistently enough across the current documentation dependency model, review-target tooling, and standing instructions
 - audit private planning notes that still point at pre-monorepo paths or older workspace assumptions, including `strategy/decision-support-boundaries.md` references when related notes now assume the current two-repo structure
 - define the workspace developer-onboarding document shape so the root README stays high-level while one modern quick-start guide carries local setup, first-run checks, and next-surface pointers
+- extend the documentation prose guard so meta-routing sentences about what belongs in private notes or what a guide should become are blocked in shareable repo markdown before commit
 
 ### Naming and scope cleanup
 
