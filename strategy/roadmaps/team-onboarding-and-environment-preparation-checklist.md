@@ -20,6 +20,11 @@ Completion signal:
 
 - a new contributor can receive the correct development access, populate local environment variables safely, start the workspace, and understand which credentials and services belong to development, staging, and production without relying on private chat context
 
+Onboarding delivery note:
+
+- this checklist should lead to one clean developer onboarding guide in the workspace repo once the setup is stable enough to describe as current operating procedure
+- that guide should optimize for quick local setup, clear pointers, and low-friction first use rather than repeating every operational rationale inline
+
 ## Current reference - environment matrix
 
 This section is the current operating reference for environment separation.
@@ -198,8 +203,7 @@ Service shape:
 
 Build and start commands:
 
-- install command: `corepack enable && pnpm install --frozen-lockfile`
-- build command: `pnpm --filter dmg-api build`
+- build command field in Render: `corepack enable && pnpm install --frozen-lockfile && pnpm --filter dmg-api build`
 - start command: `pnpm --filter dmg-api start`
 - health check path: `/`
 
@@ -214,6 +218,11 @@ Production environment variables:
 - `UPSTASH_REDIS_REST_URL=<production Upstash URL>` only when non-local rate limiting is enabled
 - `UPSTASH_REDIS_REST_TOKEN=<production Upstash token>` only when non-local rate limiting is enabled
 
+Field mapping note:
+
+- Render uses one build-command field, so dependency install and app build should be combined in that single command
+- `UPSTASH_REDIS_REST_TOKEN` is only needed when the non-local environment should enforce Redis-backed rate limiting
+
 Operational rule:
 
 - production database secrets and JWT secrets should be entered in Render managed environment variables and should not be part of ordinary developer secret distribution
@@ -224,6 +233,7 @@ Daily maintenance:
 - configure one scheduled caller for `POST /api/v1/clock/run-daily-maintenance`
 - send `x-cron-secret: <CRON_SECRET>` on that request
 - keep only one scheduler path active for daily maintenance
+- the long-running service expectation refers in part to the autonomous scheduler and in part to keeping one stable backend process responsible for owned runtime behavior
 
 ## Current reference - Vercel web setup checklist
 
@@ -237,9 +247,15 @@ Project shape:
 
 Build settings:
 
-- install command: `corepack enable && pnpm install --frozen-lockfile`
+- install command: leave blank when Vercel auto-detects the workspace install, otherwise `corepack enable && pnpm install --frozen-lockfile`
 - build command: `pnpm run build:static`
 - output directory: `dist`
+
+Project settings note:
+
+- confirm the root directory is `apps/web`
+- confirm `vercel.json` rewrites are included from that project root
+- use the shared non-production API host for Preview and the production API host for Production
 
 Environment variables:
 

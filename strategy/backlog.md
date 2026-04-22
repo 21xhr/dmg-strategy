@@ -30,6 +30,7 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 - define the documentation linting or prose-validation boundary for the workspace so shareable docs style checks do not rely only on manual review
 - check whether glossary-worthy term changes are reviewed automatically and consistently enough across the current documentation dependency model, review-target tooling, and standing instructions
 - audit private planning notes that still point at pre-monorepo paths or older workspace assumptions, including `strategy/decision-support-boundaries.md` references when related notes now assume the current two-repo structure
+- define the workspace developer-onboarding document shape so the root README stays high-level while one modern quick-start guide carries local setup, first-run checks, and next-surface pointers
 
 ### Naming and scope cleanup
 
