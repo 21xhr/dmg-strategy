@@ -29,12 +29,15 @@ Local development:
 - local API runtime uses `apps/api/.env` on each developer machine
 - local runtime uses `APP_ENV=development`
 - local runtime should use a development-only database and development-only secrets
+- local development should default to a developer-managed local Postgres instance rather than the shared non-production Supabase project
 - local runtime may omit Upstash credentials when rate limiting is not needed during development
 
 Staging or non-production shared environment:
 
 - shared non-production runtime uses `APP_ENV=staging`
 - staging uses a non-production database that is separate from production
+- staging should stay logically separate from developer-local databases even if both remain non-production
+- the current `DMG Non-Prod` Supabase project is the shared staging and preview database baseline
 - staging uses distinct `JWT_SECRET`, admin secrets, and infrastructure credentials
 - staging should not reuse production database credentials or production bearer secrets
 
@@ -111,6 +114,7 @@ Prisma migration resolution note:
 - local developer runs can rely on `apps/api/.env` when that file is present on the developer machine
 - shared staging and production rollout should come from managed secrets in CI or the deployment platform rather than from an untracked env file copied around the team
 - this means a team can keep runtime `DATABASE_URL` pooled while keeping `MIGRATION_DATABASE_URL` direct for the same staging or production database
+- production database credentials should stay in the deployment platform or CI secret manager and should not be part of ordinary developer secret distribution
 
 Access model note:
 
@@ -181,6 +185,72 @@ API runtime:
 - production API deployment needs production `APP_ENV`, database, JWT, admin, and infrastructure secrets
 - preview or staging API deployment needs non-production `APP_ENV`, database, JWT, admin, and infrastructure secrets
 - preview and staging should not point at the production database
+
+## Current reference - Render API setup checklist
+
+This section is the current one-time setup checklist for the Render-hosted API service.
+
+Service shape:
+
+- create one Render web service for `apps/api`
+- use the repository root as the service root
+- keep the API as the only long-running backend service in this first deployment shape
+
+Build and start commands:
+
+- install command: `corepack enable && pnpm install --frozen-lockfile`
+- build command: `pnpm --filter dmg-api build`
+- start command: `pnpm --filter dmg-api start`
+- health check path: `/`
+
+Production environment variables:
+
+- `APP_ENV=production`
+- `DATABASE_URL=<production pooled Postgres URL>`
+- `MIGRATION_DATABASE_URL=<production direct Postgres URL>`
+- `JWT_SECRET=<production JWT secret>`
+- `CRON_SECRET=<production cron secret>`
+- `SESSION_SCHEDULER_MODE=enabled`
+- `UPSTASH_REDIS_REST_URL=<production Upstash URL>` only when non-local rate limiting is enabled
+- `UPSTASH_REDIS_REST_TOKEN=<production Upstash token>` only when non-local rate limiting is enabled
+
+Operational rule:
+
+- production database secrets and JWT secrets should be entered in Render managed environment variables and should not be part of ordinary developer secret distribution
+- migration execution should happen from a Render shell, a Render one-off job, or CI with the same managed production secret set; do not make developer laptops the default production migration surface
+
+Daily maintenance:
+
+- configure one scheduled caller for `POST /api/v1/clock/run-daily-maintenance`
+- send `x-cron-secret: <CRON_SECRET>` on that request
+- keep only one scheduler path active for daily maintenance
+
+## Current reference - Vercel web setup checklist
+
+This section is the current one-time setup checklist for the Vercel-hosted browser runtime.
+
+Project shape:
+
+- import the workspace repository into Vercel
+- set the project root directory to `apps/web`
+- use the `Other` framework preset
+
+Build settings:
+
+- install command: `corepack enable && pnpm install --frozen-lockfile`
+- build command: `pnpm run build:static`
+- output directory: `dist`
+
+Environment variables:
+
+- Preview `API_BASE_URL=<shared non-production API base URL>/api/v1`
+- Production `API_BASE_URL=<production API base URL>/api/v1`
+
+Operational rule:
+
+- preview and production web deployments should target different API base URLs
+- the Vercel web project does not need database secrets or `JWT_SECRET`
+- the current setup implies one deployed non-production API service for preview and staging traffic and one deployed production API service for production traffic
 
 ## 1. Database and access
 
