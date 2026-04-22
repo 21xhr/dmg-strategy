@@ -241,21 +241,21 @@ Current setup attempt: 2026-04-22
 - custom domain: not configured yet
 - render subdomain expectation: `https://dmg-api.onrender.com`
 - production API base URL once live: `https://dmg-api.onrender.com/api/v1`
-- health check path should be set to `/` if the service form leaves it unset during creation
+- health check path: `/`
 - selected instance type: Free
 
 Free-tier note:
 
 - the free instance is acceptable for smoke testing and first setup validation
 - it is not a stable production-grade target because it spins down on inactivity and does not provide SSH access, one-off jobs, or other operational features needed for smoother production maintenance
-- if the service remains on the free tier, production migrations cannot rely on a Render shell and should instead run from CI or another controlled execution surface
+- if the service remains on the free tier, production migrations cannot rely on a Render shell because the free plan does not provide that execution surface; use CI or another controlled execution surface instead
 
 Current blocker:
 
 - the first deploy failed before build because Render could not clone one Git LFS-tracked audio asset
 - failing path: `apps/web/assets/audio/Futuristic_digital_success_notification_chime3.mp3`
 - Render reported a missing LFS object for pointer `845181c7ca86103a6bb67383eb503e91a1c97b3a200657d8543a74efac1353ed`
-- next repair options are either to push the missing LFS object to the remote LFS store or to stop tracking that asset in LFS and recommit it normally
+- repair path: push the missing LFS object to the remote LFS store and rerun the deploy
 
 Operational rule:
 
@@ -265,6 +265,8 @@ Operational rule:
 Daily maintenance:
 
 - configure one scheduled caller for `POST /api/v1/clock/run-daily-maintenance`
+- store `PRODUCTION_API_MAINTENANCE_URL` and `PRODUCTION_CRON_SECRET` as GitHub Actions secrets in the workspace repository
+- use the repository workflow `.github/workflows/daily-maintenance.yml` as the scheduled caller
 - send `x-cron-secret: <CRON_SECRET>` on that request
 - keep only one scheduler path active for daily maintenance
 
@@ -322,9 +324,9 @@ Render API runtime:
 
 Vercel web runtime:
 
-- project name: `<fill-vercel-project-name>`
-- preview `API_BASE_URL`: `https://<fill-render-non-production-host>/api/v1`
-- production `API_BASE_URL`: `https://<fill-render-production-host>/api/v1`
+- project name: `dmg-workspace-web`
+- preview `API_BASE_URL`: `https://dmg-api.onrender.com/api/v1` until a separate non-production API service exists
+- production `API_BASE_URL`: `https://dmg-api.onrender.com/api/v1`
 
 Environment groups note:
 
