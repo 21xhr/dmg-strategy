@@ -227,6 +227,36 @@ Field mapping note:
 - Render uses one build-command field, so dependency install and app build should be combined in that single command
 - `UPSTASH_REDIS_REST_TOKEN` is only needed when the non-local environment should enforce Redis-backed rate limiting
 
+Current setup attempt: 2026-04-22
+
+- source repository: `dmg-workspace`
+- service name entered: `dmg-api`
+- naming note: `dmg-api` is acceptable for a first production service; if a second long-lived non-production service is added later, use a clearer pair such as `dmg-api-prod` and `dmg-api-staging`
+- language: Node
+- branch: `main`
+- region: Frankfurt (`EU Central`)
+- root directory left blank so Render runs from the repository root, matching the current monorepo guidance
+- auto-deploy on commit: enabled
+- PR previews: off
+- custom domain: not configured yet
+- render subdomain expectation: `https://dmg-api.onrender.com`
+- production API base URL once live: `https://dmg-api.onrender.com/api/v1`
+- health check path should be set to `/` if the service form leaves it unset during creation
+- selected instance type: Free
+
+Free-tier note:
+
+- the free instance is acceptable for smoke testing and first setup validation
+- it is not a stable production-grade target because it spins down on inactivity and does not provide SSH access, one-off jobs, or other operational features needed for smoother production maintenance
+- if the service remains on the free tier, production migrations cannot rely on a Render shell and should instead run from CI or another controlled execution surface
+
+Current blocker:
+
+- the first deploy failed before build because Render could not clone one Git LFS-tracked audio asset
+- failing path: `apps/web/assets/audio/Futuristic_digital_success_notification_chime3.mp3`
+- Render reported a missing LFS object for pointer `845181c7ca86103a6bb67383eb503e91a1c97b3a200657d8543a74efac1353ed`
+- next repair options are either to push the missing LFS object to the remote LFS store or to stop tracking that asset in LFS and recommit it normally
+
 Operational rule:
 
 - production database secrets and JWT secrets should be entered in Render managed environment variables and should not be part of ordinary developer secret distribution
@@ -295,6 +325,11 @@ Vercel web runtime:
 - project name: `<fill-vercel-project-name>`
 - preview `API_BASE_URL`: `https://<fill-render-non-production-host>/api/v1`
 - production `API_BASE_URL`: `https://<fill-render-production-host>/api/v1`
+
+Environment groups note:
+
+- Render environment groups can be useful later for shared non-production variables across more than one staging-like service
+- they are not required for the first production API service
 
 Operational ownership:
 
