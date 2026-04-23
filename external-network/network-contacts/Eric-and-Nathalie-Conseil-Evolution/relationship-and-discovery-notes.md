@@ -179,6 +179,30 @@ If he asks where it fits in his world:
 
 "In environments like the ones you see, I suspect the value is not in replacing professional judgment. It is in helping managers, direction teams, or governance bodies get a clearer view of what is recurring, where tensions are building, and what deserves attention before the issue becomes distorted, overly local, or too late to read properly."
 
+### First call notes: 2026-04-23
+
+- Eric described a concrete operational pain in an EHPAD context near Amiens: people do not enter data reliably enough, and leaders cannot recover a trustworthy picture quickly enough when they need it.
+- The example he used was urgent visibility: if a manager needs to answer a request about a person in distress or emergency housing, the answer should not take days to reconstruct.
+- He contrasted this with a US system he said can surface the same kind of information in about 15 seconds.
+- In his framing, the problem is not just “the data exists”; the problem is discipline, authority, and habit around entering it quickly and in a form managers can actually use.
+- He said Conseil Evolution acts as a proof center: it is meant to quantify and qualify, but often faces people speaking without enough usable data in front of them.
+- He also surfaced a second, probably larger opportunity around medico-social financing: a shift from an older place-based tariff model to a newer needs-based model, with a painful mapping problem at the point of data entry.
+- My current understanding is that the new model requires a large correspondence between legacy and new fields, and that staff are being asked to do that mapping repeatedly instead of having a system carry more of the load.
+- Eric reacted positively to the idea of preserving the current entry habit while automatically mapping it into the new structure.
+- He asked whether I develop/code, which gave a natural opening to explain the engineering background and the fact that DMG is intended to connect to existing systems rather than replace them.
+- He offered to connect me with a public establishment in Amiens if the fit looks real, and also with other people who can judge whether the problem and the solution line up.
+- He also said he could help open budget conversations if the problem is concrete enough to justify it.
+- The safest working read is that DMG is adjacent to the immediate need rather than a finished direct fit: the near-term value may be in helping an existing workflow structure data better and map it into the new model.
+- The next move is to send him a short email that recaps the call, states the rough fit as I understand it, and asks him whether the Imago / existing-system angle sounds worth exploring.
+- If there is no answer in 8 to 10 days, a polite follow-up is appropriate because he explicitly said he sometimes loses track of time.
+
+### Working read on fit
+
+- The call points to a wedge around data-entry discipline, visibility, and mapping between models rather than a standalone DMG replacement of existing tools.
+- The most credible first question is whether DMG can act as a practical layer on top of systems already used in medico-social settings.
+- It is worth continuing because Eric offered both validation and introductions if the fit holds.
+- The main risk is overclaiming product-market fit too early; the next step should validate the mapping pain and the willingness to inspect a pilot-like adjacent use case.
+
 ### What to avoid if he asks about the product
 
 - Do not describe it as an app for engagement.
