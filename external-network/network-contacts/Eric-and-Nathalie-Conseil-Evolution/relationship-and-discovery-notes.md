@@ -181,19 +181,21 @@ If he asks where it fits in his world:
 
 ### First call notes: 2026-04-23
 
-- Eric described a concrete operational pain in an EHPAD context near Amiens: people do not enter data reliably enough, and leaders cannot recover a trustworthy picture quickly enough when they need it.
+- Eric described a concrete operational pain in an EHPAD context near Amiens: the issue is not only that information exists, but that people do not always enter it in a way that makes it quickly usable for managers.
 - The example he used was urgent visibility: if a manager needs to answer a request about a person in distress or emergency housing, the answer should not take days to reconstruct.
-- He contrasted this with a US system he said can surface the same kind of information in about 15 seconds.
-- In his framing, the problem is not just “the data exists”; the problem is discipline, authority, and habit around entering it quickly and in a form managers can actually use.
+- He contrasted this with a US system he said appeared simple and could surface the same kind of information in about 15 seconds.
+- In his framing, the problem is not just “the data exists”; it is also about ease of use, habit, authority, and the ability to enter data in a form managers can actually exploit.
 - He said Conseil Evolution acts as a proof center: it is meant to quantify and qualify, but often faces people speaking without enough usable data in front of them.
+- He also framed part of the issue as people having data but not knowing how to use it well enough in the moment, which explains why decisions can still lean on feeling even when information is available.
 - He also surfaced a second, probably larger opportunity around medico-social financing: a shift from an older place-based tariff model to a newer needs-based model, with a painful mapping problem at the point of data entry.
 - My current understanding is that the new model requires a large correspondence between legacy and new fields, and that staff are being asked to do that mapping repeatedly instead of having a system carry more of the load.
 - Eric reacted positively to the idea of preserving the current entry habit while automatically mapping it into the new structure.
 - He asked whether I develop/code, which gave a natural opening to explain the engineering background and the fact that DMG is intended to connect to existing systems rather than replace them.
 - He offered to connect me with a public establishment in Amiens if the fit looks real, and also with other people who can judge whether the problem and the solution line up.
+- He also said that if the fit is real, he would be ready to branch me to a wider network and help unlock a budget to develop the system.
 - He also said he could help open budget conversations if the problem is concrete enough to justify it.
 - The safest working read is that DMG is adjacent to the immediate need rather than a finished direct fit: the near-term value may be in helping an existing workflow structure data better and map it into the new model.
-- The next move is to send him a short email that recaps the call, states the rough fit as I understand it, and asks him whether the Imago / existing-system angle sounds worth exploring.
+- The next move is to send him a short email that recaps the call, states the rough fit as understood, and asks for his view on whether the Imago / existing-system angle is worth exploring further.
 - If there is no answer in 8 to 10 days, a polite follow-up is appropriate because he explicitly said he sometimes loses track of time.
 
 ### Working read on fit
@@ -202,6 +204,28 @@ If he asks where it fits in his world:
 - The most credible first question is whether DMG can act as a practical layer on top of systems already used in medico-social settings.
 - It is worth continuing because Eric offered both validation and introductions if the fit holds.
 - The main risk is overclaiming product-market fit too early; the next step should validate the mapping pain and the willingness to inspect a pilot-like adjacent use case.
+
+### Draft follow-up email
+
+Subject: Retour rapide sur notre échange et piste Imago
+
+Bonjour Eric,
+
+Merci encore pour l’échange.
+
+Si je résume ce que j’ai retenu, le sujet principal n’est pas seulement la présence de données, mais surtout leur facilité de saisie, leur lisibilité pour les managers, et le fait de pouvoir les exploiter rapidement quand une décision doit être prise.
+
+J’ai aussi compris qu’il y a une vraie difficulté au moment du passage entre l’ancien modèle et le nouveau, avec une grande part de correspondance à faire entre les deux. C’est précisément le genre de point qui me semble intéressant à creuser, parce qu’un système utile devrait sans doute s’intégrer à l’existant plutôt que le remplacer.
+
+De mon côté, je vais regarder plus précisément le cas Imago et la manière dont un système comme DMG pourrait éventuellement se brancher sur ce type d’environnement sans casser les usages déjà en place.
+
+Je reste prudent sur le niveau d’adéquation à ce stade: j’ai encore besoin de mieux comprendre le couple produit / terrain avant de conclure. Mais si tu penses que la piste vaut la peine d’être validée, je serais preneur de ton retour.
+
+Et si tu vois un terrain ou une personne à Amiens ou ailleurs qui pourrait m’aider à vérifier rapidement si le problème et la solution s’alignent vraiment, je serais très heureux que tu me branches.
+
+Merci encore,
+
+Allan
 
 ### What to avoid if he asks about the product
 
