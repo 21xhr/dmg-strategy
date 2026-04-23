@@ -204,7 +204,6 @@ Service shape:
 Build and start commands:
 
 - build command field in Render: `corepack enable && pnpm install --frozen-lockfile && pnpm --filter dmg-api build`
-- pre-deploy command: `pnpm --filter dmg-api run db:migrate:deploy`
 - start command: `pnpm --filter dmg-api start`
 - health check path: `/`
 
@@ -249,14 +248,14 @@ Free-tier note:
 
 - the free instance is acceptable for smoke testing and first setup validation
 - it is not a stable production-grade target because it spins down on inactivity and does not provide SSH access, one-off jobs, or other operational features needed for smoother production maintenance
-- if the service remains on the free tier, production migrations cannot rely on a Render shell because the free plan does not provide that execution surface; use CI or another controlled execution surface instead
+- if the service remains on the free tier, production migrations cannot rely on a Render shell or Render pre-deploy command because those execution surfaces are not available on that plan; use CI or another controlled execution surface instead
 
 Current blocker:
 
 - the Git LFS clone failures were repaired by pushing the missing remote LFS objects
 - the current deploy now reaches runtime startup
 - the current runtime failure moved from schema mismatch to deploy-step timing: running migrations inside the web-service start command delays port binding
-- the immediate repair path is to move `db:migrate:deploy` into Render's dedicated pre-deploy command and keep the start command focused on starting the HTTP service
+- the immediate repair path on the free plan is to run `db:migrate:deploy` from a separate controlled execution surface before redeploying the web service
 
 Operational rule:
 
@@ -289,6 +288,7 @@ Naming note:
 - Render keeps the runtime variable name `CRON_SECRET` because that is the name the API process reads from its own environment
 - GitHub Actions uses `PRODUCTION_CRON_SECRET` so the workflow can later grow a staging sibling without ambiguous secret names
 - `PRODUCTION_API_MAINTENANCE_URL` is better modeled as a GitHub environment variable than as a secret because the endpoint URL is not sensitive
+- if GitHub Actions later becomes the production migration surface, keep GitHub-side names explicit for production database credentials and map them to `DATABASE_URL` and `MIGRATION_DATABASE_URL` only inside the migration job runtime
 
 ## Current reference - Vercel web setup checklist
 
