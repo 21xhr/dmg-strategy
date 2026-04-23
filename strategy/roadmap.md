@@ -52,7 +52,7 @@ Status:
 
 Goal:
 
-- turn the downloaded brainstorm dump into structured strategic material instead of leaving it as one large mixed document
+- turn the downloaded brainstorm dump into structured strategic material and keep durable ideas in focused documents
 
 Status:
 
@@ -105,8 +105,27 @@ Completed outcome:
 
 - `dmg-workspace` is now the active engineering workspace
 - `dmg-strategy` is now the active private planning workspace
-- legacy repos were archived and the public rename cleanup is no longer an open planning item
+- legacy repos were archived and the public rename cleanup is complete
 - the first workspace shell, app moves, and initial `contracts` plus `tooling` package seams are in place
+
+### Operational setup baseline
+
+Goal:
+
+- document the current Render, GitHub Actions, and environment-separation baseline for production and staging
+- keep the working setup concise enough that onboarding and operator steps can be maintained as current-state notes rather than a live roadmap
+
+Status:
+
+- completed enough to stop treating it as an active roadmap
+- current reference lives in `strategy/roadmaps/team-onboarding-and-environment-preparation-checklist.md` and `strategy/roadmaps/render-production-staging-setup.md`
+
+Completed outcome:
+
+- production and staging Render services are deployed and healthy
+- production and staging migrations run manually through GitHub Actions
+- production and staging maintenance flows are split cleanly by GitHub environment
+- the onboarding and environment-preparation notes read as current-state operator reference
 
 ## Active execution sequence
 
@@ -131,11 +150,11 @@ Primary roadmap file:
 Why this is now active:
 
 - tenant and settings boundaries are explicit enough that the remaining work stops competing with the next implementation-heavy migration slice
-- the SaaS-readiness foundation no longer blocks tenant-attributed economy records, pools, or summaries
+- the SaaS-readiness foundation is complete enough for tenant-attributed economy records, pools, and summaries
 
 Checkpoint to start this track cleanly:
 
-- the SaaS-readiness foundation has already removed the main tenant-context ambiguity that would otherwise leak into economy records, pools, and summaries
+- the SaaS-readiness foundation has already removed the main tenant-context ambiguity needed for economy records, pools, and summaries
 
 #### SaaS-readiness foundation
 
@@ -219,7 +238,7 @@ Outputs to produce when this track becomes active:
 
 Checkpoint for promotion out of later:
 
-- tenant policy boundaries, economy records, and the highest-risk route contracts are stable enough that frontend cleanup is productizing durable surfaces instead of transitional ones
+- tenant policy boundaries, economy records, and the highest-risk route contracts are stable enough for frontend cleanup to focus on durable surfaces
 
 #### 5. Runtime notifications
 
@@ -236,20 +255,6 @@ Primary roadmap file:
 Checkpoint for promotion out of later:
 
 - challenge execution state, tenant ownership, and operator-action boundaries are stable enough that the notification transport is being designed around settled runtime events rather than moving targets
-
-#### 6. Team onboarding and environment preparation
-
-Goal:
-
-- close the operational gaps that still rely on builder memory or direct handoff before a broader team starts using the current workspace
-
-Primary checklist file:
-
-- `strategy/roadmaps/team-onboarding-and-environment-preparation-checklist.md`
-
-Checkpoint for promotion out of later:
-
-- the current execution sequence has stopped shifting the basic local-development and operator workflow assumptions underneath new contributors
 
 ## Current status snapshot
 

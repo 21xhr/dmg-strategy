@@ -18,6 +18,7 @@ See also: [Render Production and Staging Setup](./render-production-staging-setu
 - Prisma migrations are manual GitHub Actions workflows on branch `main`
 - production daily maintenance is active through GitHub Actions
 - staging daily maintenance workflow exists and uses staging-scoped URL and cron secret
+- GitHub environment variables and secrets are tier-scoped through the `Production` and `Staging` environments
 
 ## Current implementation
 
@@ -61,8 +62,8 @@ Render subdomains:
 Production Render service:
 
 - `APP_ENV=production`
-- `DATABASE_URL=<production runtime URL>`
-- `MIGRATION_DATABASE_URL=<production migration URL>`
+- `DATABASE_URL=<production runtime pooled/session-pooler URL>`
+- `MIGRATION_DATABASE_URL=<production migration URL for GitHub Actions>`
 - `JWT_SECRET=<production JWT secret>`
 - `CRON_SECRET=<production cron secret>`
 - `SESSION_SCHEDULER_MODE=enabled`
@@ -70,11 +71,17 @@ Production Render service:
 Staging Render service:
 
 - `APP_ENV=staging`
-- `DATABASE_URL=<staging runtime URL>`
-- `MIGRATION_DATABASE_URL=<staging migration URL>`
+- `DATABASE_URL=<staging runtime pooled/session-pooler URL>`
+- `MIGRATION_DATABASE_URL=<staging migration URL for GitHub Actions>`
 - `JWT_SECRET=<staging JWT secret>`
-- `CRON_SECRET=<staging cron secret>` only when staging maintenance is enabled
+- `CRON_SECRET=<staging cron secret>` when staging maintenance is enabled
 - `SESSION_SCHEDULER_MODE` left unset by default (resolves to `disabled`)
+
+Runtime URL rule:
+
+- the runtime `DATABASE_URL` should match the Render service tier for that environment
+- the migration `MIGRATION_DATABASE_URL` should be reachable from GitHub-hosted runners and match the same environment tier
+- GitHub Actions needs both `DATABASE_URL` and `MIGRATION_DATABASE_URL` set in each environment so validation and migration execution stay explicit
 
 ### 5. Migration workflows
 
@@ -100,7 +107,7 @@ Production maintenance:
 - GitHub environment: `Production`
 - required variable: `PRODUCTION_API_MAINTENANCE_URL`
 - required secret: `PRODUCTION_CRON_SECRET`
-- runtime expectation: production Render `CRON_SECRET` uses same value
+- runtime expectation: production Render `CRON_SECRET` uses the same value as GitHub `Production` `PRODUCTION_CRON_SECRET`
 
 Staging maintenance:
 
@@ -108,7 +115,7 @@ Staging maintenance:
 - GitHub environment: `Staging`
 - required variable: `STAGING_API_MAINTENANCE_URL`
 - required secret: `STAGING_CRON_SECRET`
-- runtime expectation: staging Render `CRON_SECRET` uses same value when staging maintenance is enabled
+- runtime expectation: staging Render `CRON_SECRET` uses the same value as GitHub `Staging` `STAGING_CRON_SECRET` when staging maintenance is enabled
 
 ### 7. Secret baseline
 
@@ -120,17 +127,31 @@ Staging maintenance:
 ## What is next
 
 - confirm staging `CRON_SECRET` is configured in Render if staging maintenance schedule should stay active
-- decide whether staging maintenance should remain scheduled daily or be manual-only
+- staging Render already has `CRON_SECRET` set to the same value as GitHub `Staging` `STAGING_CRON_SECRET`
+- decide whether staging maintenance should stay scheduled daily or become manual-only
 - add rollback and incident owner mapping for production and staging operations
-- keep one source of truth for live values in environment managers, not in markdown
+- keep live secret values in Render, GitHub environment scopes, and the KeePassXC `.kdbx` secret store; keep markdown limited to names and relationships
+
+Maintenance tradeoff:
+
+- scheduled daily: useful if you want a standing smoke test for the staging maintenance path and want the endpoint exercised automatically
+- manual-only: simpler and quieter, with fewer scheduled calls and less chance of cross-environment noise
 
 ## Recommendations
 
-- keep migrations in GitHub Actions, not in Render startup commands
-- keep staging scheduler off by default unless a specific validation scenario requires it
-- keep production and staging maintenance flows separate to reduce accidental cross-environment calls
+- keep migrations in GitHub Actions and out of Render startup commands
+- keep staging scheduler off by default unless a specific validation scenario requires it; for a local test run, set `SESSION_SCHEDULER_MODE=enabled` explicitly in `apps/api/.env` or the shell before starting the API
+- keep production and staging maintenance flows separate; that is already the current implementation
 - continue environment-scoped secret naming in GitHub (`PRODUCTION_*`, `STAGING_*`) for readability and auditability
+- keep `DATABASE_URL` and `MIGRATION_DATABASE_URL` unprefixed because the code reads those exact names; use GitHub environment scope to separate Production from Staging
 
 ## Short implementation justification
 
-This setup keeps deployment simple (Render), schema rollout controlled (GitHub Actions), and environment boundaries explicit (separate Supabase and secret scopes) while staying low-ops for the current phase.
+This setup keeps deployment simple (Render), schema rollout controlled (GitHub Actions), and environment boundaries explicit (separate Supabase, Render, and secret scopes) while staying low-ops for the current phase.
+
+## Rollback and incident handling
+
+- production rollback: revert the code change, rerun production migrations only if schema changes were applied, and redeploy the Render production service
+- staging rollback: revert the code change, rerun staging migrations only if schema changes were applied, and redeploy the Render staging service
+- production incident owner: the current repository maintainer or release operator who ran the production workflow
+- staging incident owner: the current repository maintainer or staging operator who ran the staging workflow
