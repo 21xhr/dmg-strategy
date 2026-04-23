@@ -118,7 +118,7 @@ Goal:
 Status:
 
 - completed enough to stop treating it as an active roadmap
-- current reference lives in `strategy/roadmaps/team-onboarding-and-environment-preparation-checklist.md` and `strategy/roadmaps/render-production-staging-setup.md`
+- current reference lives in `strategy/operational-baseline.md` and `strategy/roadmaps/render-production-staging-setup.md`
 
 Completed outcome:
 
