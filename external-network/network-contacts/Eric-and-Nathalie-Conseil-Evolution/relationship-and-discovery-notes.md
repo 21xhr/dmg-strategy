@@ -188,22 +188,24 @@ If he asks where it fits in his world:
 - He said Conseil Evolution acts as a proof center: it is meant to quantify and qualify, but often faces people speaking without enough usable data in front of them.
 - He also framed part of the issue as people having data but not knowing how to use it well enough in the moment, which explains why decisions can still lean on feeling even when information is available.
 - He also surfaced a second, probably larger opportunity around medico-social financing: a shift from an older place-based tariff model to a newer needs-based model, with a painful mapping problem at the point of data entry.
-- My current understanding is that the new model requires a large correspondence between legacy and new fields, and that staff are being asked to do that mapping repeatedly instead of having a system carry more of the load.
+- The tariffing issue is better read as a sector-specific operational difficulty than as a universal recurring product pain.
+- The more precise question is whether the new model creates enough repeated effort at the point of entry that a structured layer can reduce friction without replacing the existing DUI.
 - Eric reacted positively to the idea of preserving the current entry habit while automatically mapping it into the new structure.
 - He asked whether I develop/code, which gave a natural opening to explain the engineering background and the fact that DMG is intended to connect to existing systems rather than replace them.
 - He offered to connect me with a public establishment in Amiens if the fit looks real, and also with other people who can judge whether the problem and the solution line up.
 - He also said that if the fit is real, he would be ready to branch me to a wider network and help unlock a budget to develop the system.
 - He also said he could help open budget conversations if the problem is concrete enough to justify it.
 - The safest working read is that DMG is adjacent to the immediate need rather than a finished direct fit: the near-term value may be in helping an existing workflow structure data better and map it into the new model.
-- The next move is to send him a short email that recaps the call, states the rough fit as understood, and asks for his view on whether the Imago / existing-system angle is worth exploring further.
+- The next move is to send him a short email that recaps the call, states the rough fit as understood, and makes clear that the next step is my exploration: checking whether the need is real enough, how much work the integration would require, and whether the budget would justify the development cost.
 - If there is no answer in 8 to 10 days, a polite follow-up is appropriate because he explicitly said he sometimes loses track of time.
 
 ### Working read on fit
 
-- The call points to a wedge around data-entry discipline, visibility, and mapping between models rather than a standalone DMG replacement of existing tools.
-- The most credible first question is whether DMG can act as a practical layer on top of systems already used in medico-social settings.
-- It is worth continuing because Eric offered both validation and introductions if the fit holds.
-- The main risk is overclaiming product-market fit too early; the next step should validate the mapping pain and the willingness to inspect a pilot-like adjacent use case.
+- IMAGO already appears to cover a broad DUI / dossier / workflow surface, including mobility, pilotage, analytics, Ségur reference, and integration-oriented features.
+- That means DMG should not be framed as a replacement DUI.
+- The only credible opening is a narrower one: a non-invasive layer that could help with structured input, decision legibility, or cross-system signal where IMAGO’s native surface does not already solve the need.
+- The call supports the broader DMG strategy that integration and support can matter, but it does not yet prove a direct product fit.
+- The main risk is overclaiming product-market fit too early; the next step should validate whether the observed pain is real enough, repeated enough, and expensive enough to justify the integration and build workload.
 
 ### Draft follow-up email
 
@@ -215,11 +217,11 @@ Merci encore pour l’échange.
 
 Si je résume ce que j’ai retenu, le sujet principal n’est pas seulement la présence de données, mais surtout leur facilité de saisie, leur lisibilité pour les managers, et le fait de pouvoir les exploiter rapidement quand une décision doit être prise.
 
-J’ai aussi compris qu’il y a une vraie difficulté au moment du passage entre l’ancien modèle et le nouveau, avec une grande part de correspondance à faire entre les deux. C’est précisément le genre de point qui me semble intéressant à creuser, parce qu’un système utile devrait sans doute s’intégrer à l’existant plutôt que le remplacer.
+J’ai aussi compris qu’il y a une difficulté concrète de passage entre l’ancien modèle et le nouveau, avec beaucoup de correspondance à faire au moment de la saisie. C’est le genre de point que je vais essayer d’explorer plus sérieusement, pour voir si le besoin est suffisamment clair, si la charge d’intégration serait raisonnable, et si le budget permettrait d’aller au bout du développement.
 
-De mon côté, je vais regarder plus précisément le cas Imago et la manière dont un système comme DMG pourrait éventuellement se brancher sur ce type d’environnement sans casser les usages déjà en place.
+De mon côté, je vais regarder plus précisément le cas Imago et la manière dont un système comme DMG pourrait éventuellement se brancher sur ce type d’environnement sans casser les usages déjà en place. L’idée n’est pas de remplacer un DUI existant, mais de voir s’il existe une vraie couche utile à ajouter.
 
-Je reste prudent sur le niveau d’adéquation à ce stade: j’ai encore besoin de mieux comprendre le couple produit / terrain avant de conclure. Mais si tu penses que la piste vaut la peine d’être validée, je serais preneur de ton retour.
+Je reste prudent sur le niveau d’adéquation à ce stade: j’ai encore besoin de mieux comprendre le couple produit / terrain avant de conclure. L’étape suivante pour moi, c’est d’explorer et de qualifier avant d’engager quoi que ce soit.
 
 Et si tu vois un terrain ou une personne à Amiens ou ailleurs qui pourrait m’aider à vérifier rapidement si le problème et la solution s’alignent vraiment, je serais très heureux que tu me branches.
 
