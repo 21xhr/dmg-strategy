@@ -301,6 +301,17 @@ Production migration surface:
 - to use it: open `Actions` in the GitHub repository, choose `Production Migrations`, click `Run workflow`, and confirm the run on `main`
 - once that job succeeds, redeploy or restart the Render web service so the API boots against the migrated schema
 
+Staging migration surface:
+
+- create a separate Render service named `dmg-api-staging` inside the `dmg-api-staging` Render environment when staging is needed
+- use `.github/workflows/staging-migrations.yml` as the manual GitHub Actions workflow for staging schema rollout
+- store `DATABASE_URL` and `MIGRATION_DATABASE_URL` as GitHub `Staging` environment secrets
+- `DATABASE_URL` should match the staging runtime pooled Postgres URL used by the staging API service
+- `MIGRATION_DATABASE_URL` should match the staging session pooler URL when the migration runner is a GitHub-hosted workflow runner
+- the workflow itself sets `APP_ENV=staging` and runs `pnpm --filter dmg-api run db:migrate:deploy`; no extra GitHub variable is required for `APP_ENV`
+- to use it: open `Actions` in the GitHub repository, choose `Staging Migrations`, click `Run workflow`, and confirm the run on the branch that should drive staging
+- once that job succeeds, redeploy or restart the staging Render web service so the API boots against the migrated schema
+
 ## Current reference - Vercel web setup checklist
 
 This section is the current one-time setup checklist for the Vercel-hosted browser runtime.
