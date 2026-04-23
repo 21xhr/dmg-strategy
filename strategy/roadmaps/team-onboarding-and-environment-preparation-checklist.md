@@ -12,13 +12,16 @@ See the [roadmap index](../roadmap.md) for the active roadmap and checklist list
 
 Current state:
 
-- the workspace now has clearer local startup commands, env examples, and basic runtime diagnostics
-- the remaining gaps are team-facing access, secrets distribution, environment separation, and revocation procedures
-- these items should be closed before the repository stops being treated as a transitional builder-managed workspace
+- production and staging API services are both deployed on Render
+- production and staging Prisma migrations run manually from GitHub Actions on branch `main`
+- staging uses `APP_ENV=staging` and keeps `SESSION_SCHEDULER_MODE` unset by default
+- daily maintenance currently runs only against production
+- remaining gaps are mostly governance and operational hardening before broader team onboarding
 
 Completion signal:
 
 - a new contributor can receive the correct development access, populate local environment variables safely, start the workspace, and understand which credentials and services belong to development, staging, and production without relying on private chat context
+- production and staging runbooks are explicit enough that migrations, maintenance, and rollback ownership do not depend on private memory
 
 Onboarding delivery note:
 
@@ -195,6 +198,8 @@ API runtime:
 
 This section is the current one-time setup checklist for the Render-hosted API service.
 
+Render environment matrix (CSV): see `strategy/roadmaps/render-production-staging-setup.csv`.
+
 Service shape:
 
 - create one Render web service for `apps/api`
@@ -227,36 +232,23 @@ Field mapping note:
 - Render uses one build-command field, so dependency install and app build should be combined in that single command
 - `UPSTASH_REDIS_REST_TOKEN` is only needed when the non-local environment should enforce Redis-backed rate limiting
 
-Current setup attempt: 2026-04-22
+Current setup status:
 
 - source repository: `dmg-workspace`
-- service name entered: `dmg-api`
-- naming note: `dmg-api` is acceptable for a first production service; if a second long-lived non-production service is added later, use a clearer pair such as `dmg-api-prod` and `dmg-api-staging`
-- language: Node
-- branch: `main`
+- production service: `dmg-api` in Render `Production` environment
+- staging service: `dmg-api-staging` in Render `Staging` environment
+- branch for both services: `main`
 - region: Frankfurt (`EU Central`)
-- root directory left blank so Render runs from the repository root, matching the current monorepo guidance
+- root directory left blank so Render runs from repository root
 - auto-deploy on commit: enabled
-- PR previews: off
-- custom domain: not configured yet
-- render subdomain expectation: `https://dmg-api.onrender.com`
-- production API base URL once live: `https://dmg-api.onrender.com/api/v1`
-- health check path: `/`
 - selected instance type: Free
+- production migrations: `.github/workflows/production-migrations.yml` on GitHub Actions
+- staging migrations: `.github/workflows/staging-migrations.yml` on GitHub Actions
+- status: staging migration has run successfully and staging API deployment is healthy
 
-Free-tier note:
+Recommendation:
 
-- the free instance is acceptable for smoke testing and first setup validation
-- it is not a stable production-grade target because it spins down on inactivity and does not provide SSH access, one-off jobs, or other operational features needed for smoother production maintenance
-- if the service remains on the free tier, production migrations cannot rely on a Render shell or Render pre-deploy command because those execution surfaces are not available on that plan; use CI or another controlled execution surface instead
-
-Current blocker:
-
-- the Git LFS clone failures were repaired by pushing the missing remote LFS objects
-- the current deploy now reaches runtime startup
-- the current runtime failure moved from schema mismatch to deploy-step timing: running migrations inside the web-service start command delays port binding
-- the immediate repair path on the free plan is to run `db:migrate:deploy` from a separate controlled execution surface before redeploying the web service
-- the current Supabase `DMG Prod` database has been checked directly and is currently empty
+- keep migrations outside Render startup on the free plan and continue using manual GitHub Actions migration workflows
 
 Operational rule:
 
@@ -273,6 +265,7 @@ Daily maintenance:
 - use the repository workflow `.github/workflows/daily-maintenance.yml` as the scheduled caller
 - send `x-cron-secret: <CRON_SECRET>` on that request
 - keep only one scheduler path active for daily maintenance
+- a `STAGING_CRON_SECRET` can exist in GitHub, but it is unused until a staging maintenance workflow or staging scheduler caller is intentionally introduced
 
 Concrete setup sequence:
 
@@ -290,6 +283,11 @@ Naming note:
 - Render keeps the runtime variable name `CRON_SECRET` because that is the name the API process reads from its own environment
 - GitHub Actions uses `PRODUCTION_CRON_SECRET` so the workflow can later grow a staging sibling without ambiguous secret names
 - `PRODUCTION_API_MAINTENANCE_URL` is better modeled as a GitHub environment variable than as a secret because the endpoint URL is not sensitive
+
+Secret-format note:
+
+- current production secret hygiene uses environment-identifiable values and 64-character strings
+- keep production and staging secrets distinct, long, and rotation-ready; do not reuse exact values across environments
 
 Production migration surface:
 
