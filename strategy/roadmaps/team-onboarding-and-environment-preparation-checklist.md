@@ -204,7 +204,8 @@ Service shape:
 Build and start commands:
 
 - build command field in Render: `corepack enable && pnpm install --frozen-lockfile && pnpm --filter dmg-api build`
-- start command: `pnpm --filter dmg-api run db:migrate:deploy && pnpm --filter dmg-api start`
+- pre-deploy command: `pnpm --filter dmg-api run db:migrate:deploy`
+- start command: `pnpm --filter dmg-api start`
 - health check path: `/`
 
 Runtime fit note:
@@ -254,8 +255,8 @@ Current blocker:
 
 - the Git LFS clone failures were repaired by pushing the missing remote LFS objects
 - the current deploy now reaches runtime startup
-- the current runtime failure is database-schema mismatch: the production database does not yet have the `public.streams` table expected by the current Prisma schema
-- the immediate repair path is to run `db:migrate:deploy` against the production migration URL before the service starts, or to make the Render start command do that automatically
+- the current runtime failure moved from schema mismatch to deploy-step timing: running migrations inside the web-service start command delays port binding
+- the immediate repair path is to move `db:migrate:deploy` into Render's dedicated pre-deploy command and keep the start command focused on starting the HTTP service
 
 Operational rule:
 
