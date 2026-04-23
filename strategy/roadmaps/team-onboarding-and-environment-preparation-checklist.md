@@ -303,14 +303,21 @@ Production migration surface:
 
 Staging migration surface:
 
-- create a separate Render service named `dmg-api-staging` inside the `dmg-api-staging` Render environment when staging is needed
+- create a separate Render service named `dmg-api-staging` inside the `Staging` Render environment when staging is needed
+- set the Render branch to `main` if `main` is the only branch available for the staging codebase
 - use `.github/workflows/staging-migrations.yml` as the manual GitHub Actions workflow for staging schema rollout
 - store `DATABASE_URL` and `MIGRATION_DATABASE_URL` as GitHub `Staging` environment secrets
 - `DATABASE_URL` should match the staging runtime pooled Postgres URL used by the staging API service
 - `MIGRATION_DATABASE_URL` should match the staging session pooler URL when the migration runner is a GitHub-hosted workflow runner
 - the workflow itself sets `APP_ENV=staging` and runs `pnpm --filter dmg-api run db:migrate:deploy`; no extra GitHub variable is required for `APP_ENV`
-- to use it: open `Actions` in the GitHub repository, choose `Staging Migrations`, click `Run workflow`, and confirm the run on the branch that should drive staging
+- to use it: open `Actions` in the GitHub repository, choose `Staging Migrations`, click `Run workflow`, and select `main` if that is the branch connected to the staging codebase
 - once that job succeeds, redeploy or restart the staging Render web service so the API boots against the migrated schema
+
+Staging scheduler note:
+
+- leave `SESSION_SCHEDULER_MODE` unset in staging unless the staging service needs to exercise the autonomous session scheduler
+- if a staging scenario needs scheduler behavior, set `SESSION_SCHEDULER_MODE=enabled` explicitly in the staging Render environment
+- the default staging posture is `disabled` so staging remains quieter and does not create background ticks unless that behavior is intentional
 
 ## Current reference - Vercel web setup checklist
 
