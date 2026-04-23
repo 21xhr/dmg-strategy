@@ -24,7 +24,7 @@ The migration should preserve these core roles:
 - explicit economy policy
 - explicit read-model summaries
 
-Completion for this roadmap means shared economy behavior is fully owned by dedicated economy records and no longer relies on `User ID 1` or the special `community_chest` account convention.
+Completion for this roadmap means shared economy behavior is fully owned by dedicated economy records, with the legacy `User ID 1` world-ledger and special `community_chest` account convention retired.
 
 ## Current state
 
@@ -34,7 +34,7 @@ Today that means:
 
 - dedicated `EconomyActor`, `EconomyPool`, `EconomyBalance`, `EconomyTransaction`, `EconomyPolicy`, and `EconomySummary` records exist in the schema
 - challenge spend, removal settlement, and explorer-access spend already route through `economyService.ts`
-- operator-facing pulse reads already use `EconomySummary` instead of `User ID 1`
+- operator-facing pulse reads already use `EconomySummary`; the legacy `User ID 1` world-ledger is not the source for those totals
 - active runtime spend, refund, and explorer-merit decisions use tenant-scoped economy records and `TenantUserState`
 - the `User` schema carries identity and relationship data while tenant activity totals live in `TenantUserState`
 
@@ -64,11 +64,11 @@ Today that means:
 
 - `src/services/challengeService.ts`
 
-	Submission, push, digout, and disrupt spend paths already route through tenant-scoped economy spend helpers and tenant-scoped user-state counters. The remaining work here is follow-through cleanup, not first-time migration.
+	Submission, push, digout, and disrupt spend paths already route through tenant-scoped economy spend helpers and tenant-scoped user-state counters. The remaining work here is follow-through cleanup around the current tenant-scoped path.
 
 - `src/routes/tokenRoutes.ts`
 
-	Explorer-access purchases already route through the economy layer, and explorer merit now reads tenant-scoped spend from `TenantUserState`. The remaining work here is contract and coverage hardening around the active tenant-scoped path.
+	Explorer-access purchases already route through the economy layer, and explorer merit reads tenant-scoped spend from `TenantUserState`. The remaining work here is contract and coverage hardening around the current tenant-scoped path.
 
 ### Runtime read paths
 
@@ -94,12 +94,17 @@ Today that means:
 
 ### Real remaining work
 
-- add any missing rebuild tooling required to re-derive tenant economy summaries safely from explicit economy records when bulk cleanup or migration paths need it
+- decide whether any additional replay or repair commands are needed beyond the current diff/apply CLI
 - decide whether the remaining rebuild-tooling work is narrow enough to move to backlog and archive this roadmap
 
 ### Current rebuild-tooling slice
 
 A tenant-scoped replay and diff CLI now exists in the workspace repo, and the follow-up guarded apply mode now exists for explicit operator repair.
+
+Implementation surfaces:
+
+- `apps/api/src/services/economyReplayService.ts`
+- `apps/api/scripts/economyRebuild.ts`
 
 Current command boundary:
 
@@ -396,7 +401,7 @@ First-slice conventions:
 - use `BigInt` for all persisted economy amounts and totals
 - keep transaction history immutable
 - keep balances and summaries mutable read models derived from transactions and settlement logic
-- seed shared pools explicitly instead of encoding them as accounts or users
+- seed shared pools explicitly and keep them separate from accounts and users
 - create actors lazily when a tenant-scoped economy participant first appears if a full backfill is unnecessary
 - do not add new shared-ledger meaning back onto `User`, `Account`, `Challenge`, or other feature tables
 
@@ -419,7 +424,7 @@ Status:
 - materially started
 - challenge spend, removal settlement, and explorer-access spend already route through the economy layer
 - seed push adjustments now route through the economy layer as well
-- explorer merit decisions now use tenant-scoped spend instead of global user counters
+- explorer merit decisions now use tenant-scoped spend through tenant-scoped records
 - seeded push adjustments and demo-scope resets use the tenant that owns the seeded activity
 - remaining work is concentrated in rebuild tooling and archival review rather than active runtime migration
 
@@ -489,6 +494,6 @@ Completion criteria:
 When implementing this roadmap, reject migration slices that:
 
 - add new writes to `User ID 1`
-- create another special-case account instead of a pool model
+- create another special-case account when a pool model already fits the behavior
 - store shared economy state in a feature table for convenience
 - introduce new product-currency behavior without routing it through the same economy transaction boundary
