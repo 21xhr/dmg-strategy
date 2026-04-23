@@ -13,83 +13,72 @@ Le but est d'apprendre comment Eric decrit les problemes qui reviennent dans les
 ## Rappel simple avant l'appel
 
 - il sera probablement en voiture, donc il faut faire court et clair
-- ne pas derouler une presentation
-- poser une question a la fois
+- commencer par expliquer le cadre de l’appel (pourquoi toi, pourquoi lui, contexte)
+- préciser que tu ne viens pas vendre ou pitcher, mais demander son regard
+- demander s’il accepte de répondre à quelques questions ouvertes
+- poser une question à la fois
 - rester assez longtemps sur un exemple concret
-- noter ses mots a lui
-- ne parler du produit que s'il le demande clairement
+- noter ses mots à lui
+- ne parler du produit que s’il le demande clairement
 
 ## Trame tres simple de l'appel
 
-### 1. Ouverture
 
-Tu peux dire:
+### 1. Ouverture adaptée pour un premier contact
 
-"Merci de prendre l'appel. Comme tu es peut-etre en voiture, je vais faire simple et court. Mon but, ce n'est pas de te faire un pitch. J'aimerais surtout comprendre ce que tu vois revenir dans les organisations que tu accompagnes."
+Tu peux dire :
 
-### 2. Premiere vraie question
+"Merci d’avoir accepté l’appel, c’est la première fois qu’on échange. Je connais bien Nathalie, mais on n’a jamais eu l’occasion de discuter directement. Je t’explique rapidement le cadre : je travaille sur un projet qui vise à aider les responsables à mieux voir ce qui se passe sur le terrain avant de prendre des décisions importantes. Stan m’a conseillé de prendre contact avec toi, car tu accompagnes beaucoup de structures et tu as une vision très concrète des réalités de terrain.
 
-Question principale:
+Le but de l’appel, c’est surtout d’avoir ton regard sur certains sujets, pas de te présenter un produit ou de te vendre quoi que ce soit. Est-ce que tu es d’accord pour que je te pose quelques questions assez ouvertes, pour comprendre comment tu vois les choses ? Si jamais tu préfères qu’on fasse plus court ou que je précise certains points, tu me le dis."
 
-"Dans les structures que tu accompagnes, quel probleme revient le plus souvent quand les responsables ont besoin de comprendre ce qui se passe vraiment avant de prendre une decision ?"
 
-Pourquoi elle marche:
+### 2. Première vraie question
 
-- elle est claire
-- elle ne suppose pas qu'il connaisse DMG
-- elle part de son experience a lui
+Question principale :
 
-### 3. S'il repond de facon trop large
+"Dans les structures que tu accompagnes, quand les responsables doivent prendre une décision importante, qu’est-ce qui leur manque le plus souvent pour vraiment comprendre la situation sur le terrain ?"
 
-Tu peux resserrer comme ca:
+Pourquoi cette question :
+- elle part de son expérience concrète
+- elle ne suppose pas qu’il connaisse DMG
+- elle invite à parler d’exemples vécus
 
-"Quand ca arrive, qu'est-ce qui manque le plus souvent ? Une remontee terrain plus claire ? Une meilleure vision des priorites ? Une meilleure vision de ce qui se repete d'une equipe a l'autre ? Ou autre chose ?"
 
-### 4. Demander un cas concret
+### 3. Si la réponse est trop large ou abstraite
 
-"Tu as un exemple concret en tete ? Un cas ou ce probleme etait particulierement visible ?"
+Tu peux préciser :
 
-### 5. Comprendre le bricolage actuel
+"Quand tu dis qu’il manque des infos, c’est plutôt : des retours concrets du terrain (par exemple, ce qui se passe vraiment dans les équipes) ? Une vision claire de ce qui bloque dans l’organisation au quotidien ? Ou la capacité à voir si un même problème revient dans plusieurs équipes ou services ? Ou c’est encore autre chose ?"
 
-"Aujourd'hui, quand une structure n'a pas cette visibilite, elle fait comment en general ?"
 
-Ou plus simple:
+### 4. Demander un exemple concret
 
-"Dans la pratique, ils s'en sortent comment aujourd'hui ?"
+"Tu as un exemple précis en tête, où ce manque de visibilité a vraiment posé problème ?"
 
-### 6. Demander dans quels contextes c'est le plus visible
 
-Ne dis pas `where the fit is strongest`.
+### 5. Comprendre comment ils font aujourd’hui
 
-Dis plutot:
+"Quand une structure n’a pas cette visibilité sur ce qui se passe sur le terrain (par exemple, sur les blocages, les signaux d’alerte, ou les sujets qui reviennent), comment elle s’en sort en général ? Qu’est-ce qu’ils bricolent ou mettent en place pour compenser ?"
 
-"Tu vois ca surtout dans quels contextes ? Medico-social, sante, associatif, collectivites, autre chose ?"
 
-Ou:
+### 6. Demander dans quels contextes c’est le plus visible
 
-"C'est le plus visible dans quels types de structures ?"
+"Tu vois ce genre de difficulté surtout dans quels types de structures ? Par exemple : médico-social, santé, associatif, collectivités… ou ailleurs ?"
 
-Ca ne suppose pas qu'il connaisse DMG.
 
-### 7. Question de langage, en version claire
+### 7. Question de langage, version orale
 
-Ne dis pas `about this problem` sans recadrer.
+"Si je devais expliquer ce genre de difficulté à d’autres responsables, quels mots te paraissent les plus justes pour parler du fait qu’on manque de visibilité sur ce qui se passe vraiment sur le terrain ? Et à l’inverse, quels mots te sembleraient à éviter, parce qu’ils sont trop vagues ou trop théoriques ?"
 
-Dis plutot:
 
-"Quand on parle de ce type de difficulte - le fait de ne pas avoir une vision assez claire de ce qui remonte du terrain avant de decider - quels mots te paraissent justes ? Et a l'inverse, quels mots sonneraient faux, flous, ou trop theoriques ?"
+### 8. Ouvrir vers une suite concrète
 
-Version encore plus orale:
+"Si tu penses à une personne ou une structure pour qui ce sujet est particulièrement concret, tu penserais à qui ?"
 
-"Si je devais parler de ce sujet a des gens que tu accompagnes, quels mots sonneraient juste ? Et quels mots sonneraient faux ou trop abstraits ?"
+Ou :
 
-### 8. Ouvrir vers une suite concrete
-
-"S'il y a une personne ou une structure ou ce sujet est particulierement concret, a qui tu penserais ?"
-
-Ou:
-
-"Si tu vois un bon prochain interlocuteur sur ce sujet, tu penserais a qui ?"
+"Si tu vois un bon prochain interlocuteur sur ce sujet, tu penserais à qui ?"
 
 ### 9. Fermer proprement
 
@@ -97,15 +86,16 @@ Ou:
 
 ## Checklist pendant l'appel
 
-- commencer par le remercier et annoncer que tu vas faire court
-- ne pas expliquer DMG trop tot
-- demander quel probleme revient le plus souvent
+- remercier et expliquer le cadre de l’appel (lien, pourquoi lui, pourquoi toi)
+- préciser que tu ne viens pas vendre ou pitcher
+- demander s’il accepte de répondre à quelques questions ouvertes
+- demander ce qui manque le plus souvent pour comprendre la réalité terrain
 - demander un exemple concret
-- demander comment les structures gerent ca aujourd'hui
-- demander dans quels contextes c'est le plus visible
+- demander comment les structures font aujourd’hui pour compenser
+- demander dans quels contextes c’est le plus visible
 - demander quels mots sonnent juste ou faux
-- demander s'il voit une personne ou une structure a contacter ensuite
-- finir en resumant ce que tu as compris
+- demander s’il voit une personne ou une structure à contacter ensuite
+- finir en résumant ce que tu as compris
 
 ## Si Eric demande clairement: `Et toi, tu fais quoi exactement ?`
 
