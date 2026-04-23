@@ -98,6 +98,7 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 - define the minimum viable i18n boundary early so operator pages and public pages do not hard-code English copy into every surface before localization primitives exist
 - decide whether architecture decision records should exist as a lightweight standing format for cross-repo boundary choices, and if so where they should live and how they should be linked from roadmap work
 - capture the current web-on-Vercel plus API-on-Render deployment model as a lightweight ADR once the first production deployment path is exercised end to end, including the rationale for keeping the API on a conventional Node-service host
+- include in that deployment ADR the validation-stage infrastructure posture: why low-cost hosting is acceptable for pre-money validation, what makes it still credible, and which triggers should force the move to paid or more operationally capable infrastructure
 - define protected-path review controls for deployment manifests, reset scripts, secret-handling code, and maintenance-entrypoint changes, including whether CODEOWNERS or CI approval checks should gate those files
 
 ## Working rule

@@ -266,7 +266,7 @@ Daily maintenance:
 
 - configure one scheduled caller for `POST /api/v1/clock/run-daily-maintenance`
 - set `CRON_SECRET` in the production Render service first; this is the secret the API expects in the `x-cron-secret` header
-- set `PRODUCTION_API_MAINTENANCE_URL` as a GitHub Actions secret in the workspace repository; use the full production endpoint URL, currently `https://dmg-api.onrender.com/api/v1/clock/run-daily-maintenance`
+- set `PRODUCTION_API_MAINTENANCE_URL` in the GitHub `Production` environment for the workspace repository; the preferred home is an environment variable because the full endpoint URL is not sensitive
 - set `PRODUCTION_CRON_SECRET` as a GitHub Actions secret in the workspace repository; use the same value as the production Render `CRON_SECRET`
 - use the repository workflow `.github/workflows/daily-maintenance.yml` as the scheduled caller
 - send `x-cron-secret: <CRON_SECRET>` on that request
@@ -277,11 +277,16 @@ Concrete setup sequence:
 1. generate one production cron secret, for example with `openssl rand -hex 32`
 2. add that value to the production Render service as `CRON_SECRET`
 3. open the GitHub repository settings for `21xhr/dmg-workspace`
-4. go to `Settings -> Secrets and variables -> Actions`
-5. create `PRODUCTION_API_MAINTENANCE_URL=https://dmg-api.onrender.com/api/v1/clock/run-daily-maintenance`
-6. create `PRODUCTION_CRON_SECRET=<same value as Render CRON_SECRET>`
-7. keep `.github/workflows/daily-maintenance.yml` enabled so GitHub Actions sends the daily POST request
+4. go to `Settings -> Environments -> Production`
+5. create the environment variable `PRODUCTION_API_MAINTENANCE_URL=https://dmg-api.onrender.com/api/v1/clock/run-daily-maintenance`
+6. create the environment secret `PRODUCTION_CRON_SECRET=<same value as Render CRON_SECRET>`
+7. keep `.github/workflows/daily-maintenance.yml` on the default branch and keep GitHub Actions allowed for the repository; there is no separate per-file enable switch for this workflow
 8. do not configure a second scheduler in Render, Vercel, or another service for the same endpoint
+
+Naming note:
+
+- Render keeps the runtime variable name `CRON_SECRET` because that is the name the API process reads from its own environment
+- GitHub Actions uses `PRODUCTION_CRON_SECRET` so the workflow can later grow a staging sibling without ambiguous secret names
 
 ## Current reference - Vercel web setup checklist
 
