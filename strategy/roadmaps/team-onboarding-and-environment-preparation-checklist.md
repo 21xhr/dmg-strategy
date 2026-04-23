@@ -204,7 +204,7 @@ Service shape:
 Build and start commands:
 
 - build command field in Render: `corepack enable && pnpm install --frozen-lockfile && pnpm --filter dmg-api build`
-- start command: `pnpm --filter dmg-api start`
+- start command: `pnpm --filter dmg-api run db:migrate:deploy && pnpm --filter dmg-api start`
 - health check path: `/`
 
 Runtime fit note:
@@ -252,10 +252,10 @@ Free-tier note:
 
 Current blocker:
 
-- the first deploy failed before build because Render could not clone one Git LFS-tracked audio asset
-- failing path: `apps/web/assets/audio/Futuristic_digital_success_notification_chime3.mp3`
-- Render reported a missing LFS object for pointer `845181c7ca86103a6bb67383eb503e91a1c97b3a200657d8543a74efac1353ed`
-- repair path: push the missing LFS object to the remote LFS store and rerun the deploy
+- the Git LFS clone failures were repaired by pushing the missing remote LFS objects
+- the current deploy now reaches runtime startup
+- the current runtime failure is database-schema mismatch: the production database does not yet have the `public.streams` table expected by the current Prisma schema
+- the immediate repair path is to run `db:migrate:deploy` against the production migration URL before the service starts, or to make the Render start command do that automatically
 
 Operational rule:
 
@@ -287,6 +287,7 @@ Naming note:
 
 - Render keeps the runtime variable name `CRON_SECRET` because that is the name the API process reads from its own environment
 - GitHub Actions uses `PRODUCTION_CRON_SECRET` so the workflow can later grow a staging sibling without ambiguous secret names
+- `PRODUCTION_API_MAINTENANCE_URL` is better modeled as a GitHub environment variable than as a secret because the endpoint URL is not sensitive
 
 ## Current reference - Vercel web setup checklist
 
