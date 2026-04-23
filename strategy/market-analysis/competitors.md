@@ -74,9 +74,21 @@ Why they matter:
 - many of them compete by filtering and synthesizing mass expression after the interaction happens, which sharpens DMG's differentiation around structuring interaction rules upstream
 - they are mostly environment-bounded around civic, public-sector, and institutional use cases, so the cross-vertical lesson should be extracted carefully rather than assumed automatically
 
+### Medical-social DUI and ERP-like stacks
+
+- Evolucare / IMAGO
+
+Why they matter:
+
+- they show how broad an established medico-social operating stack can be before DMG enters the conversation
+- they set the baseline for what buyers in that sector already expect around data entry, mobility, continuity, reporting, Ségur coverage, and workflow support
+- they are the best check on whether DMG is a replacement story, an add-on story, or a governance-layer story
+- they make it harder to overclaim fit too early, which is useful when the real question is whether a narrow non-invasive layer still has room to exist
+
 ## Individual research notes
 
 - [[strategy/market-analysis/competitors/make-org]]
 - [[strategy/market-analysis/competitors/govocal]]
 - [[strategy/market-analysis/competitors/decidim]]
 - [[strategy/market-analysis/competitors/open-source-politics]]
+- [[strategy/market-analysis/competitors/imago-evolucare]]
