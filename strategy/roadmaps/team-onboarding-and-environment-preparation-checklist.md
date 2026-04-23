@@ -296,7 +296,7 @@ Production migration surface:
 - use `.github/workflows/production-migrations.yml` as the manual GitHub Actions workflow for production schema rollout
 - store `DATABASE_URL` and `MIGRATION_DATABASE_URL` as GitHub `Production` environment secrets
 - `DATABASE_URL` should match the production runtime pooled Postgres URL used by the API service
-- `MIGRATION_DATABASE_URL` should match the production direct Postgres URL used for Prisma schema rollout
+- `MIGRATION_DATABASE_URL` should match the production session pooler URL when the migration runner is a GitHub-hosted workflow runner; the direct Supabase URL is IPv6-only and is not the correct default for that runner class
 - the workflow itself sets `APP_ENV=production` and runs `pnpm --filter dmg-api run db:migrate:deploy`; no extra GitHub variable is required for `APP_ENV`
 - to use it: open `Actions` in the GitHub repository, choose `Production Migrations`, click `Run workflow`, and confirm the run on `main`
 - once that job succeeds, redeploy or restart the Render web service so the API boots against the migrated schema
