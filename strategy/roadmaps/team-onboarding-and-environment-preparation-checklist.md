@@ -256,11 +256,13 @@ Current blocker:
 - the current deploy now reaches runtime startup
 - the current runtime failure moved from schema mismatch to deploy-step timing: running migrations inside the web-service start command delays port binding
 - the immediate repair path on the free plan is to run `db:migrate:deploy` from a separate controlled execution surface before redeploying the web service
+- the current Supabase `DMG Prod` database has been checked directly and is currently empty
 
 Operational rule:
 
 - production database secrets and JWT secrets should be entered in Render managed environment variables and should not be part of ordinary developer secret distribution
 - migration execution should happen from a Render shell, a Render one-off job, or CI with the same managed production secret set; do not make developer laptops the default production migration surface
+- for the current Render free-plan posture, GitHub Actions is a justified production migration surface because it is controlled, auditable, repeatable, and separate from developer laptops
 
 Daily maintenance:
 
@@ -288,7 +290,14 @@ Naming note:
 - Render keeps the runtime variable name `CRON_SECRET` because that is the name the API process reads from its own environment
 - GitHub Actions uses `PRODUCTION_CRON_SECRET` so the workflow can later grow a staging sibling without ambiguous secret names
 - `PRODUCTION_API_MAINTENANCE_URL` is better modeled as a GitHub environment variable than as a secret because the endpoint URL is not sensitive
-- if GitHub Actions later becomes the production migration surface, keep GitHub-side names explicit for production database credentials and map them to `DATABASE_URL` and `MIGRATION_DATABASE_URL` only inside the migration job runtime
+
+Production migration surface:
+
+- if GitHub Actions is used as the production migration surface, store `DATABASE_URL` and `MIGRATION_DATABASE_URL` as GitHub `Production` environment secrets
+- `DATABASE_URL` should match the production runtime pooled Postgres URL used by the API service
+- `MIGRATION_DATABASE_URL` should match the production direct Postgres URL used for Prisma schema rollout
+- the migration job should set `APP_ENV=production` and run `pnpm --filter dmg-api run db:migrate:deploy`
+- once that job succeeds, redeploy or restart the Render web service so the API boots against the migrated schema
 
 ## Current reference - Vercel web setup checklist
 
