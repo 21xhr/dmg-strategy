@@ -121,7 +121,7 @@ If he gives a broad answer, narrow it:
 
 Use a short opener that makes the interview frame explicit:
 
-"I mainly wanted to use this call to learn from what you keep seeing across organizations. I am trying to understand where leaders or teams repeatedly lack clear enough field signal to decide well, especially when the issue is not total dysfunction but weak visibility, delayed escalation, or fragmented feedback."
+"The purpose of this call is to learn from what you keep seeing across organizations. The focus is on where leaders or teams repeatedly lack clear enough field signal to decide well, especially when the issue is not total dysfunction but weak visibility, delayed escalation, or fragmented feedback."
 
 ### Questions worth asking first
 
@@ -163,13 +163,13 @@ Use a short opener that makes the interview frame explicit:
 
 If the discussion is useful, end with one narrow follow-up ask:
 
-"If one person or organization comes to mind where this kind of signal problem is concrete enough to inspect, I would value an introduction or even just a suggestion on who I should speak to next."
+"If one person or organization comes to mind where this kind of signal problem is concrete enough to inspect, an introduction or even just a suggestion on who to speak to next would be useful."
 
 ### If he asks what DMG is
 
 Use a short plain-language answer first:
 
-"I am exploring a way to help organizations see field reality more clearly before decisions are made. The core idea is to make weak, scattered, or delayed signal easier to surface, structure, and compare, so leaders are not deciding mainly from fragmented feedback, local escalation, or whoever speaks the loudest."
+"DMG is being explored as a way to help organizations see field reality more clearly before decisions are made. The core idea is to make weak, scattered, or delayed signal easier to surface, structure, and compare, so leaders are not deciding mainly from fragmented feedback, local escalation, or whoever speaks the loudest."
 
 If he wants one sentence more:
 
@@ -177,7 +177,7 @@ If he wants one sentence more:
 
 If he asks where it fits in his world:
 
-"In environments like the ones you see, I suspect the value is not in replacing professional judgment. It is in helping managers, direction teams, or governance bodies get a clearer view of what is recurring, where tensions are building, and what deserves attention before the issue becomes distorted, overly local, or too late to read properly."
+"In environments like the ones you see, the value is not in replacing professional judgment. It is in helping managers, direction teams, or governance bodies get a clearer view of what is recurring, where tensions are building, and what deserves attention before the issue becomes distorted, overly local, or too late to read properly."
 
 ### First call notes: 2026-04-23
 
@@ -191,12 +191,12 @@ If he asks where it fits in his world:
 - The tariffing issue is better read as a sector-specific operational difficulty than as a universal recurring product pain.
 - The more precise question is whether the new model creates enough repeated effort at the point of entry that a structured layer can reduce friction without replacing the existing DUI.
 - Eric reacted positively to the idea of preserving the current entry habit while automatically mapping it into the new structure.
-- He asked whether I develop/code, which gave a natural opening to explain the engineering background and the fact that DMG is intended to connect to existing systems rather than replace them.
-- He offered to connect me with a public establishment in Amiens if the fit looks real, and also with other people who can judge whether the problem and the solution line up.
-- He also said that if the fit is real, he would be ready to branch me to a wider network and help unlock a budget to develop the system.
+- He asked whether the project has code development behind it, which gave a natural opening to explain the engineering background and the fact that DMG is intended to connect to existing systems rather than replace them.
+- He offered to connect the project with a public establishment in Amiens if the fit looks real, and also with other people who can judge whether the problem and the solution line up.
+- He also said that if the fit is real, he would be ready to branch the project to a wider network and help unlock a budget to develop the system.
 - He also said he could help open budget conversations if the problem is concrete enough to justify it.
 - The safest working read is that DMG is adjacent to the immediate need rather than a finished direct fit: the near-term value may be in helping an existing workflow structure data better and map it into the new model.
-- The next move is to send him a short email that recaps the call, states the rough fit as understood, and makes clear that the next step is my exploration: checking whether the need is real enough, how much work the integration would require, and whether the budget would justify the development cost.
+- The next move is a short email that recaps the call, states the rough fit as understood, and makes clear that the next step is exploration: checking whether the need is real enough, how much work the integration would require, and whether the budget would justify the development cost.
 - If there is no answer in 8 to 10 days, a polite follow-up is appropriate because he explicitly said he sometimes loses track of time.
 
 ### Working read on fit
@@ -209,21 +209,21 @@ If he asks where it fits in his world:
 
 ### Draft follow-up email
 
-Subject: Retour rapide sur notre échange et piste Imago
+Subject: Retour rapide sur l’échange et piste Imago
 
 Bonjour Eric,
 
 Merci encore pour l’échange.
 
-Si je résume ce que j’ai retenu, le sujet principal n’est pas seulement la présence de données, mais surtout leur facilité de saisie, leur lisibilité pour les managers, et le fait de pouvoir les exploiter rapidement quand une décision doit être prise.
+Le sujet principal qui ressort n’est pas seulement la présence de données, mais surtout leur facilité de saisie, leur lisibilité pour les managers, et le fait de pouvoir les exploiter rapidement quand une décision doit être prise.
 
-J’ai aussi compris qu’il y a une difficulté concrète de passage entre l’ancien modèle et le nouveau, avec beaucoup de correspondance à faire au moment de la saisie. C’est le genre de point que je vais essayer d’explorer plus sérieusement, pour voir si le besoin est suffisamment clair, si la charge d’intégration serait raisonnable, et si le budget permettrait d’aller au bout du développement.
+Il y a aussi une difficulté concrète de passage entre l’ancien modèle et le nouveau, avec beaucoup de correspondance à faire au moment de la saisie.
 
-De mon côté, je vais regarder plus précisément le cas Imago et la manière dont un système comme DMG pourrait éventuellement se brancher sur ce type d’environnement sans casser les usages déjà en place. L’idée n’est pas de remplacer un DUI existant, mais de voir s’il existe une vraie couche utile à ajouter.
+IMAGO sera regardé plus précisément avant la relance, afin de vérifier comment DMG pourrait éventuellement se brancher sur ce type d’environnement sans casser les usages déjà en place. L’idée n’est pas de remplacer un DUI existant, mais de voir s’il existe une vraie couche utile à ajouter.
 
-Je reste prudent sur le niveau d’adéquation à ce stade: j’ai encore besoin de mieux comprendre le couple produit / terrain avant de conclure. L’étape suivante pour moi, c’est d’explorer et de qualifier avant d’engager quoi que ce soit.
+Le niveau d’adéquation reste à confirmer. L’étape suivante consiste à explorer et qualifier avant d’engager quoi que ce soit.
 
-Et si tu vois un terrain ou une personne à Amiens ou ailleurs qui pourrait m’aider à vérifier rapidement si le problème et la solution s’alignent vraiment, je serais très heureux que tu me branches.
+Si un terrain ou une personne te vient en tête pour vérifier si le problème et la solution s’alignent vraiment, une introduction serait utile.
 
 Merci encore,
 

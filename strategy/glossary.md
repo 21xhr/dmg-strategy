@@ -16,7 +16,6 @@ Terms within each category are ordered alphabetically.
 - B2B2C: business-to-business-to-consumer
 - B2C: business-to-consumer
 - RLS: Row-Level Security
-- UNRESTRICTED: no restrictions
 - CAC: Customer Acquisition Cost
 - DMG: Decision Making Governance (subject to change)
 - dilution: the percentage of ownership given up when issuing shares to investors

@@ -47,7 +47,7 @@ What exists now is:
 - a live first slice for the challenge-submit token verification flow, plus public app-config and explorer access metadata that labels demo-only datasets explicitly
 - an operator tenant-policy surface is already contractized in the backend and webapp, including the editable operator policy load/save flow, the owner-only policy variants, the private operator-session policy variants, the surface-access manifest, and the structured user-stats read model
 
-The next slice is a generated-artifact freshness gate for the operator contract family, so contract exports and browser guards fail fast when the contract package drifts from the source routes.
+The next slice after the freshness gate is contract-diff review surfacing for the operator contract family, and that behavior now exists in workspace code and CI so stale generated artifacts fail with a visible patch instead of only a filename list.
 
 The missing pieces are:
 
@@ -118,10 +118,12 @@ Current thin slices already live:
 - operator session-policy load/save flow
 - operator surface-access manifest
 - operator user-stats read surface
+- operator contract export freshness check
+- operator contract export diff surfacing on freshness failures
 
 Next thin slices after that:
 
-- one contract-drift detection and review-gate slice for the current operator contract exports
+- one contract-family expansion slice after the operator export path is the reviewable baseline
 
 ## Phase 4 - Expand to route families
 
@@ -145,7 +147,7 @@ Make contract drift visible during development.
 
 Targets:
 
-- CI check for stale generated artifacts, starting with the operator contract export path
+- CI check for stale generated artifacts, starting with the operator contract export path and the committed browser contract files
 - contract diff visibility in pull requests
 - explicit review expectation when enums, nullable fields, or payload shapes change
 

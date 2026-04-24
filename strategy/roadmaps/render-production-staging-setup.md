@@ -18,7 +18,7 @@ This matrix is the current implementation baseline for the API services on Rende
 | Custom domain | not configured | not configured |
 | Render subdomain | https://dmg-api.onrender.com | https://dmg-api-staging.onrender.com |
 | APP_ENV | production | staging |
-| DATABASE_URL | Production runtime URL (pooled/session-pooler connection string) | Staging runtime URL (pooled/session-pooler connection string) |
+| DATABASE_URL | Production runtime URL (session pooler connection string) | Staging runtime URL (session pooler connection string) |
 | MIGRATION_DATABASE_URL | Production migration URL for GitHub Actions | Staging migration URL for GitHub Actions |
 | CRON_SECRET (Render runtime) | configured | optional (only if staging maintenance caller is enabled) |
 | SESSION_SCHEDULER_MODE | enabled | unset (resolves to disabled) |
@@ -34,4 +34,4 @@ This matrix is the current implementation baseline for the API services on Rende
 - Render keeps the API in a conventional Node service shape.
 - GitHub Actions is the migration surface to keep schema rollout controlled and separate from web-service startup.
 - Staging keeps scheduler activity off by default to reduce background noise.
-- GitHub Actions environments should set both `DATABASE_URL` and `MIGRATION_DATABASE_URL` for the matching tier, while Render keeps the runtime `DATABASE_URL` and the deploy/migration runner uses the migration URL.
+- GitHub Actions environments should set both `DATABASE_URL` and `MIGRATION_DATABASE_URL` for the matching tier, while Render keeps the runtime `DATABASE_URL` on the session pooler and the deploy/migration runner uses the migration URL.

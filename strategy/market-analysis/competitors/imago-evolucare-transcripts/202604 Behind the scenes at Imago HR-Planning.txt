@@ -1,0 +1,75 @@
+Link: https://www.youtube.com/watch?v=4AfRser2JXY
+
+Imager et planning, c'est un complet. 
+ Donc on a la partie planning, donc la 
+ partie de gestion des temps avec tout 
+ types de gestion des temps. Donc 
+ spécifiquement conçu, adapté au secteur 
+ du médico-social pour la convention 66 
+ et 51, mais complètement paramétrable 
+ pour toute autre convention. 
+ gestion des temps, modulation, cycle, 
+ annualisation 
+ avec un portail salarié, demande 
+ d'absence, 
+ pointage des heures, mais aussi sur la 
+ partie RH, donc organigramme, santé, un 
+ DURP, la gestion des formations, suivi 
+ des budgets, demande de formation, 
+ action de formation, session de 
+ formation, hébergement aussi sur le 
+ recrutement et la partie GEPP avec les 
+ entret entretien, les compétences, les 
+ demandes de mobilité, on est vraiment 
+ complet sur toute cette partie là. 
+ Imago est une solution totalement 
+ intégrée. Donc, on a la chance dans 
+ Imago RH quand on va faire de la gestion 
+ de planning d'avoir une intégration 
+ complète avec la reste des logiciels à 
+ savoir les activités du professionnel 
+ d'Imago vont pouvoir remonter 
+ automatiquement dans la solution RH. va 
+ remonter automatiquement dans la partie 
+ du pour annuler éventuellement des 
+ activités positionnées sur cette 
+ journée. La base de données unique va 
+ permettre à l'ensemble des logiciels de 
+ la gamme IMAGO de s'intégrer pleinement 
+ et de permettre à l'ensemble des 
+ utilisateurs de faciliter leur 
+ quotidien. 
+ On a une solution complète donc du 
+ dossier de l'usager la partie RH, la 
+ partie de gestion des temps, la paye, la 
+ comptabilité. 
+ Je m'occupe de l'ensemble des 
+ développeurs sur le produit et je sers 
+ aussi à faire le lien avec l'équipe 
+ produit pour définir la road map et 
+ l'adapter aux capacités du 
+ développement. On va travailler ensemble 
+ avec l'équipe produit. On va recueillir 
+ le besoin auprès du client. Le produit 
+ va nous soumettre des idées d'évolution 
+ et notre travail à nous va être de le 
+ rendre possible techniquement. 
+ Aujourd'hui, mon quotidien c'est de 
+ développer des nouvelles applications, 
+ des nouveaux modules en fonction de ce 
+ que l'équipe produit nous fournit comme 
+ besoin d'un point de vue client. 
+ Dernièrement, j'ai développé la partie 
+ onboarding et précédemment, je me suis 
+ occupé de du plan de développement de 
+ compétences. Je fais le lien avec toutes 
+ les parties prenantes, le lien avec les 
+ clients, donc par le biais des journaux 
+ de version, des webinaires à chaque 
+ sortie de version, le lien avec les 
+ consultants mais également avec le 
+ support et l'assistance et bien sûr avec 
+ les équipes de dev pour leur remonter 
+ donc tous les développements à faire, 
+ les tests et vraiment on travaille en 
+ équipe.

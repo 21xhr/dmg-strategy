@@ -18,6 +18,8 @@ This is the strategy repo.
 - Preserve clean documentation tone. Avoid rhetorical questions, filler bridges, and wording that reads like inline chat.
 - Before creating a new note, check whether the content belongs in an existing source note or should be a short derivative that links back to one.
 - When creating or reshaping a roadmap, include a status snapshot and explicit completion criteria or checkpoint signals so archival decisions do not rely on memory or gut feel.
+- When a note is renamed or moved, remove the stale source file in the same slice or replace it with a one-line pointer only when a temporary redirect is genuinely needed; do not keep old and new active copies side by side.
+- When reshaping a roadmap, keep the execution sequence concrete and justified: active lanes should have a current status snapshot, explicit completion criteria, and a clear reason they belong in `Now` or `Next`.
 - When a roadmap's own completion criteria or status markers indicate that the track is mostly finished, ask whether it should be archived instead of leaving it in the active roadmap lane.
 - When referring to repositories, use `strategy repo` for `/Users/mac/dmg-strategy` and `workspace repo` or `shareable repo` for `/Users/mac/dmg-workspace`.
 

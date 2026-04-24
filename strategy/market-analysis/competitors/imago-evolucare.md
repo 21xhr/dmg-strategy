@@ -24,6 +24,11 @@ Public sources used for this note:
 - https://www.evolucare.com/fr/dossier-usager-social-ahi/
 - https://www.evolucare.com/fr/dossier-resident-ehpad/
 
+Transcript corpus for follow-up review:
+
+- [IMAGO YouTube Transcript Corpus](imago-evolucare-transcripts/README.md)
+- [IMAGO Transcript Synthesis](imago-evolucare-transcript-synthesis.md)
+
 ## What IMAGO appears to be
 
 IMAGO is not a narrow form-fill product.
@@ -94,9 +99,9 @@ The more credible hypothesis is narrower:
 - the layer would need to add decision legibility, structured input, or cross-system signal where the underlying DUI does not already solve the need
 - the value would come from governance logic and integration fit, not from replacing the core record system
 
-This is aligned with the broader DMG strategy notes on [non-invasive support and integration fit](/Users/mac/dmg-strategy/strategy/integrated-support-as-moat.md) and on [DMG vs post-hoc signal extraction](/Users/mac/dmg-strategy/strategy/dmg-vs-post-hoc-signal-extraction.md).
+This is aligned with the broader DMG strategy notes on [non-invasive support and integration fit](../../integrated-support-as-moat.md) and on [DMG vs post-hoc signal extraction](../../dmg-vs-post-hoc-signal-extraction.md).
 
-It is also aligned with the more general rule in [decision support boundaries](/Users/mac/dmg-strategy/strategy/decision-support-boundaries.md): structuring inputs, synthesizing them, and owning final decision authority are not the same layer.
+It is also aligned with the more general rule in [decision support boundaries](../../decision-support-boundaries.md): structuring inputs, synthesizing them, and owning final decision authority are not the same layer.
 
 ## What DMG is not, in this comparison
 
@@ -126,15 +131,10 @@ But it still needs to be earned.
 
 The product pages set a high bar for any adjacent tool:
 
-- web and mobile access are already expected
-- reporting and pilotage are already expected
-- continuity and read-only access during outages are already part of the story
-- support, training, and operational adoption are already part of the offer
-- interoperability and reference status are already part of the brand posture
 
-So the buyer baseline is not “we have nothing.”
+So the buyer baseline is not “nothing exists yet.”
 
-It is closer to “we already have a broad DUI, so any new layer has to justify itself against a mature stack.”
+It is closer to “a broad DUI already exists, so any new layer has to justify itself against a mature stack.”
 
 That makes the burden of proof high, but it also makes the opportunity sharper if the gap is real.
 

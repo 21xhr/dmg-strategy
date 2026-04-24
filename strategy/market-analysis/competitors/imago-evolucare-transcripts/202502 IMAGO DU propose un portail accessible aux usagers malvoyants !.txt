@@ -1,0 +1,72 @@
+Link: https://www.youtube-transcript.io/videos?id=wHZjfWH1ee4
+
+[Musique] 
+ chez evolucer concevoir des solutions 
+ numériques inclusives est une priorité 
+ l'accessibilité numérique est non 
+ seulement une exigence réglementaire 
+ mais aussi un engagement fort pour nous 
+ pour garantir que le portail usager 
+ d'imago réponde au standard du rg DEA 
+ nous avons collaboré avec cessia expert 
+ en accessibilité numérique on est passé 
+ par un un audit rg2a complet ensuite on 
+ a fait des tests utilisateurs avec des 
+ personnes en situation de handicap et on 
+ a inclu donc un référent accessibilité 
+ tout au long des du processus 
+ d'amélioration le travail de nos 
+ développeurs a permis de transformer 
+ l'expérience utilisateur d'imago 
+ plusieurs améliorations ont été mises en 
+ place dès le départ ce qu'on savait 
+ c'est qu'il faudrait réécrire toutes les 
+ pages parce qu'en fait 
+ le le portail usager il a été développé 
+ assez V il y a assez longtemps donc on 
+ savait très bien qu'il faudrait réécrire 
+ toutes les pages il y a une vingtaine de 
+ pages à peu près et les premières 
+ décisions qu'on a pris c'est tout 
+ d'abord de garder le design ou un design 
+ très similaire pour ne pas perturber nos 
+ utilisateurs existants on a juste 
+ procédé à des des ajustements de couleur 
+ notamment pour améliorer les contrastes 
+ et la deuxième décision qu'on a prise 
+ c'est de profiter de la réécriture 
+ nécessaire des pages pour rendre aussi 
+ de portail responsive c'est-à-dire 
+ utilisable sur n'importe quel format 
+ d'écran notamment les formats mobiles 
+ qui sont privilégié aujourd'hui chez 
+ evolucer l'innovation passe par une 
+ accessibilité renforcée grâce à notre 
+ collaboration avec cessia nous avons 
+ franchi une étape clé pour rendre nos 
+ solutions plus inclusives principalement 
+ il s'agissait de respecter la sémantique 
+ du HTML et de prévoir aussi la 
+ manipulation au clavier des éléments 
+ interactifs comme les accordéons on a 
+ quelques accordéons o on peut déplier 
+ replier des éléments et sur C sur ces 
+ éléments là nous avons aussi ajouté des 
+ des attributs aras pour que les lecteurs 
+ d'écran puisse donner les les 
+ indications sur l'état l'état actuel de 
+ du composant sur le planning donc le 
+ planning c'est une page où on voit un 
+ calendrier comme comme on peut imaginer 
+ un calendrier pour cette page là on 
+ utilise une bibliothèque externe qu'on 
+ pouvait pas modifier 
+ donc ce qu'on a choisi de faire c'est 
+ une page une vue 
+ supplémentaire pour présenter des 
+ activités sous forme de liste ce projet 
+ illustre notre engagement pour une 
+ accessibilité renforcée chez vol nous 
+ continuerons à innover pour que le 
+ numérique soit un outil ouvert à tous 
+ [Musique]

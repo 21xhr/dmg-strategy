@@ -34,7 +34,9 @@ See also: [Render Production and Staging Setup Matrix](./roadmaps/render-product
 - runtime URL and migration URL must always target the same tier
 - GitHub-hosted migration runners use the environment session pooler URL in `MIGRATION_DATABASE_URL`
 - GitHub Actions should use the session pooler URL for `DATABASE_URL` and `MIGRATION_DATABASE_URL`; the direct Supabase connection string is IPv6-only unless the dedicated IPv4 add-on is enabled, and GitHub-hosted runners do not reliably reach that path
-- the red `UNRESTRICTED` badge in Supabase means Row Level Security is disabled on that table; once RLS is enabled, anonymous users cannot read or write that table unless explicit policies allow it
+- the red `unrestricted` badge in Supabase means the table is open at the database layer because Row Level Security is off
+- the current database migration enables RLS on every public application table in the API schema; keep it off only for narrow bootstrap or service-owned tables that are intentionally accessed only through trusted backend paths
+- enabling RLS does not replace backend authorization, but it makes the default posture explicit and keeps browser-facing or operator-facing tables from staying open by accident
 
 ### Render API setup
 

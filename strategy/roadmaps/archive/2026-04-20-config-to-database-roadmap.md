@@ -624,7 +624,7 @@ Target architecture:
 
 Reference flow note:
 
-- see [admin-authentication-and-dashboard-flow.md](/Users/mac/dmg-workspace/apps/docs/appendix/flows/admin-authentication-and-dashboard-flow.md) for the current token exchange, cookie session issuance, dashboard restore flow, and protected pulse access
+- see [admin-authentication-and-dashboard-flow.md](../../../../dmg-workspace/apps/docs/appendix/flows/admin-authentication-and-dashboard-flow.md) for the current token exchange, cookie session issuance, dashboard restore flow, and protected pulse access
 
 Implemented migration shape:
 

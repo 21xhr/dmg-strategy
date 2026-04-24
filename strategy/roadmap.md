@@ -127,6 +127,36 @@ Completed outcome:
 - production and staging maintenance flows are split cleanly by GitHub environment
 - the onboarding and environment-preparation notes read as current-state operator reference
 
+### Completed migration tracks
+
+#### Economy and ledger redesign
+
+Goal:
+
+- replace the legacy `User ID 1` world-ledger pattern with dedicated economy records
+- move shared pools, balances, and summaries out of identity-based shortcuts
+
+Status:
+
+- completed enough to archive after replay, diff, and guarded apply tooling landed
+- the current replay tooling lives in `apps/api/src/services/economyReplayService.ts` and `apps/api/scripts/economyRebuild.ts`
+
+Completed outcome:
+
+- shared economy behavior is owned by dedicated economy records
+- removal settlement metadata supports exact replay of `totalToPushers`
+- tenant summary and pool repair can be run explicitly when needed
+
+#### SaaS-readiness foundation
+
+Status:
+
+- completed and archived
+
+Completed outcome:
+
+- tenant-context hardening, settings-ownership decisions, and runtime-authority boundaries are explicit enough for the next migration track
+
 ## Active execution sequence
 
 This section is ordered for execution, not just for topic grouping.
@@ -135,43 +165,7 @@ Use the dedicated roadmap files for detailed implementation notes, but use this 
 
 ### Now
 
-#### 1. Economy and ledger redesign
-
-Goal:
-
-- replace the legacy `User ID 1` world-ledger pattern with dedicated economy records
-- move shared pools, balances, and summaries out of identity-based shortcuts
-- keep economy migration scoped separately from the completed SaaS-readiness foundation
-
-Primary roadmap file:
-
-- `strategy/roadmaps/economy-ledger-redesign-roadmap.md`
-
-Why this is now active:
-
-- tenant and settings boundaries are explicit enough that the remaining work stops competing with the next implementation-heavy migration slice
-- the SaaS-readiness foundation is complete enough for tenant-attributed economy records, pools, and summaries
-
-Checkpoint to start this track cleanly:
-
-- the SaaS-readiness foundation has already removed the main tenant-context ambiguity needed for economy records, pools, and summaries
-
-#### SaaS-readiness foundation
-
-Status:
-
-- completed enough to stop competing with active execution priorities
-- archived after tenant-context hardening, settings-ownership decisions, and runtime-authority boundaries became explicit enough for the next migration track
-
-Archived records:
-
-- `strategy/roadmaps/archive/2026-04-21-config-to-database-schema-roadmap.md`
-- `strategy/roadmaps/archive/2026-04-20-config-to-database-roadmap.md`
-- `strategy/roadmaps/archive/2026-04-18-drift-reduction-roadmap.md`
-
-### Next
-
-#### 2. Shared API contract
+#### 1. Shared API contract
 
 Goal:
 
@@ -179,25 +173,22 @@ Goal:
 - generate or publish one reviewable contract surface for route payloads and shared types
 - keep transport, schema, and consumer typing aligned across repos
 
-Status:
-
-- started
-- backend-owned contract artifacts now cover the challenge-submit token verification response, the public app-config bootstrap payload, the public stream-status read, the explorer token verification and access-grant responses, the explorer challenge list, delta, and detail reads, the challenge web-submission response, the push quote and push confirm responses, and the digout, disrupt, and challenge-removal responses
-- backend-owned contract artifacts now also cover the admin dashboard pulse read
-- backend-owned contract artifacts now also cover the operator-side public-app-config editor surface
-- operator challenge execute now reports interrupted-session context and blocks duplicate execute requests against the currently running challenge
-- public app-config and explorer access contracts now also surface demo-boundary metadata so browser UX can label demo-tenant rendering and demo-scoped Explorer datasets explicitly
-- generated browser contracts are exported into the webapp; the current classic-script frontend now consumes the challenge-submit, app-config, admin pulse, operator public-app-config, stream-status, explorer access, explorer challenge-read, explorer push-action, Explorer digout, Explorer challenge-removal, and Explorer disrupt artifacts as runtime guards
-
 Primary roadmap file:
 
 - `strategy/roadmaps/shared-api-contract-roadmap.md`
 
-Execution rule for this track:
+Why this is now active:
 
-- keep this track close behind active backend route changes while the tenant model and operator surfaces are still moving, but do not let it outrank the core economy migration
+- backend route families already have enough contract coverage to expand the shared surface
+- the remaining work is concrete and low-risk: one more admin or operator action surface
 
-#### 3. Provider and ingress abstraction
+Checkpoint to start this track cleanly:
+
+- current contract artifacts and generated browser guards cover the current route families
+
+### Next
+
+#### 2. Provider and ingress abstraction
 
 Goal:
 
@@ -215,14 +206,14 @@ Primary roadmap file:
 
 - `strategy/roadmaps/ingress-abstraction-roadmap.md`
 
-Recommended scope boundary:
+Execution rule for this track:
 
 - finish the boundary cleanup needed to keep the command core provider-agnostic
 - do not treat second-provider support or full provider management as a prerequisite to tenant and config migration
 
 ### Later
 
-#### 4. Frontend productization
+#### 3. Frontend productization
 
 Goal:
 
@@ -240,7 +231,7 @@ Checkpoint for promotion out of later:
 
 - tenant policy boundaries, economy records, and the highest-risk route contracts are stable enough for frontend cleanup to focus on durable surfaces
 
-#### 5. Runtime notifications
+#### 4. Runtime notifications
 
 Goal:
 
@@ -259,13 +250,11 @@ Checkpoint for promotion out of later:
 ## Current status snapshot
 
 Latest completed slice:
-
-- the SaaS-readiness foundation is archived after tenant-context hardening, runtime-authority cleanup, and settings-ownership decisions became explicit enough to stop competing with active execution priorities
+- tenant economy replay, diff, and guarded apply tooling is in place and ready for archive review
 - explicit tenant-context coverage extends across challenge mutation flows, challenge removal, auth-driven account creation, stats rendering, token duration caps, daily submission context, maintenance-state reads, stream helper entrypoints, command ingress, and recurring background maintenance fanout
 - operator-control safeguard hardening covers the destructive operator challenge actions on the current admin surface: duplicate execute requests are rejected, and repeated status updates to the same target state are idempotent no-op success responses
 
 Current execution rule:
-
-- keep the economy and ledger redesign as the primary implementation lane
-- keep shared API contract work close behind active backend route changes without letting it outrank economy migration
-- treat residual SaaS-readiness follow-up such as feature availability packaging, neutral capability vocabulary, and editor-shape polish as backlog or narrower follow-up work unless they reopen tenant-boundary ownership
+- keep shared API contract as the primary implementation lane
+- keep provider and ingress abstraction close behind active backend route changes without letting it outrank shared API contract
+- treat completed migration tracks such as economy and ledger redesign and SaaS-readiness foundation as archived reference unless they reopen tenant-boundary ownership
