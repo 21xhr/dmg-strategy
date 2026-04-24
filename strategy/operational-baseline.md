@@ -33,6 +33,8 @@ See also: [Render Production and Staging Setup Matrix](./roadmaps/render-product
 - staging and preview data live in `DMG Staging`
 - runtime URL and migration URL must always target the same tier
 - GitHub-hosted migration runners use the environment session pooler URL in `MIGRATION_DATABASE_URL`
+- GitHub Actions should use the session pooler URL for `DATABASE_URL` and `MIGRATION_DATABASE_URL`; the direct Supabase connection string is IPv6-only unless the dedicated IPv4 add-on is enabled, and GitHub-hosted runners do not reliably reach that path
+- the red `UNRESTRICTED` badge in Supabase means Row Level Security is disabled on that table; once RLS is enabled, anonymous users cannot read or write that table unless explicit policies allow it
 
 ### Render API setup
 
@@ -60,7 +62,7 @@ Render subdomains:
 Production Render service:
 
 - `APP_ENV=production`
-- `DATABASE_URL=<production runtime pooled/session-pooler URL>`
+- `DATABASE_URL=<production runtime session pooler URL>`
 - `MIGRATION_DATABASE_URL=<production migration URL for GitHub Actions>`
 - `JWT_SECRET=<production JWT secret>`
 - `CRON_SECRET=<production cron secret>`
@@ -69,7 +71,7 @@ Production Render service:
 Staging Render service:
 
 - `APP_ENV=staging`
-- `DATABASE_URL=<staging runtime pooled/session-pooler URL>`
+- `DATABASE_URL=<staging runtime session pooler URL>`
 - `MIGRATION_DATABASE_URL=<staging migration URL for GitHub Actions>`
 - `JWT_SECRET=<staging JWT secret>`
 - `CRON_SECRET=<staging cron secret>` when staging maintenance is enabled
@@ -77,8 +79,8 @@ Staging Render service:
 
 Runtime URL rule:
 
-- the runtime `DATABASE_URL` should match the Render service tier for that environment
-- the migration `MIGRATION_DATABASE_URL` should be reachable from GitHub-hosted runners and match the same environment tier
+- the runtime `DATABASE_URL` should use the environment session pooler URL
+- the migration `MIGRATION_DATABASE_URL` should be a direct connection string reachable from GitHub-hosted runners and match the same environment tier
 - GitHub Actions needs both `DATABASE_URL` and `MIGRATION_DATABASE_URL` set in each environment so validation and migration execution stay explicit
 
 ### Migration workflows
@@ -132,6 +134,7 @@ Staging maintenance:
 ## Recommendations
 
 - keep migrations in GitHub Actions and out of Render startup commands
+- keep GitHub-hosted jobs on the session pooler rather than the direct database string so the workflow does not depend on IPv6 reachability or a paid IPv4 add-on
 - keep staging scheduler off by default unless a specific validation scenario requires it; for a local test run, set `SESSION_SCHEDULER_MODE=enabled` explicitly in `apps/api/.env` or the shell before starting the API
 - keep production and staging maintenance flows separate; that is already the current implementation
 - continue environment-scoped secret naming in GitHub (`PRODUCTION_*`, `STAGING_*`) for readability and auditability

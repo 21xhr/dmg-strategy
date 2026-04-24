@@ -4,6 +4,8 @@
 
 This roadmap now serves as the completion record for the DMG move out of the legacy multi-repo layout and into the current operating model.
 
+Archived on 2026-04-16 after the initial monorepo split completed and the active workspace boundaries settled.
+
 That operating model is:
 
 - one active engineering workspace in `/Users/mac/dmg-workspace`
@@ -112,23 +114,23 @@ In practice, that means the monorepo migration should begin before the entire sh
 
 ## Current status
 
-For DMG as it exists now:
+For DMG at archive time:
 
 - the explorer challenge read family was enough to close the Phase 1 package-seam decision
-- cross-repo friction is no longer the primary operating model for active engineering work
-- the migration should now be treated as completed groundwork rather than an active execution track
+- active engineering work uses the workspace layout rather than cross-repo coordination as the default operating model
+- this record belongs in completed groundwork rather than an active execution track
 
-The migration is no longer just strategically relevant.
+The migration is recorded as a completed operating-model change.
 
-It has already been executed where it mattered operationally.
+It was executed where it mattered operationally.
 
 The first mechanical move and first shared-package extraction now exist in the workspace:
 
 - the current API repo is mirrored under `apps/api` with its current build, test, and contract-export flow preserved
 - the current web repo is mirrored under `apps/web` with generated browser contracts still emitted under `js/generated`
 - the future shared docs app under `apps/docs` contains only team-shareable product and engineering material, while strategy and other confidential notes remain outside the shell
-- `packages/contracts` now contains the backend-owned contract modules and is imported by `apps/api` as a real workspace package
-- `packages/tooling` now contains the workspace-level browser-contract export script instead of leaving that codegen path inside `apps/api`
+- `packages/contracts` contains the backend-owned contract modules and is imported by `apps/api` as a real workspace package
+- `packages/tooling` contains the workspace-level browser-contract export script, with that codegen path housed outside `apps/api`
 
 The repo-boundary cleanup around that move is also now done:
 
@@ -265,7 +267,7 @@ Review rule:
 
 Goal:
 
-- make CI reflect the real dependency graph instead of treating each repo as an isolated black box
+- make CI reflect the real dependency graph and avoid treating each repo as an isolated black box
 
 Targets:
 
@@ -311,7 +313,7 @@ This roadmap is complete when:
 - the codebase runs as one workspace with independent app deployments
 - shared contract and tooling surfaces live as packages rather than cross-repo copy steps
 - CI validates the workspace graph and generated artifacts coherently
-- cross-cutting product slices no longer require synchronized multi-repo commit choreography
+- cross-cutting product slices run within one workspace graph rather than synchronized multi-repo commit choreography
 
 ## Review rule
 

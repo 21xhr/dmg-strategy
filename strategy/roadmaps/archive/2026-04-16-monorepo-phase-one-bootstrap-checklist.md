@@ -4,6 +4,8 @@
 
 This checklist turns the first monorepo migration pass into a mechanical sequence instead of an open-ended redesign.
 
+Archived on 2026-04-16 after the first migration pass completed and the bootstrap sequence was closed.
+
 Use it alongside `strategy/roadmaps/archive/2026-04-16-monorepo-migration-roadmap.md`.
 
 Status:
