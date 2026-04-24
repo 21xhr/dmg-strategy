@@ -37,6 +37,7 @@ See also: [Render Production and Staging Setup Matrix](./roadmaps/render-product
 - the red `unrestricted` badge in Supabase means the table is open at the database layer because Row Level Security is off
 - the current database migration enables RLS on every public application table in the API schema; keep it off only for narrow bootstrap or service-owned tables that are intentionally accessed only through trusted backend paths
 - enabling RLS does not replace backend authorization, but it makes the default posture explicit and keeps browser-facing or operator-facing tables from staying open by accident
+- if Supabase offers to auto-enable RLS for new tables, accept that prompt; it keeps the future default aligned with the current posture
 
 ### Render API setup
 
