@@ -55,11 +55,11 @@ The missing pieces are:
 - one generation or publication step in CI or local build workflows
 - one frontend consumption path that replaces hand-maintained duplicate types
 
-## Current expansion slice
+## Completed contract family
 
-The next concrete slice is operator and admin contract stabilization across the surfaces that already behave like typed product APIs.
+The operator and admin contract family is the first finished route-family slice for this roadmap.
 
-This slice covers:
+It covered:
 
 - the admin pulse read surface
 - the public app-config editor surface
@@ -68,12 +68,12 @@ This slice covers:
 - the operator surface-access manifest
 - the operator user-stats read surface
 
-Completion criteria:
+Completion signals:
 
-- generated browser contract artifacts remain the only frontend-consumed source for these surfaces
+- generated browser contract artifacts are the only frontend-consumed source for these surfaces
 - freshness failures surface a readable diff, not only a stale-file list
 - no handwritten frontend duplicate survives for the covered operator/admin payloads
-- the roadmap can name the next family expansion without reopening the current slice
+- the roadmap can move to the next family without reopening this block
 
 ## Phase 1 - Inventory contract surfaces
 
@@ -160,7 +160,7 @@ Execution rule:
 
 - each family should end with frontend consumption switched to shared contracts
 - avoid leaving generated artifacts unused while handwritten frontend duplicates remain in place
-- the current active family is the operator/admin surface block above; treat the next family as the follow-on only after this block is fully consumed through generated artifacts
+- the current active family is public config and identity bootstrap; treat it as the next family after the completed operator/admin block above
 
 ## Phase 5 - Add change detection and review gates
 
