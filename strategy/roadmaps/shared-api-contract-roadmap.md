@@ -75,6 +75,25 @@ Completion signals:
 - no handwritten frontend duplicate survives for the covered operator/admin payloads
 - the roadmap can move to the next family without reopening this block
 
+## Current active family
+
+The next live slice is public config and identity bootstrap.
+
+It covers:
+
+- the app-config bootstrap payload
+- the challenge-submit secure-link token verification flow
+- the explorer token verification flow
+- the explorer access grant flow
+- the explorer challenge list, delta, and detail read family
+
+Completion signals:
+
+- generated browser contract artifacts remain the only frontend-consumed source for the covered payloads
+- freshness failures surface a readable diff, not only a stale-file list
+- no handwritten frontend duplicate survives for the covered public config and identity bootstrap payloads
+- the roadmap can advance to the next route family without reopening this block
+
 ## Phase 1 - Inventory contract surfaces
 
 Create a route inventory grouped by stability and frontend dependency.
@@ -160,7 +179,7 @@ Execution rule:
 
 - each family should end with frontend consumption switched to shared contracts
 - avoid leaving generated artifacts unused while handwritten frontend duplicates remain in place
-- the current active family is public config and identity bootstrap; treat it as the next family after the completed operator/admin block above
+- the current active family is the public config and identity bootstrap block above; treat later families as follow-on only after this block is fully consumed through generated artifacts
 
 ## Phase 5 - Add change detection and review gates
 

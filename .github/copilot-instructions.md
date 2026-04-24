@@ -16,6 +16,7 @@ This is the strategy repo.
 - Write notes as durable planning material, not as answers to the last chat prompt.
 - Before landing strategy or architecture-impacting material, check `strategy/backlog.md` and any relevant `strategy/roadmaps/` note so new work stays aligned with the tracked plan.
 - Preserve clean documentation tone. Avoid rhetorical questions, filler bridges, and wording that reads like inline chat.
+- Use glossary-defined abbreviations when they are already established in `strategy/glossary.md`; do not expand them back into full phrases just to avoid the acronym.
 - Before creating a new note, check whether the content belongs in an existing source note or should be a short derivative that links back to one.
 - When creating or reshaping a roadmap, include a status snapshot and explicit completion criteria or checkpoint signals so archival decisions do not rely on memory or gut feel.
 - When a note is renamed or moved, remove the stale source file in the same slice or replace it with a one-line pointer only when a temporary redirect is genuinely needed; do not keep old and new active copies side by side.

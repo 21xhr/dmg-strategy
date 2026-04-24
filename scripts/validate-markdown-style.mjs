@@ -2,9 +2,10 @@
 
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
-const repoRoot = process.cwd();
+const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 function runGit(args) {
   return execFileSync('git', args, { cwd: repoRoot, encoding: 'utf8' }).trim();
@@ -48,10 +49,12 @@ function validateGlossaryEntries(glossaryText) {
   const violations = [];
   const allowedAcronyms = new Set([
     'AAJD',
+    'ADR',
     'AGEVAL',
     'AHI',
     'APAEIA',
     'ARS',
+    'ADAPEI',
     'CA',
     'CSE',
     'DG',
@@ -69,7 +72,9 @@ function validateGlossaryEntries(glossaryText) {
     'CRM',
     'DMG',
     'DUI',
+    'DMP',
     'DUERP',
+    'DU',
     'EHPAD',
     'ERP',
     'ESSMS',
@@ -82,6 +87,7 @@ function validateGlossaryEntries(glossaryText) {
     'ID',
     'IME',
     'IMAGO',
+    'INS',
     'ITEP',
     'JWT',
     'LOI',
@@ -145,6 +151,10 @@ function findViolations(filePath, content, glossaryTerms) {
   const violations = [];
   const absoluteLinkPattern = /\]\((?:\/Users\/|file:\/\/)[^)]+\)/g;
   const contentWithoutUrls = content.replace(/https?:\/\/\S+/g, '');
+  const mixedLanguagePatterns = [
+    /\bportal-usager\b/gi,
+    /\breduced ressaisie\b/gi,
+  ];
   const firstPersonTokens = [
     "I'm",
     "I've",
@@ -232,11 +242,34 @@ function findViolations(filePath, content, glossaryTerms) {
     violations.push(`absolute internal link: ${match[0]}`);
   }
 
-  for (const token of firstPersonTokens) {
-    const tokenPattern = new RegExp(`(?<![\\p{L}\\p{N}'])${token.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\p{L}\\p{N}'])`, 'iu');
-    if (tokenPattern.test(contentWithoutUrls)) {
-      violations.push('first-person phrasing found');
+  for (const pattern of mixedLanguagePatterns) {
+    if (pattern.test(contentWithoutUrls)) {
+      violations.push('mixed-language hybrid term found');
       break;
+    }
+  }
+
+  let inDraftFollowUpEmail = false;
+  for (const line of contentWithoutUrls.split(/\r?\n/)) {
+    if (/^### Draft follow-up email\s*$/.test(line)) {
+      inDraftFollowUpEmail = true;
+      continue;
+    }
+
+    if (inDraftFollowUpEmail && /^###\s+/.test(line) && !/^### Draft follow-up email\s*$/.test(line)) {
+      inDraftFollowUpEmail = false;
+    }
+
+    if (inDraftFollowUpEmail) {
+      continue;
+    }
+
+    for (const token of firstPersonTokens) {
+      const tokenPattern = new RegExp(`(?<![\\p{L}\\p{N}'])${token.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\p{L}\\p{N}'])`, 'iu');
+      if (tokenPattern.test(line)) {
+        violations.push('first-person phrasing found');
+        return violations;
+      }
     }
   }
 

@@ -9,5 +9,7 @@ Use the following markdown style rules for durable repo writing:
 - Keep durable notes, trackers, roadmaps, and strategic analysis in neutral voice. Avoid first-person phrasing unless the section is a verbatim quoted draft meant to be sent unchanged.
 - Before using a new acronym or sector abbreviation, check `strategy/glossary.md`. If the term is not already defined, add it to the glossary in the same slice before relying on it in durable notes.
 - Introduce abbreviations once with their expansion where practical, then use the short form consistently.
+- Glossary-defined abbreviations are allowed in durable notes; do not rewrite them into full words just to avoid the acronym.
+- Avoid mixed-language hybrid terms in durable notes. Prefer one language per sentence when practical, and avoid isolated French terms inside otherwise-English prose when a clear English equivalent exists; for example, do not use forms such as `portal-usager` or `reduced ressaisie`.
 - Keep product names and vendor claims distinct from DMG's own thesis.
 - When a durable note is renamed or moved, delete the stale source file in the same slice unless a one-line redirect is intentionally needed during the transition.

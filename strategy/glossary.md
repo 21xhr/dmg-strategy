@@ -31,10 +31,11 @@ Terms within each category are ordered alphabetically.
 
 - API: Application Programming Interface
 - API contracts: What data an API exposes and the rules governing how that data can be accessed, updated, or manipulated. This keeps each surface behavior and data boundary explicit so policy boundaries do not bleed together.
+- ADR: Architecture Decision Record, a durable note that captures a cross-repo or cross-system design choice and the reason it was made
 - CI: Continuous Integration, the automated build, test, validation, and artifact-check pipeline that runs when code changes are pushed or proposed
 - CSS: Cascading Style Sheets
 - DUI: Dossier Usager Informatisé, the electronic case file used in medico-social and related care settings
-- ERP: Enterprise Resource Planning, a business system used to manage operational processes across an organization
+- ERP: Enterprise Resource Planning, a business system for managing operational processes across an organization
 - HDS: Hébergeur de Données de Santé, the French health-data hosting certification and operating model
 - HTML: HyperText Markup Language
 - JWT: JSON Web Token
@@ -64,7 +65,7 @@ Terms within each category are ordered alphabetically.
 - moat: a defensible competitive advantage that makes a product harder to displace
 - pilot: a limited real-world deployment with one customer or user group, one clear use case, and explicit success criteria
 - vertical: a specific market segment or industry with its own users, constraints, buying logic, and use cases
-- wedge: the first narrow market entry point used to validate adoption before expanding more broadly
+- wedge: the first narrow market entry point for validating adoption before broader expansion
 
 ## Organizational and sector terms
 
@@ -82,7 +83,7 @@ Terms within each category are ordered alphabetically.
 - IME: Institut Medico-Educatif
 - ITEP: Institut Therapeutique, Educatif et Pedagogique
 - PCA: Plan de Continuite d'Activite, the continuity-planning document for maintaining service during disruption
-- SDI: Schema Directeur des Systemes d'Information, a strategic information-systems framework used to organize objectives, priorities, and system evolution
+- SDI: Schema Directeur des Systemes d'Information, a strategic information-systems framework for organizing objectives, priorities, and system evolution
 - codir: comite de direction, the internal leadership group where cross-cutting operational and strategic issues are escalated
 
 ## Organizations mentioned in current outreach notes
