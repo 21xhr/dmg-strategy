@@ -49,8 +49,7 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 
 ### API contract and type sharing
 
-- shared API contract work is now tracked in `strategy/roadmaps/shared-api-contract-roadmap.md`
-- the next contract family is now challenge submission and quote flows in `strategy/roadmaps/shared-api-contract-roadmap.md`
+- shared API contract roadmap is complete in `strategy/roadmaps/shared-api-contract-roadmap.md`
 
 ### Configuration governance
 

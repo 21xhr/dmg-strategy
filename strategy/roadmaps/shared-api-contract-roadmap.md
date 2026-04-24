@@ -94,9 +94,9 @@ Completion signals:
 - no handwritten frontend duplicate survives for the covered public config and identity bootstrap payloads
 - the roadmap can advance to the next route family without reopening this block
 
-## Current active family
+## Completed contract family
 
-The next live slice is challenge submission and quote flows.
+The challenge submission and quote family is the third finished route-family slice for this roadmap.
 
 It covers:
 
@@ -113,6 +113,46 @@ Completion signals:
 - freshness failures surface a readable diff, not only a stale-file list
 - no handwritten frontend duplicate survives for the covered challenge and quote payloads
 - the roadmap can advance to the next route family without reopening this block
+
+## Completed contract family
+
+The explorer and token family is the fourth finished route-family slice for this roadmap.
+
+It covers:
+
+- the explorer access token verification flow
+- the explorer access grant flow
+- the explorer challenge list, delta, and detail read family
+
+Completion signals:
+
+- generated browser contract artifacts remain the only frontend-consumed source for the covered payloads
+- freshness failures surface a readable diff, not only a stale-file list
+- no handwritten frontend duplicate survives for the covered explorer and token payloads
+- the roadmap can move to the next family without reopening this block
+
+## Completed contract family
+
+The admin dashboard reads and writes family is the fifth finished route-family slice for this roadmap.
+
+It covers:
+
+- the admin session read surface
+- the admin pulse read surface
+- the operator public app-config read and write surface
+- the operator tenant-policy read and write surface
+- the operator owner-policy read and write surface
+- the operator session-policy read and write surface
+- the operator surface-access manifest
+- the operator user-stats read surface
+- the operator controls surface
+
+Completion signals:
+
+- generated browser contract artifacts remain the only frontend-consumed source for the covered payloads
+- freshness failures surface a readable diff, not only a stale-file list
+- no handwritten frontend duplicate survives for the covered admin payloads
+- no active route-family block remains
 
 ## Phase 1 - Inventory contract surfaces
 
@@ -198,7 +238,7 @@ Execution rule:
 
 - each family should end with frontend consumption switched to shared contracts
 - avoid leaving generated artifacts unused while handwritten frontend duplicates remain in place
-- the current active family is the challenge submission and quote flows block above; treat later families as follow-on only after this block is fully consumed through generated artifacts
+- all listed route families are now complete; any new contract surface should begin as a new roadmap item rather than extending this one
 
 ## Phase 5 - Add change detection and review gates
 
@@ -218,6 +258,10 @@ This roadmap is complete when:
 - frontend code keeps those payload types in shared artifacts rather than handwritten duplicates
 - contract changes are reviewable and validated in normal development workflows
 - route payload drift between repos is caught before runtime breakage
+
+Status: complete.
+
+Completion signal: the completed contract family blocks above cover the route families in scope, and no active family remains.
 
 ## Review rule
 
