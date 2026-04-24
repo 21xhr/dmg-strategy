@@ -35,3 +35,4 @@ This matrix is the current implementation baseline for the API services on Rende
 - GitHub Actions is the migration surface to keep schema rollout controlled and separate from web-service startup.
 - Staging keeps scheduler activity off by default to reduce background noise.
 - GitHub Actions environments should set both `DATABASE_URL` and `MIGRATION_DATABASE_URL` for the matching tier, while Render keeps the runtime `DATABASE_URL` on the session pooler and the deploy/migration runner uses the migration URL.
+- Render auto-deploys the API from `main`; migration jobs run separately in GitHub Actions and do not require a manual Render deploy after the database step.
