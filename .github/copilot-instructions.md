@@ -21,6 +21,7 @@ This is the strategy repo.
 - When a note is renamed or moved, remove the stale source file in the same slice or replace it with a one-line pointer only when a temporary redirect is genuinely needed; do not keep old and new active copies side by side.
 - When reshaping a roadmap, keep the execution sequence concrete and justified: active lanes should have a current status snapshot, explicit completion criteria, and a clear reason they belong in `Now` or `Next`.
 - When a roadmap's own completion criteria or status markers indicate that the track is mostly finished, ask whether it should be archived instead of leaving it in the active roadmap lane.
+- Use explicit, human-readable commit messages that name the concrete slice that landed. Avoid umbrella labels when the change is really a smaller route, policy, or doc boundary.
 - When referring to repositories, use `strategy repo` for `/Users/mac/dmg-strategy` and `workspace repo` or `shareable repo` for `/Users/mac/dmg-workspace`.
 
 ## Repo boundary

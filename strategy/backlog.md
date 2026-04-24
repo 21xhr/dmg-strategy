@@ -18,7 +18,7 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 - review whether Prisma indexes are sufficient for the new tenant-scoped challenge, quote, maintenance, and tenant-user-state hot paths before multi-tenant load hides avoidable query costs
 - decide whether `LIVE_DISCOUNT` remains one game-wide percentage or becomes action-specific and tenant-policy-driven so live incentives can vary without hard-coded branching
 - decide whether future tenant-specific cost logic should remain one shared quadratic formula with parameters or open a clearer per-tenant pricing-rule boundary
-- TODO: split removal settlement and refund orchestration out of `challengeService.ts` into smaller service boundaries once the current tenant-config migration stabilizes
+- open item: split removal settlement and refund orchestration out of `challengeService.ts` into smaller service boundaries once the current tenant-config migration stabilizes
 
 ### Runtime notifications
 
@@ -36,9 +36,9 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 ### Naming and scope cleanup
 
 - run a multi-repo naming pass across docs, backend, and frontend so tenant scope, session scope, maintenance state, and provider boundaries are explicit instead of implied
-- execute the planned file or module rename for `adminRoutes` and `operatorRoutes` only when the next boundary split creates enough leverage to justify churn, while keeping the current HTTP path split stable unless a later launch cleanup requires route alias removal
+- execute the planned file or module rename for `adminRoutes` and `operatorRoutes` only when the next boundary split creates enough leverage to justify churn, while keeping the current route path split stable unless a later launch cleanup requires route alias removal
 - keep later route-family rename cleanup as backlog-only work unless a real boundary split earns the churn; do not reopen the archived config-to-database roadmap for naming polish alone
-- run a naming pass across database fields, APIs, and docs so `NUMBERS` and related economy vocabulary cleanly separate current DMG branding from broader wedge-neutral tenant terminology
+- run a naming pass across database fields, APIs, and docs so the current numbers vocabulary and related economy terms cleanly separate current DMG branding from broader wedge-neutral tenant terminology
 - review wedge-specific submission prose and field naming so broader product paths can evolve beyond the current `challenge` wording without collapsing current DMG semantics during migration
 - brainstorm how to handle the `challenge` term across DMG and broader wedges so the shared core can support better neutral naming without breaking the current product language abruptly
 - review terse infrastructure variable names in multi-step service logic so transaction and policy boundaries stay readable once helpers grow beyond tiny local scopes
@@ -50,7 +50,7 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 ### API contract and type sharing
 
 - shared API contract work is now tracked in `strategy/roadmaps/shared-api-contract-roadmap.md`
-- TODO: contractize one next admin or operator action surface after the current `/admin/pulse` and public-app-config editor seams
+- the next operator/admin contract expansion slice is tracked in `strategy/roadmaps/shared-api-contract-roadmap.md`
 
 ### Configuration governance
 
@@ -83,8 +83,8 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 - decide when perennial tokens remain direct bearer credentials versus when they should be exchanged for browser sessions or cookies
 - keep perennial-token access as a distinct non-OAuth entry path if the product wants lightweight user-managed links alongside OAuth-based account connections
 - check whether the previous guided demo flow still works cleanly on top of the new tenant-scoped perennial-token and demo-policy model, and document the intended replacement if it does not
-- TODO: add operator and user-facing token issuance flows on top of the new `tenantId` plus purpose model
-- TODO: add tenant-level defaults and per-token overrides for whether a perennial token purpose stays a direct bearer link or is exchanged for a cookie-backed browser session on first use
+- open item: add operator and user-facing token issuance flows on top of the new `tenantId` plus purpose model
+- open item: add tenant-level defaults and per-token overrides for whether a perennial token purpose stays a direct bearer link or is exchanged for a cookie-backed browser session on first use
 
 ### Demo policy
 
@@ -97,9 +97,9 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 
 - define the minimum viable i18n boundary early so operator pages and public pages do not hard-code English copy into every surface before localization primitives exist
 - decide whether architecture decision records should exist as a lightweight standing format for cross-repo boundary choices, and if so where they should live and how they should be linked from roadmap work
-- capture the current web-on-Vercel plus API-on-Render deployment model as a lightweight ADR once the first production deployment path is exercised end to end, including the rationale for keeping the API on a conventional Node-service host
-- include in that deployment ADR the validation-stage infrastructure posture: why low-cost hosting is acceptable for pre-money validation, what makes it still credible, and which triggers should force the move to paid or more operationally capable infrastructure
-- define protected-path review controls for deployment manifests, reset scripts, secret-handling code, and maintenance-entrypoint changes, including whether CODEOWNERS or CI approval checks should gate those files
+- capture the current web-on-Vercel plus API-on-Render deployment model as a lightweight architecture decision record once the first production deployment path is exercised end to end, including the rationale for keeping the API on a conventional Node-service host
+- include in that deployment record the validation-stage infrastructure posture: why low-cost hosting is acceptable for pre-money validation, what makes it still credible, and which triggers should force the move to paid or more operationally capable infrastructure
+- define protected-path review controls for deployment manifests, reset scripts, secret-handling code, and maintenance-entrypoint changes, including whether code-owner rules or CI approval checks should gate those files
 
 ## Working rule
 
