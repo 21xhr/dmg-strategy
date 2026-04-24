@@ -94,6 +94,7 @@ Production migrations:
 - GitHub environment: `Production`
 - required secrets: `DATABASE_URL`, `MIGRATION_DATABASE_URL`
 - run target branch: `main`
+- GitHub Actions runs the workflow with `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true` to opt the JavaScript actions into Node 24 before the runner default changes
 
 Staging migrations:
 
@@ -101,6 +102,7 @@ Staging migrations:
 - GitHub environment: `Staging`
 - required secrets: `DATABASE_URL`, `MIGRATION_DATABASE_URL`
 - run target branch: `main`
+- GitHub Actions runs the workflow with `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true` to opt the JavaScript actions into Node 24 before the runner default changes
 
 ### Daily maintenance workflows
 
