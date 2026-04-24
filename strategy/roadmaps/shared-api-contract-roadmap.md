@@ -38,29 +38,16 @@ The chosen approach should preserve one rule: backend payload shape is defined o
 
 ## Current state
 
-The backend already has enough explicit route structure that contract generation can start without waiting for a full API redesign.
-
-The first live slice now exists for the challenge-submit token verification flow.
+The backend already has enough explicit route structure that contract generation can continue without waiting for a full API redesign.
 
 What exists now is:
 
-- one backend-owned contract module for `POST /token/verify-challengesubmitform`
-- one backend-owned contract module for `GET /references/app-config`
-- one backend-owned contract module for `POST /admin/session` and `GET /admin/session`
-- one backend-owned contract module for `GET /admin/pulse`
-- one backend-owned contract module for `GET /operator/public-app-config` and `PUT /operator/public-app-config`
-- one backend-owned contract module for `POST /operator/challenge/execute` and `PUT /operator/challenge/:challengeId/status`
-- one backend-owned contract module for `GET /stream/stats`
-- one backend-owned contract module for `POST /token/verify-explorer`
-- one backend-owned contract module for `POST /token/grant-explorer-access`
-- one backend-owned contract module for `GET /challenges`, `GET /challenges/delta`, and `GET /challenges/:id`
-- one backend-owned contract module for `POST /user/submit/web`
-- one backend-owned contract module for `POST /user/push/quote` and `POST /user/push/confirm`
-- one backend-owned contract module for `POST /user/digout`, `POST /user/disrupt`, and `POST /user/challenge/remove`
-- one export step that publishes generated browser contract artifacts into `dmg-webapp/js/generated/`
-- frontend runtime guards in the challenge-submit form, app-config bootstrap loader, admin session restore and login flow, admin dashboard pulse loader, admin public-app-config editor flow, admin challenge execute and status-update controls, shared stream-status helper, explorer verification flow, explorer access-grant flow, explorer challenge list polling flow, explorer push quote, push confirm, digout, challenge-removal, and disrupt flows, and public challenge detail page that consume those generated artifacts instead of trusting untyped payloads
-- exported challenge-lifecycle artifacts now power the Explorer digout, challenge-removal, and disrupt browser actions directly
-- public app-config artifacts now carry tenant demo-boundary metadata, and explorer verification plus access-grant artifacts now carry the resolved dataset scope so the browser can label demo-only datasets explicitly
+- backend-owned contract artifacts for the current public bootstrap, admin session/pulse, operator config/editor/control, stream status, explorer token/access, challenge list/detail/delta, submission, push, digout, disrupt, and removal route families
+- generated browser contract artifacts exported into `dmg-webapp/js/generated/` and consumed by the webapp runtime guards instead of handwritten duplicates
+- a live first slice for the challenge-submit token verification flow, plus public app-config and explorer access metadata that labels demo-only datasets explicitly
+- an operator tenant-policy surface is already contractized in the backend and webapp, including the editable operator policy load/save flow, the owner-only policy variants, the private operator-session policy variants, the surface-access manifest, and the structured user-stats read model
+
+The next slice is a generated-artifact freshness gate for the operator contract family, so contract exports and browser guards fail fast when the contract package drifts from the source routes.
 
 The missing pieces are:
 
@@ -126,10 +113,15 @@ Current thin slices already live:
 - digout flow
 - disrupt flow
 - challenge removal flow
+- operator tenant-policy load/save flow
+- operator owner-policy load/save flow
+- operator session-policy load/save flow
+- operator surface-access manifest
+- operator user-stats read surface
 
 Next thin slices after that:
 
-- one next admin or operator action surface after the current admin-session, pulse, settings-editor, and operator challenge-control seams
+- one contract-drift detection and review-gate slice for the current operator contract exports
 
 ## Phase 4 - Expand to route families
 
@@ -153,7 +145,7 @@ Make contract drift visible during development.
 
 Targets:
 
-- CI check for stale generated artifacts
+- CI check for stale generated artifacts, starting with the operator contract export path
 - contract diff visibility in pull requests
 - explicit review expectation when enums, nullable fields, or payload shapes change
 
@@ -162,7 +154,7 @@ Targets:
 This roadmap is complete when:
 
 - backend-owned contract artifacts cover the frontend-critical route families
-- frontend code no longer hand-maintains duplicate payload types for those surfaces
+- frontend code keeps those payload types in shared artifacts rather than handwritten duplicates
 - contract changes are reviewable and validated in normal development workflows
 - route payload drift between repos is caught before runtime breakage
 
