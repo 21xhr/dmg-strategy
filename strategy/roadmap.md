@@ -167,31 +167,7 @@ Use the dedicated roadmap files for detailed implementation notes, but use this 
 
 ### Now
 
-#### 1. Frontend productization
-
-Goal:
-
-- define the shared SaaS-ready frontend base
-- decide which surfaces stay pilot-specific versus reusable
-- make the UI evolve by surface boundaries rather than one-off hacks
-
-Status:
-
-- tracked in [strategy/roadmaps/frontend-productization-roadmap.md](roadmaps/frontend-productization-roadmap.md)
-- shared shell coverage already spans the agreed public and product surfaces in the workspace repo
-
-Why this is now active:
-
-- the backend boundary work is complete enough to let frontend surface definition move forward
-- the remaining work is surface inventory locking, exception handling, and archival review rather than core ingestion cleanup
-
-Checkpoint to start this track cleanly:
-
-- the frontend surface inventory is fixed in the roadmap note and the shared shell boundary is documented without reopening ingress or contract drift work
-
-### Next
-
-#### 2. Runtime notifications
+#### 1. Runtime notifications
 
 Goal:
 
@@ -201,16 +177,35 @@ Goal:
 
 Status:
 
-- queued behind the frontend surface-shaping lane
+- tracked in [strategy/roadmaps/runtime-notification-roadmap.md](roadmaps/runtime-notification-roadmap.md)
 
-Execution rule for this track:
+Why this is now active:
 
-- keep websocket and provider-backed delivery boundaries explicit before presentation logic starts depending on them
-- do not let notification transport work leak back into challenge or stream domain services
+- the frontend productization track is complete and archived
+- the notification boundary work can now move forward without reopening the shell boundary discussion
+
+Checkpoint to start this track cleanly:
+
+- notification transport boundaries stay explicit before presentation logic starts depending on them
+
+## Completed surface tracks
+
+### Frontend productization
+
+Status:
+
+- complete and archived in [strategy/roadmaps/archive/2026-04-25-frontend-productization-roadmap.md](roadmaps/archive/2026-04-25-frontend-productization-roadmap.md)
+
+Completed outcome:
+
+- the shared product shell covers the agreed public and product surfaces in the workspace repo
+- Explorer uses the wide shell variant
+- the shareable docs describe the shell in stable present-state language
 
 ## Current status snapshot
 
 Latest completed slice:
+- frontend productization roadmap archived after the shared product shell covered the agreed public and product surfaces and validation passed
 - ingress abstraction roadmap archived after the Lumiastream and Discord bot provider adapters were proven against the shared normalized command contract
 - shared API contract roadmap archived after the workspace contract tests and browser contract checks passed
 - tenant economy replay, diff, and guarded apply tooling is in place and ready for archive review
@@ -218,6 +213,6 @@ Latest completed slice:
 - operator-control safeguard hardening covers the destructive operator challenge actions on the current admin surface: duplicate execute requests are rejected, and repeated status updates to the same target state are idempotent no-op success responses
 
 Current execution rule:
-- keep frontend productization as the primary implementation lane
-- keep runtime notifications behind stable presentation and transport boundaries
+- keep runtime notifications as the primary implementation lane
+- keep frontend productization as archived reference unless it reopens surface-boundary questions
 - treat completed migration tracks such as economy and ledger redesign and SaaS-readiness foundation as archived reference unless they reopen tenant-boundary ownership
