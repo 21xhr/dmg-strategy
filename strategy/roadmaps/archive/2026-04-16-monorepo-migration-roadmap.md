@@ -8,14 +8,14 @@ Archived on 2026-04-16 after the initial monorepo split completed and the active
 
 That operating model is:
 
-- one active engineering workspace in `/Users/mac/dmg-workspace`
-- one private planning workspace in `/Users/mac/dmg-strategy`
+- one active engineering workspace in the workspace repo
+- one private planning workspace in the strategy repo
 
 The roadmap remains useful as a record of the package-seam decisions, migration order, and completion thresholds that shaped that move.
 
 See the [roadmap index](../../roadmap.md) for the active roadmap list.
 
-Shareable documentation placement and repo-governance rules are defined in `/Users/mac/dmg-workspace/apps/docs/system-architecture/documentation-system.md`.
+Shareable documentation placement and repo-governance rules are defined in [documentation-system](../../../dmg-workspace/apps/docs/system-architecture/documentation-system.md).
 
 ## Problem to solve
 
@@ -74,7 +74,7 @@ Keep confidential strategy, fundraising, contact-network, and other access-restr
 
 That rule also applies to mixed reference notes.
 
-If a glossary, appendix, or reference file combines product or engineering terminology with private market, fundraising, or contact-specific terminology, split it before migration so `apps/docs` receives only the monorepo-safe part.
+If a glossary, appendix, or reference file mixes product or engineering terminology with private market, fundraising, or contact-specific terminology, keep the shared note limited to monorepo-safe material and move the private material elsewhere.
 
 ## Why this is the best mature-state configuration
 

@@ -28,6 +28,8 @@ It should not become a second documentation tree.
     - AI-assisted upstream input structuring is a capability inside the structured-input layer, not the whole product promise.
     - Named document types and existing synthesis habits are not the same thing as strongly structured, comparable, decision-ready upstream data.
 - We do not invent document structure. We help define and enforce the decision-usable shape inside real existing flows.
+- DMG is for the decision body first, but the quality of employee-side input still matters because it determines the quality of the signal the managers receive.
+- The point is not to say that IMAGO fails to structure inputs; the point is to make upstream decision structure a spearhead of DMG itself.
 - “why investing in structure first can still be rational”: The thesis is hard rhetorically, but economically it is not strange at all. Firms already buy ERP, CRM, workflow systems, approval systems, ticketing systems, and compliance systems because **upstream order creates downstream advantage**.
 - Like ERP, it can create more dependable downstream decisions by enforcing more disciplined upstream inputs and rules.
 - **Scaling cost**: if the rule architecture is good, cost should scale more slowly than participation volume because less human moderation, interpretation, and manual synthesis is needed per additional unit of participation.

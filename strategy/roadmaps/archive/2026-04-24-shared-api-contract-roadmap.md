@@ -1,12 +1,22 @@
 # Shared API Contract Roadmap
 
+Archived on 2026-04-24 after the challenge submission, quote, explorer, admin, and operator contract families were covered by shared contract artifacts, regression tests, and browser guard checks.
+
 ## Purpose
 
 This roadmap defines how frontend and backend contracts stop drifting independently across the DMG repos.
 
 See the [roadmap index](../roadmap.md) for the current list of active roadmap tracks.
 
-Shareable documentation placement and repo-governance rules are defined in `/Users/mac/dmg-workspace/apps/docs/system-architecture/documentation-system.md`.
+Shareable documentation placement and repo-governance rules are defined in [documentation-system](../../../dmg-workspace/apps/docs/system-architecture/documentation-system.md).
+
+## Archive note
+
+This file is a completed record of the shared API contract track.
+
+Live contract maintenance belongs to the policy surfaces and source contract artifacts that stay with active development.
+
+When the app evolves, route payloads, request shapes, and response shapes should be updated in the contract source and revalidated against consumer guards in the same slice.
 
 ## Problem to solve
 

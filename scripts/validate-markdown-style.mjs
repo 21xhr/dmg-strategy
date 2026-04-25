@@ -32,6 +32,7 @@ function getChangedMarkdownFiles() {
 
 function loadGlossaryTerms() {
   const glossaryPath = path.join(repoRoot, 'strategy', 'glossary.md');
+  if (!fs.existsSync(glossaryPath)) return new Set();
   const glossaryText = fs.readFileSync(glossaryPath, 'utf8');
   const terms = new Set();
 
@@ -49,17 +50,27 @@ function validateGlossaryEntries(glossaryText) {
   const violations = [];
   const allowedAcronyms = new Set([
     'AAJD',
+    'ADAPEI',
+    'ADN',
     'ADR',
     'AGEVAL',
     'AHI',
     'APAEIA',
     'ARS',
-    'ADAPEI',
     'CA',
+    'CDD',
     'CSE',
+    'DAO',
     'DG',
+    'DMP',
+    'DU',
     'ESAT',
+    'IA',
+    'INS',
+    'LUMIA',
+    'MSSANTÉ',
     'OSP',
+    'SI',
     'UNAPEI',
     'API',
     'ARR',
@@ -74,7 +85,6 @@ function validateGlossaryEntries(glossaryText) {
     'DUI',
     'DMP',
     'DUERP',
-    'DU',
     'EHPAD',
     'ERP',
     'ESSMS',
@@ -87,7 +97,6 @@ function validateGlossaryEntries(glossaryText) {
     'ID',
     'IME',
     'IMAGO',
-    'INS',
     'ITEP',
     'JWT',
     'LOI',
@@ -115,6 +124,7 @@ function validateGlossaryEntries(glossaryText) {
     'UTC',
     'URL',
     'UX',
+    'UX/UI',
     'XML',
     'JSON',
     'HTML',
@@ -156,86 +166,13 @@ function findViolations(filePath, content, glossaryTerms) {
     /\breduced ressaisie\b/gi,
   ];
   const firstPersonTokens = [
-    "I'm",
-    "I've",
-    "I'd",
-    'my',
-    'mine',
-    'we',
-    'ours',
-    'our',
-    'je',
-    "j'",
-    'moi',
-    'me',
-    'mon',
-    'ma',
-    'mes',
-    'nous',
-    'notre',
-    'nos',
+    "I'm", "I've", "I'd", "my", "mine", "we", "ours", "our",
+    "je", "j'", "moi", "me", "mon", "ma", "mes", "nous", "notre", "nos",
   ];
   const tokenPattern = /\b[A-Z]{2,}(?:\/[A-Z]{2,})?\b/g;
   const allowedTokens = new Set([
     ...glossaryTerms,
-    'API',
-    'ARR',
-    'B2B',
-    'B2B2C',
-    'B2C',
-    'CA',
-    'CAC',
-    'CI',
-    'AI',
-    'CRM',
-    'DMG',
-    'DUI',
-    'DUERP',
-    'EHPAD',
-    'ERP',
-    'ESSMS',
-    'EU',
-    'GEPP',
-    'GPI',
-    'HAS',
-    'HDS',
-    'HR',
-    'ID',
-    'IME',
-    'ITEP',
-    'JWT',
-    'LTV',
-    'MRR',
-    'MVP',
-    'PH',
-    'PCA',
-    'PDE',
-    'PDS',
-    'PMF',
-    'PR',
-    'ESMS',
-    'RH',
-    'SDI',
-    'SLO',
-    'SaaS',
-    'US',
-    'SSO',
-    'IMAGO',
-    'TAM',
-    'TTL',
-    'UI',
-    'UX',
-    'UTC',
-    'URL',
-    'XML',
-    'JSON',
-    'HTML',
-    'CSS',
-    'PNG',
-    'PDF',
-    'README',
-    'LB',
-    'STL',
+    'ADAPEI', 'ADN', 'API', 'ARR', 'B2B', 'B2B2C', 'B2C', 'CA', 'CAC', 'CDD', 'CI', 'AI', 'CRM', 'DAO', 'DMG', 'DMP', 'DU', 'DUI', 'DUERP', 'EHPAD', 'ERP', 'ESSMS', 'EU', 'GEPP', 'GPI', 'HAS', 'HDS', 'HR', 'IA', 'ID', 'IME', 'IMAGO', 'INS', 'ITEP', 'JWT', 'LTV', 'LUMIA', 'MRR', 'MSSANTÉ', 'MVP', 'PH', 'PCA', 'PDE', 'PDS', 'PMF', 'PR', 'ESMS', 'RH', 'SDI', 'SI', 'SLO', 'SaaS', 'US', 'SSO', 'TAM', 'TTL', 'UI', 'UX', 'UTC', 'URL', 'XML', 'JSON', 'HTML', 'CSS', 'PNG', 'PDF', 'README', 'LB', 'STL',
   ]);
 
   for (const match of content.matchAll(absoluteLinkPattern)) {
@@ -255,17 +192,14 @@ function findViolations(filePath, content, glossaryTerms) {
       inDraftFollowUpEmail = true;
       continue;
     }
-
     if (inDraftFollowUpEmail && /^###\s+/.test(line) && !/^### Draft follow-up email\s*$/.test(line)) {
       inDraftFollowUpEmail = false;
     }
-
-    if (inDraftFollowUpEmail) {
-      continue;
-    }
+    if (inDraftFollowUpEmail) continue;
 
     for (const token of firstPersonTokens) {
-      const tokenPattern = new RegExp(`(?<![\\p{L}\\p{N}'])${token.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\p{L}\\p{N}'])`, 'iu');
+      const escapedToken = token.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const tokenPattern = new RegExp(`(?<![\\p{L}\\p{N}'])${escapedToken}(?![\\p{L}\\p{N}'])`, 'iu');
       if (tokenPattern.test(line)) {
         violations.push('first-person phrasing found');
         return violations;
@@ -275,8 +209,9 @@ function findViolations(filePath, content, glossaryTerms) {
 
   for (const match of content.matchAll(tokenPattern)) {
     const token = match[0];
-    if (!allowedTokens.has(token)) {
-      violations.push(`unlisted abbreviation: ${token}`);
+    if (!allowedTokens.has(token) && !allowedTokens.has(token + 'É')) {
+        // Simple hack for MSSANTÉ vs MSSANT mismatch if the regex stops at accents
+        violations.push(`unlisted abbreviation: ${token}`);
     }
   }
 

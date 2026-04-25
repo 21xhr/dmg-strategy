@@ -13,7 +13,7 @@ It exists to separate:
 
 ## Placement note
 
-Shareable documentation placement and instruction-boundary rules are defined in `/Users/mac/dmg-workspace/apps/docs/system-architecture/documentation-system.md`.
+Shareable documentation placement and instruction-boundary rules are defined in [documentation-system](../dmg-workspace/apps/docs/system-architecture/documentation-system.md).
 
 This file is the roadmap index. When a new dedicated roadmap is created under `strategy/roadmaps/`, add it here.
 
@@ -26,6 +26,8 @@ Each active roadmap should include:
 - a current status snapshot
 - explicit completion criteria or exit conditions
 - concrete checkpoint signals or key metrics that make “mostly done” legible before archival review
+
+When a roadmap reaches its completion criteria and the relevant code validation passes, archive it in `strategy/roadmaps/archive/` with a date-prefixed filename and remove it from the active execution sequence in the same slice.
 
 ## Completed groundwork
 
@@ -165,55 +167,7 @@ Use the dedicated roadmap files for detailed implementation notes, but use this 
 
 ### Now
 
-#### 1. Shared API contract
-
-Goal:
-
-- stop frontend and backend payloads from drifting independently
-- generate or publish one reviewable contract surface for route payloads and shared types
-- keep transport, schema, and consumer typing aligned across repos
-
-Primary roadmap file:
-
-- `strategy/roadmaps/shared-api-contract-roadmap.md`
-
-Why this is now active:
-
-- backend route families already have enough contract coverage to expand the shared surface
-- the remaining work is concrete and low-risk: one more admin or operator action surface
-
-Checkpoint to start this track cleanly:
-
-- current contract artifacts and generated browser guards cover the current route families
-
-### Next
-
-#### 2. Provider and ingress abstraction
-
-Goal:
-
-- keep the command-processing core provider-agnostic
-- make ingress providers replaceable at the boundary
-- prepare provider selection and connection management by configuration
-
-Status:
-
-- started
-- first normalization step exists in code already
-- not a reason to delay tenant and settings work until a full provider registry exists
-
-Primary roadmap file:
-
-- `strategy/roadmaps/ingress-abstraction-roadmap.md`
-
-Execution rule for this track:
-
-- finish the boundary cleanup needed to keep the command core provider-agnostic
-- do not treat second-provider support or full provider management as a prerequisite to tenant and config migration
-
-### Later
-
-#### 3. Frontend productization
+#### 1. Frontend productization
 
 Goal:
 
@@ -221,17 +175,22 @@ Goal:
 - decide which surfaces stay pilot-specific versus reusable
 - make the UI evolve by surface boundaries rather than one-off hacks
 
-Outputs to produce when this track becomes active:
+Status:
 
-- component inventory
-- route and surface inventory
-- settings and operator UX roadmap
+- ready to shape now that the backend contract and ingress boundaries are stable
 
-Checkpoint for promotion out of later:
+Why this is now active:
 
-- tenant policy boundaries, economy records, and the highest-risk route contracts are stable enough for frontend cleanup to focus on durable surfaces
+- the backend boundary work is complete enough to let frontend surface definition move forward
+- the remaining work is product surface shaping rather than core ingestion cleanup
 
-#### 4. Runtime notifications
+Checkpoint to start this track cleanly:
+
+- the frontend surface inventory can be shaped without reopening ingress or contract drift work
+
+### Next
+
+#### 2. Runtime notifications
 
 Goal:
 
@@ -239,22 +198,25 @@ Goal:
 - keep websocket fanout and provider-backed public messaging behind dedicated notification transport interfaces
 - avoid scattering presentation-side delivery logic across challenge, stream, and route services
 
-Primary roadmap file:
+Status:
 
-- `strategy/roadmaps/runtime-notification-roadmap.md`
+- queued behind the frontend surface-shaping lane
 
-Checkpoint for promotion out of later:
+Execution rule for this track:
 
-- challenge execution state, tenant ownership, and operator-action boundaries are stable enough that the notification transport is being designed around settled runtime events rather than moving targets
+- keep websocket and provider-backed delivery boundaries explicit before presentation logic starts depending on them
+- do not let notification transport work leak back into challenge or stream domain services
 
 ## Current status snapshot
 
 Latest completed slice:
+- ingress abstraction roadmap archived after the Lumiastream and Discord bot provider adapters were proven against the shared normalized command contract
+- shared API contract roadmap archived after the workspace contract tests and browser contract checks passed
 - tenant economy replay, diff, and guarded apply tooling is in place and ready for archive review
 - explicit tenant-context coverage extends across challenge mutation flows, challenge removal, auth-driven account creation, stats rendering, token duration caps, daily submission context, maintenance-state reads, stream helper entrypoints, command ingress, and recurring background maintenance fanout
 - operator-control safeguard hardening covers the destructive operator challenge actions on the current admin surface: duplicate execute requests are rejected, and repeated status updates to the same target state are idempotent no-op success responses
 
 Current execution rule:
-- keep shared API contract as the primary implementation lane
-- keep provider and ingress abstraction close behind active backend route changes without letting it outrank shared API contract
+- keep frontend productization as the primary implementation lane
+- keep runtime notifications behind stable presentation and transport boundaries
 - treat completed migration tracks such as economy and ledger redesign and SaaS-readiness foundation as archived reference unless they reopen tenant-boundary ownership

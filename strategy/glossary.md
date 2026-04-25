@@ -1,8 +1,13 @@
 # Strategy Glossary
 
+
 ## Purpose
 
 This note holds private reminder entries that do not belong in the shareable glossary.
+
+## Policy
+
+**Copilot doit vérifier avant toute écriture de document durable que chaque section du glossaire est strictement ordonnée par ordre alphabétique.** Lors de l’ajout d’une nouvelle abréviation, Copilot doit la placer à la bonne position, corriger l’ordre si besoin, puis s’appuyer sur le validateur markdown pour bloquer toute sortie non conforme.
 
 ## Terms
 
@@ -28,6 +33,11 @@ Terms within each category are ordered alphabetically.
 - TAM: Total Addressable Market
 
 ## Technical terms
+- DAO: Decentralized Autonomous Organization, organisation autonome décentralisée gérée par des règles codées dans un smart contract
+- IA: Intelligence Artificielle, ensemble de techniques permettant à des machines de simuler l’intelligence humaine
+- SI: Système d’Information, ensemble des ressources permettant de collecter, stocker, traiter et diffuser l’information dans une organisation
+- UX/UI: Expérience Utilisateur / Interface Utilisateur, conception centrée sur l’utilisateur et présentation graphique des interfaces
+- LUMIA: Lumiastream (lumiastream.com), also called Lumia in DMG notes and code, the livestream ingress provider DMG currently uses for chat and balance integration
 
 - API: Application Programming Interface
 - API contracts: What data an API exposes and the rules governing how that data can be accessed, updated, or manipulated. This keeps each surface behavior and data boundary explicit so policy boundaries do not bleed together.
@@ -53,6 +63,13 @@ Terms within each category are ordered alphabetically.
 - XML: Extensible Markup Language
 
 ## Medico-social terms
+- ADAPEI: Association Départementale de Parents et Amis de Personnes Handicapées Mentales, réseau associatif d’accompagnement du handicap
+- ADN: « ADN » d’une organisation, identité fondamentale ou caractéristiques essentielles (utilisé ici comme « core »)
+- CDD: Contrat à Durée Déterminée, type de contrat de travail temporaire
+- DMP: Dossier Médical Partagé, carnet de santé numérique sécurisé pour chaque assuré
+- DU: Dossier Usager, dossier informatisé de suivi des usagers dans le médico-social
+- INS: Identité Nationale de Santé, identifiant unique pour chaque usager du système de santé français
+- MSSANTÉ: Messagerie Sécurisée de Santé, système sécurisé d’échange d’informations médicales entre professionnels de santé
 
 - AHI: Accueil Hébergement Insertion, the housing-insertion and shelter-support sector used in IMAGO's product segmentation
 - ESSMS: Établissements et Services Sociaux et Médico-Sociaux, the French institutional category for social and medico-social establishments and services

@@ -4,7 +4,7 @@
 
 This file is the backlog for forward-looking work that is real enough to preserve, but not yet shaped into a dedicated roadmap.
 
-Shareable documentation placement and instruction-boundary rules are defined in `/Users/mac/dmg-workspace/apps/docs/system-architecture/documentation-system.md`.
+Shareable documentation placement and instruction-boundary rules are defined in [documentation-system](../dmg-workspace/apps/docs/system-architecture/documentation-system.md).
 
 ## Current backlog lanes
 
@@ -46,10 +46,6 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 - treat later wording and editor-shape cleanup as backlog maintenance unless it changes where runtime settings, tenant policy, or private session controls are owned
 - review future-leaning generic guidance sentences in shareable docs and either rewrite them as current scoped rules or move them back into private planning notes
 - review later whether `fundraising/plans/market-feedback-and-loi-plan.md` should remain one bridge note or split into separate external-network discovery and fundraising-proof packaging notes once those responsibilities diverge more clearly
-
-### API contract and type sharing
-
-- shared API contract roadmap is complete in `strategy/roadmaps/shared-api-contract-roadmap.md`
 
 ### Configuration governance
 

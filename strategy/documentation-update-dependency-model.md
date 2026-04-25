@@ -4,7 +4,7 @@
 
 This note captures a planning model for how documentation updates could scale across DMG work.
 
-The shareable standing-rule implementation now lives in `/Users/mac/dmg-workspace/apps/docs/system-architecture/documentation-update-dependency-model.md` and `/Users/mac/dmg-workspace/apps/docs/system-architecture/documentation-update-manifest.json`.
+The shareable standing-rule implementation lives in [documentation-update-dependency-model](../dmg-workspace/apps/docs/system-architecture/documentation-update-dependency-model.md) and [documentation-update-manifest.json](../dmg-workspace/apps/docs/system-architecture/documentation-update-manifest.json).
 
 This note is not the source of truth for shareable product architecture.
 
@@ -70,7 +70,7 @@ That is a later product or operations question, not current shareable architectu
 
 When a roadmap, backlog status snapshot, or other live-state planning note describes the present system boundary, write it in direct present-state language.
 
-Do not use change-relative phrasing such as `now`, `no longer`, `previously`, `used to`, or similar transition-history wording unless the note is explicitly historical.
+Do not use transition-history phrasing in current-state planning notes unless the note is explicitly historical.
 
 Avoid unnecessary comparison-led phrasing such as `instead of ...` or `rather than ...` when the sentence is really stating the present boundary. State the present model directly unless the comparison is analytically necessary.
 
