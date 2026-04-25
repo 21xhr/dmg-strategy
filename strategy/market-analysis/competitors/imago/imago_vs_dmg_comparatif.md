@@ -124,3 +124,37 @@ Nécessite réflexion UX/UI, calibration sur le champ, documentation/protocole p
 - **DMG** apporte : la dynamique de consultation/pondération/qualification, l’accélération de la prise de décision en collectif ou en étendu, la mémoire et la traçabilité délibérative, la détection et la valorisation du hors-cadre et du signal faible.
 
 **Dans chaque cas, pour qu’IMAGO atteigne le niveau d’agilité/décision collaborative de DMG, des développements spécifiques ou une intégration native d’un module type DMG seraient nécessaires.
+
+## Compléments critiques et techniques
+
+### 1. Coût et difficulté de mise en place
+
+L’avantage DMG vient du fait que la gouvernance décisionnelle fait partie du cœur du produit.
+Une couche d’arbitrage interactive intégrée à IMAGO demanderait un développement lourd, parce que ce n’est pas son cœur de métier.
+
+DMG réduit ce coût car la méthode, les guides et les outils pour structurer l’arbitrage collectif, l’escalade dynamique et la transparence sont déjà pensés pour être déployés.
+
+Pour prendre IMAGO de vitesse, l’accent de DMG doit rester sur la simplicité du paramétrage, l’autonomie offerte et la formation/process inclus dans la solution.
+
+### 2. Pondération, lecture de l’importance et coût d’intégration
+
+La force de DMG tient à la pondération: il ne traite pas tout le bruit terrain, il qualifie la donnée pour faire ressortir ce qui pèse vraiment pour décider.
+
+Cela implique un travail d’intégration précis:
+
+- ateliers pour cartographier qui pèse quoi
+- paramétrage d’échelles, de scoring et de profils utilisateurs
+- interface pour que chaque acteur pose son poids sur l’événement
+
+Dans IMAGO, étendre cette logique demanderait d’enrichir les modèles de données et les workflows, donc de créer ou d’étendre une couche métier dédiée.
+Cela augmenterait la complexité de test, de maintenance et de gouvernance.
+
+Une manière plus légère consiste à brancher DMG sur les attributs déjà présents dans IMAGO lors de l’import du référentiel.
+Le référentiel utilisateurs, équipes, établissements et rôles peut alors alimenter automatiquement les règles de pondération dans DMG.
+
+### 3. Méthode DMG comme avantage difficile à reproduire
+
+L’avantage compétitif de DMG ne tient pas seulement à l’outil.
+Il tient au savoir-faire méthodologique qui rend la couche de gouvernance déployable plus vite qu’une brique générale très lourde.
+
+Ce savoir-faire est difficile à reproduire pour un éditeur généraliste, surtout si l’objectif est de garder une adoption simple et un coût d’intégration contenu.

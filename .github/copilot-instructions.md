@@ -20,7 +20,7 @@ This is the strategy repo.
 ## Routing rule
 - Treat this file as the router for strategy work, not the end state for a request.
 - When the user asks to implement the next slice of a roadmap, first identify the concrete slice, the owning repo, and the nearest implementation surface.
-- If the slice affects shareable documentation, shared API contracts, workspace apps, packages, or other shareable surfaces, switch to the matching instruction set in the workspace repo and work the actual file there.
+- If the work requires changes in dmg-workspace, switch to the matching instruction set in the workspace repo and work there; this includes anything under dmg-workspace/apps, shared API contracts, shared packages, and most roadmap slices that land in the workspace repo.
 - Do not satisfy an implementation request by only reshaping the roadmap or backlog unless the user explicitly asked for planning-only changes.
 - If the roadmap item is still abstract, step one hop into the nearest note, code file, or tracker that controls the behavior, then complete that slice.
 - If the same request spans multiple slices, complete them in sequence and keep each slice tied to its own validation point before moving on.

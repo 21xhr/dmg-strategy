@@ -5,8 +5,7 @@
 Cette note conserve ce qui reste utile après le premier échange avec Eric
 Piriou pour préparer la suite de la discussion.
 
-Ce qui compte
-maintenant est le langage, les signaux confirmés, les points encore à
+Ce qui compte maintenant est le langage, les signaux confirmés, les points encore à
 vérifier, et la suite la plus crédible.
 
 ## Ce qui est ressorti du premier échange
@@ -45,10 +44,10 @@ Objet : Retour sur l’échange et piste IMAGO
 
 Bonjour Eric,
 
-Pitch réseau en 2-3 mots : couche de décision, signal structuré,
-gouvernance plus claire.
-
 Merci encore pour l’échange.
+
+Gouvernance décisionnelle, signaux structurés dès l’entrée, méthode
+d’arbitrage DMG.
 
 Le cas IMAGO semble déjà couvrir beaucoup de terrain. L’enjeu est désormais
 de voir où DMG peut s’insérer de manière justifiée, sans alourdir l’existant.
