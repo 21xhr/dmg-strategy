@@ -24,6 +24,8 @@ The backend already has a real first normalization step in code:
 
 The ingress boundary is normalized enough to support provider-agnostic command handling, but it is not yet fully adapter-driven.
 
+The normalized ingress payload shape is the shared boundary between the route and the dispatcher.
+
 What is already in place:
 
 - the command ingress route normalizes inbound payloads before auth and dispatch
@@ -52,13 +54,6 @@ This roadmap is complete when all of the following are true:
 Status: complete.
 
 Completion signal: the Lumiastream and Discord bot ingress adapters both normalize onto the same command contract, and the provider boundary is now explicit in code.
-
-## What the first step means in practice
-
-The first step exists as a normalized ingress payload shape shared between the
-route boundary and the dispatcher.
-
-A fuller provider registry or adapter layer remains to be added around it.
 
 ## Provider-agnostic contract
 
