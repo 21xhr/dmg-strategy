@@ -177,16 +177,17 @@ Goal:
 
 Status:
 
-- ready to shape now that the backend contract and ingress boundaries are stable
+- tracked in [strategy/roadmaps/frontend-productization-roadmap.md](roadmaps/frontend-productization-roadmap.md)
+- shared shell coverage already spans the agreed public and product surfaces in the workspace repo
 
 Why this is now active:
 
 - the backend boundary work is complete enough to let frontend surface definition move forward
-- the remaining work is product surface shaping rather than core ingestion cleanup
+- the remaining work is surface inventory locking, exception handling, and archival review rather than core ingestion cleanup
 
 Checkpoint to start this track cleanly:
 
-- the frontend surface inventory can be shaped without reopening ingress or contract drift work
+- the frontend surface inventory is fixed in the roadmap note and the shared shell boundary is documented without reopening ingress or contract drift work
 
 ### Next
 
