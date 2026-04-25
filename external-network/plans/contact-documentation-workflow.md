@@ -60,7 +60,9 @@ Do not update it for every routine meeting note.
 
 Keep each document linguistically consistent.
 
-Do not mix English and French inside the same English-language note unless preserving a direct quote, an official proper name, or a term that is immediately defined.
+Do not mix English and French inside the same note unless preserving a direct quote, an official proper name, or a term that is immediately defined.
+
+Use `external-network/network-contacts/current-network.md` as the source of truth for prospect language, and keep the durable note, follow-up draft, trame, and summary sections in that language.
 
 Preserve contact wording when it sharpens the thesis.
 

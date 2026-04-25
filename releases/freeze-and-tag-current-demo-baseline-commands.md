@@ -1,3 +1,8 @@
+Use the following placeholder variables to point at local repo roots before running the examples below:
+
+- `WORKSPACE_REPO`
+- `STRATEGY_REPO`
+
 # Freeze And Tag A Demo Baseline - Reusable Commands
 
 ## Purpose
@@ -19,7 +24,7 @@ Example placeholders used below:
 ## 1. Freeze the workspace repo
 
 ```bash
-cd /Users/mac/dmg-workspace
+cd "$WORKSPACE_REPO"
 git status
 git add .
 git diff-index --quiet HEAD -- || git commit -m "<freeze-commit-message>"
@@ -31,7 +36,7 @@ git show <baseline-tag> --no-patch
 ## 2. Freeze the strategy repo
 
 ```bash
-cd /Users/mac/dmg-strategy
+cd "$STRATEGY_REPO"
 git status
 git add .
 git diff-index --quiet HEAD -- || git commit -m "<freeze-commit-message>"
@@ -54,11 +59,11 @@ That is exactly what you want for a clean repo whose current `HEAD` is already t
 ## 4. Push commits and tags
 
 ```bash
-cd /Users/mac/dmg-workspace
+cd "$WORKSPACE_REPO"
 git push origin main
 git push origin <baseline-tag>
 
-cd /Users/mac/dmg-strategy
+cd "$STRATEGY_REPO"
 git push origin main
 git push origin <baseline-tag>
 ```
@@ -70,8 +75,8 @@ After committing, update the baseline manifest with the new commit SHAs from eac
 Commands:
 
 ```bash
-cd /Users/mac/dmg-workspace && git rev-parse HEAD
-cd /Users/mac/dmg-strategy && git rev-parse HEAD
+cd "$WORKSPACE_REPO" && git rev-parse HEAD
+cd "$STRATEGY_REPO" && git rev-parse HEAD
 ```
 
 ## Historical note

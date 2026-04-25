@@ -9,7 +9,7 @@ This repository contains:
 - Exploratory analysis and research
 
 **Shareable product and engineering documentation lives in:**
-`/Users/mac/dmg-workspace/apps/docs`
+[workspace docs](../dmg-workspace/apps/docs)
 
 ## Repository customization
 

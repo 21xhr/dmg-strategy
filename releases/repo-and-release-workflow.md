@@ -103,7 +103,7 @@ Working rules:
 1. use explicit commit messages that describe the actual slice that landed, not the broader umbrella theme of the week
 2. split unrelated implementation, planning, and release-workflow changes into separate commits even if they were worked on in one continuous session
 3. before committing code that changes behavior, contracts, schema boundaries, admin surfaces, or runtime policy, check whether the relevant roadmap or backlog notes in `dmg-strategy/strategy/` should be updated in the same overall work pass
-4. if the change affects shareable current-state docs in `dmg-workspace/apps/docs`, run the review-target assembler before commit, merge, tag, or baseline work
+4. if the change affects shareable current-state docs in `dmg-workspace/apps/docs`, run `scripts/assemble-doc-review-targets.mjs` before commit, merge, tag, or baseline work
 5. if a roadmap checkpoint is now materially satisfied or the next blocking slice changed, update the roadmap before treating the slice as complete
 
 This rule exists to avoid two recurring failure modes:
@@ -192,7 +192,7 @@ Use explicit folders in `dmg-strategy`:
 - `strategy/`
   private roadmap and planning material
 
-Keep shareable current-state product documentation in `/Users/mac/dmg-workspace/apps/docs`.
+Keep shareable current-state product documentation in [workspace docs](../dmg-workspace/apps/docs).
 
 That separation makes it easier to extract:
 
@@ -208,7 +208,7 @@ If a note is still strategic, exploratory, migration-sequencing-heavy, or unclea
 
 Only move material into `dmg-workspace/apps/docs` after it has been rewritten as current-state or standing-rule documentation.
 
-Once a change clearly belongs in `dmg-workspace`, run the review-target assembler before merge, tag, or baseline work when the change could affect more than one durable doc.
+Once a change clearly belongs in `dmg-workspace`, run `scripts/assemble-doc-review-targets.mjs` before merge, tag, or baseline work when the change could affect more than one durable doc.
 
 Treat that as part of the standard release-quality check for shareable documentation, not as an optional reminder.
 
@@ -220,7 +220,7 @@ Treat the command as a normal review aid.
 
 It does not decide whether docs must change, but it should be part of the standard check for shareable doc-impacting work.
 
-Pair this with the commit-discipline rule above.
+Pair this with item 1 in the commit-discipline list above, which requires explicit commit messages for the actual slice.
 
 If code moved the real implementation boundary, update the relevant roadmap or backlog note before or alongside the commit rather than relying on memory to reconcile planning later.
 
