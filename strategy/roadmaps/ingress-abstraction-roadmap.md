@@ -55,10 +55,7 @@ Completion signal: the Lumiastream and Discord bot ingress adapters both normali
 
 ## What the first step means in practice
 
-The first step exists as a normalized ingress payload shape shared between the
-route boundary and the dispatcher.
-
-A fuller provider registry or adapter layer remains to be added around it.
+The normalized ingress payload shape is the shared boundary between the route and the dispatcher.
 
 ## Provider-agnostic contract
 
