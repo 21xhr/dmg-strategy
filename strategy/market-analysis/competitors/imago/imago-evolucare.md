@@ -13,7 +13,7 @@ This note keeps the comparison honest:
 - what the conversation actually suggested as a pain point
 - where DMG could still fit, if at all, without pretending to replace a DUI
 
-Source context from the conversation lives in [[external-network/network-contacts/Eric-and-Nathalie-Conseil-Evolution/relationship-and-discovery-notes]] and [[external-network/network-contacts/Eric-and-Nathalie-Conseil-Evolution/appel-eric-piriou-trame-fr]].
+Source context from the conversation lives in [[external-network/network-contacts/Eric-and-Nathalie-Conseil-Evolution/relationship-and-discovery-notes]] and [[external-network/network-contacts/Eric-and-Nathalie-Conseil-Evolution/eric-piriou-follow-up]].
 
 Public sources used for this note:
 
@@ -99,9 +99,9 @@ The more credible hypothesis is narrower:
 - the layer would need to add decision legibility, structured input, or cross-system signal where the underlying DUI does not already solve the need
 - the value would come from governance logic and integration fit, not from replacing the core record system
 
-This is aligned with the broader DMG strategy notes on [non-invasive support and integration fit](../../integrated-support-as-moat.md) and on [DMG vs post-hoc signal extraction](../../dmg-vs-post-hoc-signal-extraction.md).
+This is aligned with the broader DMG strategy notes on [non-invasive support and integration fit](../../../integrated-support-as-moat.md) and on [DMG vs post-hoc signal extraction](../../../dmg-vs-post-hoc-signal-extraction.md).
 
-It is also aligned with the more general rule in [decision support boundaries](../../decision-support-boundaries.md): structuring inputs, synthesizing them, and owning final decision authority are not the same layer.
+It is also aligned with the more general rule in [decision support boundaries](../../../decision-support-boundaries.md): structuring inputs, synthesizing them, and owning final decision authority are not the same layer.
 
 ## What DMG is not, in this comparison
 

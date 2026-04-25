@@ -91,4 +91,4 @@ Why they matter:
 - [[strategy/market-analysis/competitors/govocal]]
 - [[strategy/market-analysis/competitors/decidim]]
 - [[strategy/market-analysis/competitors/open-source-politics]]
-- [[strategy/market-analysis/competitors/imago-evolucare]]
+- [[imago-evolucare]]
