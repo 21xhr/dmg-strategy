@@ -34,6 +34,9 @@ This is the strategy repo.
 - Before landing strategy or architecture-impacting material, check `strategy/backlog.md` and any relevant `strategy/roadmaps/` note so new work stays aligned with the tracked plan.
 - When creating or reshaping a roadmap, include a status snapshot and explicit completion criteria or checkpoint signals so archival decisions do not rely on memory or gut feel.
 - When reshaping a roadmap, keep the execution sequence concrete and justified: active lanes should have a current status snapshot, explicit completion criteria, and a clear reason they belong in `Now` or `Next`.
+- When working a roadmap slice, update the active roadmap note in the same slice with the completed work, the next suggested slice, and any farther move that is now concrete enough to name.
+- Do not finish a roadmap implementation slice without refreshing the active roadmap note so it still points at the next concrete slice.
+- When a roadmap stays active after a slice lands, end the note with a concrete next suggested slice; if the slice is broad enough, also name the farther move.
 - When a roadmap reaches its completion criteria and the relevant code validation passes, archive it in `strategy/roadmaps/archive/` with a date-prefixed filename and remove it from the active execution sequence in the same slice.
 - Do not keep archived-roadmap history in backlog files; backlog entries are forward-looking only.
 - When a roadmap's own completion criteria or status markers indicate that the track is mostly finished, ask whether it should be archived instead of leaving it in the active roadmap lane.

@@ -43,9 +43,9 @@ That target includes:
 
 ## Next suggested slice
 
-- completed slices: explicit payload mapping, websocket transport adapter, subscriber bridge for active listeners, provider-backed delivery policy, provider transport adapter, throttling signals, retry posture, queue-backed delivery, and transport-level metrics
-- next suggested slice: add provider transport health reporting and dead-letter style handling for repeated public-message failures
-- farther move: add operator-visible notification status reporting once transport health is measurable
+- completed slices: explicit payload mapping, websocket transport adapter, subscriber bridge for active listeners, provider-backed delivery policy, provider transport adapter, throttling signals, retry posture, queue-backed delivery, transport-level metrics, provider transport health reporting, and dead-letter style handling for repeated public-message failures
+- next suggested slice: add operator-visible notification status reporting once transport health is measurable
+- farther move: expose the operator-facing status report through the admin or operator surface once the status snapshot has a stable shape
 
 ## Migration phases
 
