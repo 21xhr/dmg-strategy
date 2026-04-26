@@ -41,6 +41,12 @@ That target includes:
 - policy-based throttling or suppression for noisy event classes such as session ticks
 - testable notification orchestration that can be exercised without coupling domain services to live transports
 
+## Next suggested slice
+
+- completed slices: explicit payload mapping, websocket transport adapter, and subscriber bridge for active listeners
+- next suggested slice: add provider-backed public messaging policy for challenge lifecycle events that should leave the runtime boundary
+- farther move: add per-event throttling and retry posture after provider messaging is stable
+
 ## Migration phases
 
 ### Phase 1 - Notification boundary definition

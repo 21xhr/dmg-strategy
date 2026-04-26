@@ -36,6 +36,8 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 ### Naming and scope cleanup
 
 - run a multi-repo naming pass across docs, backend, and frontend so tenant scope, session scope, maintenance state, and provider boundaries are explicit instead of implied
+- review whether the current single `currentExecutingChallenge` assumption should stay a one-slot execution model or grow to support multiple concurrent executing sessions per challenge (or for multiple challenge) or before more session-boundary refactors land
+- design configurable challenge status names and labels so the backend enum stays service-owned while admin and explorer surfaces can render tenant-friendly text without hard-coding display copy into lifecycle logic
 - execute the planned file or module rename for `adminRoutes` and `operatorRoutes` only when the next boundary split creates enough leverage to justify churn, while keeping the current route path split stable unless a later launch cleanup requires route alias removal
 - keep later route-family rename cleanup as backlog-only work unless a real boundary split earns the churn; do not reopen the archived config-to-database roadmap for naming polish alone
 - run a naming pass across database fields, APIs, and docs so the current numbers vocabulary and related economy terms cleanly separate current DMG branding from broader wedge-neutral tenant terminology
