@@ -43,9 +43,9 @@ That target includes:
 
 ## Next suggested slice
 
-- completed slices: explicit payload mapping, websocket transport adapter, and subscriber bridge for active listeners
-- next suggested slice: add provider-backed public messaging policy for challenge lifecycle events that should leave the runtime boundary
-- farther move: add per-event throttling and retry posture after provider messaging is stable
+- completed slices: explicit payload mapping, websocket transport adapter, subscriber bridge for active listeners, provider-backed delivery policy, throttling signals, and retry posture
+- next suggested slice: add a concrete provider transport adapter that can publish public challenge lifecycle messages through the chosen provider boundary
+- farther move: add queue-backed delivery and transport-level metrics once provider delivery is live
 
 ## Migration phases
 
