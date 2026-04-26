@@ -43,9 +43,9 @@ That target includes:
 
 ## Next suggested slice
 
-- completed slices: explicit payload mapping, websocket transport adapter, subscriber bridge for active listeners, provider-backed delivery policy, throttling signals, and retry posture
-- next suggested slice: add a concrete provider transport adapter that can publish public challenge lifecycle messages through the chosen provider boundary
-- farther move: add queue-backed delivery and transport-level metrics once provider delivery is live
+- completed slices: explicit payload mapping, websocket transport adapter, subscriber bridge for active listeners, provider-backed delivery policy, provider transport adapter, throttling signals, retry posture, queue-backed delivery, and transport-level metrics
+- next suggested slice: add provider transport health reporting and dead-letter style handling for repeated public-message failures
+- farther move: add operator-visible notification status reporting once transport health is measurable
 
 ## Migration phases
 

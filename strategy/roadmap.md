@@ -179,8 +179,8 @@ Status:
 
 - tracked in [strategy/roadmaps/runtime-notification-roadmap.md](roadmaps/runtime-notification-roadmap.md)
 - session-completed and challenge-completed emission remain separate signals before transport fanout depends on them
-- explicit payload mapping, websocket transport adapter, active-subscriber bridge, provider delivery policy, throttling signals, and retry posture are in place for the runtime delivery boundary
-- next suggested slice: add a concrete provider transport adapter for public challenge lifecycle messages
+- explicit payload mapping, websocket transport adapter, active-subscriber bridge, provider delivery policy, provider transport adapter, throttling signals, retry posture, queue-backed delivery, and transport metrics are in place for the runtime delivery boundary
+- next suggested slice: add provider transport health reporting and dead-letter style handling for repeated public-message failures
 
 Why this is now active:
 
@@ -191,7 +191,7 @@ Checkpoint to start this track cleanly:
 
 - notification transport boundaries stay explicit before presentation logic starts depending on them
 - session-finalization events stay distinguishable from end-of-challenge events in the scheduler and notification hub
-- farther move: add queue-backed delivery and transport metrics after provider delivery is live
+- farther move: add operator-visible notification status reporting once transport health is measurable
 
 ## Completed surface tracks
 
