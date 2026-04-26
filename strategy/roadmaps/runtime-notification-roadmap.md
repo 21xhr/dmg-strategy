@@ -43,9 +43,9 @@ That target includes:
 
 ## Next suggested slice
 
-- completed slices: explicit payload mapping, websocket transport adapter, subscriber bridge for active listeners, provider-backed delivery policy, provider transport adapter, throttling signals, retry posture, queue-backed delivery, transport-level metrics, provider transport health reporting, dead-letter style handling for repeated public-message failures, and operator-visible notification status reporting
-- next suggested slice: add alerting or persisted health history for recurring provider failures if operators need trend data
-- farther move: expose recurring-failure trends or alert summaries through the operator surface once history exists
+- completed slices: explicit payload mapping, websocket transport adapter, subscriber bridge for active listeners, provider-backed delivery policy, provider transport adapter, throttling signals, retry posture, queue-backed delivery, transport-level metrics, provider transport health reporting, dead-letter style handling for repeated public-message failures, operator-visible notification status reporting, and recurring failure history with repeated-failure alerting signals
+- next suggested slice: expose recurring-failure trend summaries in the operator surface so teams can evaluate notification reliability over time
+- farther move: add persisted runtime-notification health history if cross-restart retention becomes an operational requirement
 
 ## Migration phases
 
