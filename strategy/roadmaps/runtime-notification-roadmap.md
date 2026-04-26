@@ -43,9 +43,9 @@ That target includes:
 
 ## Next suggested slice
 
-- completed slices: explicit payload mapping, websocket transport adapter, subscriber bridge for active listeners, provider-backed delivery policy, provider transport adapter, throttling signals, retry posture, queue-backed delivery, transport-level metrics, provider transport health reporting, dead-letter style handling for repeated public-message failures, operator-visible notification status reporting, and recurring failure history with repeated-failure alerting signals
-- next suggested slice: expose recurring-failure trend summaries in the operator surface so teams can evaluate notification reliability over time
-- farther move: add persisted runtime-notification health history if cross-restart retention becomes an operational requirement
+- completed slices: explicit payload mapping, websocket transport adapter, subscriber bridge for active listeners, provider-backed delivery policy, provider transport adapter, throttling signals, retry posture, queue-backed delivery, transport-level metrics, provider transport health reporting, dead-letter style handling for repeated public-message failures, operator-visible notification status reporting, recurring failure history with repeated-failure alerting signals, operator-facing trend summaries (failure rates by time window, trend direction, common failure causes), configurable failure threshold via environment variable, and persisted runtime-notification health history for cross-restart retention
+- next suggested slice: (road complete) next opportunity is to add alerting on configured drift thresholds or cross-tenant comparison surfaces if capacity and operational value justify
+- farther move: evaluate whether event routing should include tenant-specific or per-user filtering if privacy or traffic-shaping requirements emerge
 
 ## Migration phases
 
