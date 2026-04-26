@@ -68,6 +68,7 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 
 ### Admin surface polish
 
+- audit the entire UI for redundant or repeated copy where the same message appears in multiple forms (e.g., label + placeholder + feedback text), prioritize high-impact surfaces (admin login, operator controls, tenant policy forms) and consolidate messaging to reduce cognitive load
 - add concise tooltips or helper copy for operator-editable public runtime fields when the labels alone are not enough to explain launch-time defaults or tenant scope
 - continue replacing the minimal JSON-backed admin editor with more structured tenant-policy and operator views once the governance-tier field list stabilizes
 - keep low-leverage editor-shape and helper-copy cleanup in backlog unless it changes policy ownership, route boundaries, or tenant scope
