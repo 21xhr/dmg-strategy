@@ -63,3 +63,10 @@ Ils souhaitent approfondir ces idées et convenir des modalités de collaboratio
 - Est-ce que la logique de décision est traçable et réutilisable d'un cas à l'autre ?
 - Qui peut contester une décision, et dans quel cadre cette contestation est traitée ?
 - Que faudrait-il pour que vos partenaires considèrent ce processus comme légitime, rapide et robuste ?
+
+## Support de livraison oral
+
+Voir [eric-poriou-oral-cheat-sheet.md](eric-poriou-oral-cheat-sheet.md) pour trois versions du pitch :
+- **30 secondes** : one-liner + fermeture engageante.
+- **2 minutes** : contexte opérationnel vs stratégique, exemple Wrike, où DMG s'insère.
+- **5 minutes** : histoire complète, méthodologie comme différenciation durable, illustration d'arbitrage réel.
