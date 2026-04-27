@@ -74,6 +74,7 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 - continue replacing the minimal JSON-backed admin editor with more structured tenant-policy and operator views once the governance-tier field list stabilizes
 - keep low-leverage editor-shape and helper-copy cleanup in backlog unless it changes policy ownership, route boundaries, or tenant scope
 - define the longer-term role-scoped admin visibility matrix beyond the current manifest baseline so support/read, operator-write, owner-sensitive, and future privacy-limited surfaces stay explicit as more admin roles appear
+- define owner-controlled sensitivity boundaries for tenant configuration such as donation (e.g. Ko-fi username and donation embed targets), including whether admins can edit those fields and how owners can preview the effective admin surface with alerts when sensitive fields are delegated
 
 ### Identity and access
 

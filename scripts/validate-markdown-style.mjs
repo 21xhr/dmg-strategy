@@ -176,7 +176,7 @@ function findViolations(filePath, content, glossaryTerms) {
   const tokenPattern = /\b[A-Z]{2,}(?:\/[A-Z]{2,})?\b/g;
   const allowedTokens = new Set([
     ...glossaryTerms,
-    'ADAPEI', 'ADN', 'API', 'ARR', 'B2B', 'B2B2C', 'B2C', 'CA', 'CAC', 'CDD', 'CI', 'AI', 'CRM', 'DAO', 'DMG', 'DMP', 'DU', 'DUI', 'DUERP', 'EHPAD', 'ERP', 'ESSMS', 'EU', 'GEPP', 'GPI', 'HAS', 'HDS', 'HR', 'IA', 'ID', 'IME', 'IMAGO', 'INS', 'ITEP', 'JWT', 'LTV', 'LUMIA', 'MRR', 'MSSANTÉ', 'MVP', 'PH', 'PCA', 'PDE', 'PDS', 'PMF', 'PR', 'ESMS', 'RH', 'SDI', 'SI', 'SLO', 'SaaS', 'US', 'SSO', 'TAM', 'TTL', 'UI', 'UX', 'UTC', 'URL', 'XML', 'JSON', 'HTML', 'CSS', 'PNG', 'PDF', 'README', 'LB', 'STL',
+    'ADAPEI', 'ADN', 'API', 'ARR', 'B2B', 'B2B2C', 'B2C', 'CA', 'CAC', 'CDD', 'CI', 'AI', 'CRM', 'DAO', 'DMG', 'DMP', 'DU', 'DUI', 'DUERP', 'EHPAD', 'ERP', 'ESSMS', 'EU', 'GEPP', 'GPI', 'HAS', 'HDS', 'HR', 'IA', 'ID', 'IME', 'IMAGO', 'INS', 'ITEP', 'JWT', 'LTV', 'LUMIA', 'MRR', 'MSSANTÉ', 'MVP', 'PH', 'PCA', 'PDE', 'PDS', 'PMF', 'PR', 'ESMS', 'RH', 'SDI', 'SI', 'SLO', 'SaaS', 'US', 'SSO', 'TAM', 'TTL', 'UI', 'UX', 'UTC', 'URL', 'XML', 'JSON', 'HTML', 'CSS', 'PDF', 'README', 'LB', 'STL',
   ]);
 
   for (const match of content.matchAll(absoluteLinkPattern)) {

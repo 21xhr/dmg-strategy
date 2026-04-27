@@ -20,6 +20,7 @@ Terms within each category are ordered alphabetically.
 - B2B: business-to-business
 - B2B2C: business-to-business-to-consumer
 - B2C: business-to-consumer
+- BPI: Banque Publique d'Investissement, the French public investment bank
 - RLS: Row-Level Security
 - CAC: Customer Acquisition Cost
 - DMG: Decision Making Governance (subject to change)
@@ -83,7 +84,12 @@ Terms within each category are ordered alphabetically.
 - pilot: a limited real-world deployment with one customer or user group, one clear use case, and explicit success criteria
 - vertical: a specific market segment or industry with its own users, constraints, buying logic, and use cases
 - wedge: the first narrow market entry point for validating adoption before broader expansion
- - wedge: (anglicisme toléré) the first narrow market entry point for validating adoption before broader expansion
+ - wedge: the first narrow market entry point for validating adoption before broader expansion
+ - CEO: Chief Executive Officer, the senior executive responsible for overall strategy and operations
+ - CFO: Chief Financial Officer, responsible for financial strategy and reporting
+ - CTO: Chief Technology Officer, responsible for technology strategy and engineering leadership
+ - CMO: Chief Marketing Officer, responsible for marketing and growth strategy
+ - COO: Chief Operating Officer, responsible for day-to-day operations and execution
 
 ## Organizational and sector terms
 
@@ -105,12 +111,12 @@ Terms within each category are ordered alphabetically.
 - codir: comite de direction, the internal leadership group where cross-cutting operational and strategic issues are escalated
 
 ## Organizations mentioned in current outreach notes
-- CREAI: Centre Regional d’Etudes d’Actions et d’Informations
-- IAE: Insertion par l’Activite Economique
-- IRTS: Institut Regional du Travail Social
-- URIOPSS: Union Regionale des Inter-federales des Organismes Prives Sanitaires et Sociaux
 
 - AAJD: Association pour l'Aide aux Adultes et aux Jeunes en Difficulte, a French nonprofit association working in social and medico-social support contexts
 - APAEIA: Association des Parents et Amis d'Enfants & Adultes Inadaptes de l'Avranchin, services personnalises a destination des enfants et adultes en situation de handicap ou fragilises
+- CREAI: Centre Regional d'Etudes, d'Actions et d'Informations, organisme regional d'appui, d'etude et de coordination dans le champ social et medico-social
+- IAE: Institut d'Administration des Entreprises, ecole universitaire de management
+- IRTS: Institut Regional du Travail Social, organisme de formation aux metiers du travail social
 - OSP: Open Source Politics, French civic-tech implementation company historically associated with Decidim deployments for public institutions and acquired by Go Vocal in March 2026
 - UNAPEI: Union Nationale des Associations de Parents d'Enfants Inadaptes
+- URIOPSS: Union Regionale Interfederale des Oeuvres et Organismes Prives Solidaires, reseau regional d'appui et de representation du secteur sanitaire, social et medico-social

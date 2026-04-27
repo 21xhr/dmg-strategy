@@ -16,6 +16,7 @@ This is the strategy repo.
 - Use explicit, human-readable commit messages that name the concrete slice that landed. Avoid umbrella labels when the change is really a smaller route, policy, or doc boundary.
 - When referring to repositories, use `strategy repo` for the private planning repo and `workspace repo` or `shareable repo` for the shareable workspace repo.
 - Keep this instruction file short and let the tracked notes carry the durable policy.
+ - When a note is renamed or moved, remove the stale source file in the same slice or replace it with a one-line pointer only when a temporary redirect is genuinely needed; do not keep old and new active copies side by side.
 
 ## Routing rule
 - Treat this file as the router for strategy work, not the end state for a request.

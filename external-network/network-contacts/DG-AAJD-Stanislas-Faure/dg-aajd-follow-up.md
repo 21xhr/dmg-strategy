@@ -2,26 +2,22 @@
 
 Résumé rapide des points à clarifier / actions proposées après échange initial.
 
-1) Accès démonstratif IMAGO
-- Eric/Stan a évoqué la possibilité de fournir les codes d’un utilisateur IMAGO pour inspection. Demander poliment cet accès (compte lecteur) afin de voir le périmètre UI et la manière dont les données sont saisies.
+1) Points à clarifier — DG AAJD (version centrée AAJD)
 
-2) Référence Ségur et couverture logicielle
-- Vérifier précisément quels modules/instances IMAGO couvre suite au programme Ségur (2020) et ce que cela implique pour la fiabilité des données saisies. Reporter ces remarques dans `strategy/market-analysis/competitors/imago/imago-evolucare.md` si pertinent.
+- Référence Ségur (2020): confirmer quelles obligations ou déploiements logiciels le programme a générés pour les ESSMS couverts par AAJD ; documenter les modules et la portée pour évaluer la fiabilité attendue des données.
+- Cartographie des partenaires et flux: vérifier les partenaires listés publiquement et leurs rôles (ex. ARS, Conseil Départemental, CREAI) pour prioriser les interlocuteurs techniques et opérationnels.
+- Points techniques éventuels: existence d’APIs ou d’exports contrôlés pour référentiels (si pertinents) et format des exports métier.
 
-3) Points techniques courts à confirmer
-- Mapping des rôles et attributs disponibles dans IMAGO (rôle, service, ancienneté) — utile pour la pondération dans DMG.
-- Existence d’APIs/doc d’intégration ou méthode d’export des référentiels.
+2) Confidentialité et usages des exemples
 
-4) Consentement et confidentialité
-- Clarifier l’usage attendu des exemples/accès fournis (compte démo uniquement, pas d’accès prod sans accord explicite).
+- Si des démonstrations ou accès sont proposés, demander un accès contrôlé et limité (compte démo ou captures d’écran filtrées). Clarifier l’usage et obtenir l’accord préalable si des exemples doivent être partagés hors échange direct.
 
-5) Checklist / suite
-- Voir `checklist.md` (ajustée) — la checklist a été marquée obsolète et la version active est celle-ci.
+3) Proposition d’étapes (SoT = `external-network/plans/current-network-action-sheet.md`)
 
-6) Proposition d’étapes
-- Envoyer email court récapitulatif (schéma + trois prochaines étapes proposées).
-- Demander accès lecteur IMAGO ou captures d’écran contrôlées.
-- Proposer un court atelier de cartographie des rôles (30–60 min) si l’accès est possible.
+- Envoyer un court email récapitulatif et inscrire l’étape de suivi dans la Source of Truth `external-network/plans/current-network-action-sheet.md`.
+- Proposer, si pertinent et après confirmation, un atelier de cartographie des rôles (30–60 min) pour valider le besoin opérationnel.
+- Recueillir la liste des partenaires/clés de contact recommandés par AAJD.
+
 
 ---
 

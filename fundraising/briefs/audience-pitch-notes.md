@@ -13,7 +13,7 @@ Reusable founder story:
 - builder profile with visible product discipline
 - Quarkois experience as prior evidence of coordination work
 - resilience and constraint turned into product discipline
-- focus on reducing uncertainty
+- focus on reducing uncertainty and removing noise
 
 Useful founder line:
 
