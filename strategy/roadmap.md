@@ -181,6 +181,7 @@ Status:
 - session-completed and challenge-completed emission remain separate signals before transport fanout depends on them
 - explicit payload mapping, websocket transport adapter, active-subscriber bridge, provider delivery policy, provider transport adapter, throttling signals, retry posture, queue-backed delivery, transport metrics, provider transport health reporting, dead-letter handling, operator-visible runtime status reporting, trend summaries, and persisted health history are in place for the runtime delivery boundary
 - drift-threshold versus cross-tenant comparison sequencing is captured in [runtime-notification-drift-threshold-and-comparison-decision.md](roadmaps/runtime-notification-drift-threshold-and-comparison-decision.md)
+- tenant-specific and per-user routing-filter evaluation is captured with deferred trigger criteria in [runtime-notification-routing-filter-evaluation.md](roadmaps/runtime-notification-routing-filter-evaluation.md)
 - next suggested slice: implement tenant-local drift-threshold alerting and acknowledgement flow in the runtime-notification operator surface
 
 Why this is now active:

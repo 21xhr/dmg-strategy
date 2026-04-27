@@ -46,7 +46,8 @@ That target includes:
 
 - completed slices: explicit payload mapping, websocket transport adapter, subscriber bridge for active listeners, provider-backed delivery policy, provider transport adapter, throttling signals, retry posture, queue-backed delivery, transport-level metrics, provider transport health reporting, dead-letter style handling for repeated public-message failures, operator-visible notification status reporting, recurring failure history with repeated-failure alerting signals, operator-facing trend summaries (failure rates by time window, trend direction, common failure causes), configurable failure threshold via tenant policy, persisted runtime-notification health history for cross-restart retention, and decision framing for drift-threshold alerting versus cross-tenant comparison surfaces
 - next suggested slice: implement tenant-local drift-threshold alerting on top of the existing runtime trend surface, with explicit thresholds and acknowledgement flow in the operator runtime-notification surface
-- farther move: evaluate tenant-specific and per-user runtime-notification routing filters only when privacy segmentation or traffic shaping requirements become explicit
+- farther move completed: tenant-specific and per-user runtime-notification routing filters are evaluated and deferred behind explicit trigger criteria in [runtime-notification-routing-filter-evaluation.md](runtime-notification-routing-filter-evaluation.md)
+- farther move next opportunity: open a dedicated implementation slice only if privacy segmentation, traffic-shaping constraints, or contractual routing requirements become explicit
 
 This slice is captured in [runtime notification drift-threshold and comparison decision](runtime-notification-drift-threshold-and-comparison-decision.md).
 
