@@ -49,6 +49,10 @@ function loadGlossaryTerms() {
 function validateGlossaryEntries(glossaryText) {
   const violations = [];
   const allowedAcronyms = new Set([
+    'CREAI',
+    'IAE',
+    'IRTS',
+    'URIOPSS',
     'AAJD',
     'ADAPEI',
     'ADN',

@@ -32,7 +32,7 @@ One promising adoption idea is delegated or specialized influence.
 Examples:
 
 - a user delegates influence on a topic to a trusted participant
-- a user specializes on one theme instead of evaluating everything
+- a user specializes on one theme
 
 Why this matters:
 
@@ -46,7 +46,7 @@ This is close to a liquid-democracy style pattern, but productized for operation
 
 The system becomes easier to use when participation is scoped.
 
-Instead of opening everything at once, an operator can open one theme, domain, or decision class.
+An operator can open one theme, domain, or decision class.
 
 That helps both sides:
 

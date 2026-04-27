@@ -83,6 +83,7 @@ Terms within each category are ordered alphabetically.
 - pilot: a limited real-world deployment with one customer or user group, one clear use case, and explicit success criteria
 - vertical: a specific market segment or industry with its own users, constraints, buying logic, and use cases
 - wedge: the first narrow market entry point for validating adoption before broader expansion
+ - wedge: (anglicisme toléré) the first narrow market entry point for validating adoption before broader expansion
 
 ## Organizational and sector terms
 
@@ -104,6 +105,10 @@ Terms within each category are ordered alphabetically.
 - codir: comite de direction, the internal leadership group where cross-cutting operational and strategic issues are escalated
 
 ## Organizations mentioned in current outreach notes
+- CREAI: Centre Regional d’Etudes d’Actions et d’Informations
+- IAE: Insertion par l’Activite Economique
+- IRTS: Institut Regional du Travail Social
+- URIOPSS: Union Regionale des Inter-federales des Organismes Prives Sanitaires et Sociaux
 
 - AAJD: Association pour l'Aide aux Adultes et aux Jeunes en Difficulte, a French nonprofit association working in social and medico-social support contexts
 - APAEIA: Association des Parents et Amis d'Enfants & Adultes Inadaptes de l'Avranchin, services personnalises a destination des enfants et adultes en situation de handicap ou fragilises

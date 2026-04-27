@@ -17,7 +17,7 @@ In plain terms:
 - the company already receives requests, preferences, complaints, and suggestions
 - not all of that input is equally useful for prioritization
 - the company already has real constraints such as time, staff capacity, contract commitments, and strategic focus
-- DMG can make influence legible under those constraints instead of letting loudness or randomness dominate
+- DMG can make influence legible under those constraints so loudness or randomness do not become the default weighting system
 
 ## Make better behavior rational and legible
 

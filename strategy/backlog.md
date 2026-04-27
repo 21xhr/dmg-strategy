@@ -14,7 +14,7 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 - define how cross-community mechanics should work when one tenant community challenges another tenant or another platform community inside the same tenant
 - review economy-facing enum names and categories later so they fit a broader tenant audience and additional product wedges without overfitting to the current DMG vocabulary
 - define direct user-funded Community Chest flows so players can intentionally contribute to the communal pool outside removal settlement
-- add the first stream-recovery optimization as a database index or partial index around unprocessed stream rows instead of rewriting startup recovery logic early
+- add the first stream-recovery optimization as a database index or partial index around unprocessed stream rows
 - review whether Prisma indexes are sufficient for the new tenant-scoped challenge, quote, maintenance, and tenant-user-state hot paths before multi-tenant load hides avoidable query costs
 - decide whether `LIVE_DISCOUNT` remains one game-wide percentage or becomes action-specific and tenant-policy-driven so live incentives can vary without hard-coded branching
 - decide whether future tenant-specific cost logic should remain one shared quadratic formula with parameters or open a clearer per-tenant pricing-rule boundary
@@ -35,7 +35,7 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 
 ### Naming and scope cleanup
 
-- run a multi-repo naming pass across docs, backend, and frontend so tenant scope, session scope, maintenance state, and provider boundaries are explicit instead of implied
+- run a multi-repo naming pass across docs, backend, and frontend so tenant scope, session scope, maintenance state, and provider boundaries are explicit
 - review whether the current single `currentExecutingChallenge` assumption should stay a one-slot execution model or grow to support multiple concurrent executing sessions per challenge (or for multiple challenge) or before more session-boundary refactors land
 - design configurable challenge status names and labels so the backend enum stays service-owned while admin and explorer surfaces can render tenant-friendly text without hard-coding display copy into lifecycle logic
 - execute the planned file or module rename for `adminRoutes` and `operatorRoutes` only when the next boundary split creates enough leverage to justify churn, while keeping the current route path split stable unless a later launch cleanup requires route alias removal
@@ -55,6 +55,7 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 - add per-tenant availability controls for public challenge detail pages, including whether a tenant can disable public challenge pages entirely or place them behind a lightweight password wall
 - define the neutral capability vocabulary that should replace current streaming-wedge mechanic naming across tenant policy and feature-availability layers once the broader product surface is stabilized
 - continue moving scattered fallback defaults into dedicated config modules or tenant-backed records so `tenantSettingsService.ts` stays an assembly layer rather than a long-term home for business-rule literals
+- define tenant onboarding initialization for operator policy, owner policy, and tenant runtime metadata once subscription-service and payment-provider integration creates the first real provisioning path
 - treat future browser or helper literal scans as spot cleanup unless they reveal a real ownership-boundary regression in app-config or tenant-backed policy
 - define the expected development, staging, and production secret tiers for database and infrastructure credentials before repository handoff to a broader engineering team
 - decide whether automatic challenge lifecycle scheduling stays an always-on server capability or becomes tenant-scoped, feature-gated, or operator-configurable in the SaaS model
@@ -79,6 +80,7 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 - rename the `master_demo_token` bootstrap artifact to a scope-accurate operator bootstrap label
 - design the operator and user-facing flows that mint tenant-scoped perennial tokens now that the base `tenantId` and purpose model exists
 - decide when perennial tokens remain direct bearer credentials versus when they should be exchanged for browser sessions or cookies
+- add rate limiting for public admin-session entry attempts (`/api/v1/admin/session`) so repeated invalid or automated token submissions are throttled per client address and tenant context
 - keep perennial-token access as a distinct non-OAuth entry path if the product wants lightweight user-managed links alongside OAuth-based account connections
 - check whether the previous guided demo flow still works cleanly on top of the new tenant-scoped perennial-token and demo-policy model, and document the intended replacement if it does not
 - open item: add operator and user-facing token issuance flows on top of the new `tenantId` plus purpose model

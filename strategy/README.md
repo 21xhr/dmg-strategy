@@ -2,7 +2,7 @@
 
 This directory holds the durable product-direction and planning notes for DMG.
 
-This index is selective rather than exhaustive.
+This index is selective.
 
 List stable lanes and anchor notes here, not every single file.
 

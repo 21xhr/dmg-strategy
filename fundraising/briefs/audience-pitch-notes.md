@@ -10,14 +10,14 @@ Use it as a working companion to the main advisor brief, not as a replacement fo
 
 Reusable founder story:
 
-- builder profile rather than pure operator theater
+- builder profile with visible product discipline
 - Quarkois experience as prior evidence of coordination work
 - resilience and constraint turned into product discipline
-- focus on reducing uncertainty rather than adding noise
+- focus on reducing uncertainty
 
 Useful founder line:
 
-DMG was built from a real need to structure overwhelming interaction rather than from abstract theorizing alone.
+DMG was built from a real need to structure overwhelming interaction.
 
 ## Marc or Jim style conversation
 
@@ -29,7 +29,7 @@ Primary posture:
 
 See [[fundraising/briefs/advisor-brief-marc-jim]] for the main version.
 
-## BPI-style conversation
+## Public-Investment-Bank Style Conversation
 
 Best angle:
 
@@ -44,7 +44,7 @@ Good emphasis:
 - the company is moving from functional MVP toward reproducible deployment and pilots
 - the project is legible as innovation and coordination infrastructure, not as a hobby tool
 
-## JC, Glaz, or traditional operator conversation
+## Glaz Or Traditional Operator Conversation
 
 Best angle:
 
@@ -71,7 +71,7 @@ Avoid leading with:
 
 Cost of interruption in this context:
 
-- time lost because leaders are forced to arbitrate noise instead of acting
+- time lost because leaders are forced to arbitrate noise before acting
 - execution slowed by low-quality urgent requests
 - expensive work started with weak customer or stakeholder signal
 

@@ -45,7 +45,7 @@ This is the strategy repo.
 
 ## Release workflow
 - When work concerns preserving demo states, tags, or baseline manifests, follow [releases/repo-and-release-workflow.md](../releases/repo-and-release-workflow.md).
-- Keep release-baseline guidance in that file rather than duplicating command sequences in new notes.
+- Keep release-baseline guidance in that file.
 
 ## Repo boundary
 - Treat `strategy/` as source material for internal reasoning and reusable theses.
@@ -56,4 +56,4 @@ This is the strategy repo.
 ## Shareable-doc migration guideline
 - When a document matures into shareable source-of-truth content, move it to the workspace docs app.
 - Do not duplicate shareable docs here once migrated.
-- For shareable documentation placement, naming, and code-maintenance rules, consult the workspace docs system notes instead of restating those rules here.
+- Use the workspace docs system notes for shareable documentation placement, naming, and code-maintenance rules.

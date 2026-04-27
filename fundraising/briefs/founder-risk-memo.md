@@ -40,8 +40,8 @@ The strongest evidence of discipline is:
 
 - concrete SaaS-readiness work such as config-to-database and ingress abstraction
 - continuing documentation that clarifies architecture and migration logic
-- market-analysis work that shows category awareness rather than founder fantasy
-- a wedge sequence that narrows the proof burden instead of expanding it too early
+- market-analysis work that shows category awareness
+- a wedge sequence that narrows the proof burden early
 
 ## What proof looks like
 
@@ -61,4 +61,4 @@ It is:
 - I am not trying to build the whole ship at once
 - I am building the next credible section and documenting the route beyond it
 
-That is a much stronger signal than trying to posture as a fully formed infrastructure CEO before the company has earned that shape.
+That is a much stronger signal than trying to posture as a fully formed infrastructure founder before the company has earned that shape.

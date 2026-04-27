@@ -1,311 +1,426 @@
-# DG AAJD / Stanislas Faure Relationship And Discovery Notes
+# Notes de relation et de découverte - DG AAJD / Stanislas Faure
 
-## Purpose
+## Objet
 
-This note preserves durable relationship context, discovery signal, language corrections, and follow-up paths for DG AAJD / Stanislas Faure.
+Cette note conserve le contexte relationnel durable, le signal de découverte,
+les corrections de langage et les pistes de suivi pour DG AAJD / Stanislas
+Faure.
 
-Operational next steps live in [[external-network/plans/current-network-action-sheet]].
+Les prochaines étapes opérationnelles sont consignées dans
+[[external-network/plans/current-network-action-sheet]].
 
-High-level network context lives in [[external-network/network-contacts/current-network]].
+Le contexte réseau de haut niveau est consigné dans
+[[external-network/network-contacts/current-network]].
 
-## Relationship frame
+## Cadre relationnel
 
-- Warm contact from a previous friendly in-person setting.
-- Informal second-person address, directness, and a conversational tone fit better than formal pitch language.
-- Stanislas Faure presented himself as DG AAJD, which is the right label to preserve in follow-up material.
-- He works in a social-project and financing environment where decisions are multi-instance, policy-constrained, and rarely owned by one person alone.
+- Contact chaleureux issu d'un précédent moment amical en présentiel.
+- Le tutoiement informel, la franchise et un ton conversationnel conviennent
+  mieux qu'un langage de pitch formel.
+- Stanislas Faure s'est présenté comme DG AAJD, ce qui est l'intitulé juste à
+  conserver dans les documents de suivi.
+- Il travaille dans un environnement de projet social et de financement où les
+  décisions passent par plusieurs instances, sont contraintes par la politique
+  publique et sont rarement portées par une seule personne.
 
-## Intro lesson from the meeting
+## Enseignement d'introduction tiré du rendez-vous
 
-The first clarification he asked for was the frame of the meeting itself.
+La première clarification qu'il a demandée portait sur le cadre même du
+rendez-vous.
 
-He wanted to understand:
+Il voulait comprendre :
 
-- in what capacity the meeting was taking place
-- on whose behalf the discussion was happening
-- how the information would be handled
+- à quel titre le rendez-vous avait lieu
+- au nom de qui la discussion se tenait
+- comment l'information serait traitée
 
-That reaction is a strong reminder that professional-context interviews should open with a short frame covering purpose, source, intended use of information, and whether notes or recordings are being kept.
+Cette réaction rappelle fortement que les entretiens en contexte
+professionnel devraient s'ouvrir par un cadrage court couvrant l'objectif, la
+source, l'usage prévu de l'information et le fait que des notes ou des
+enregistrements soient ou non conservés.
 
-## First conversation: 2026-04-15
+## Premier échange : 2026-04-15
 
-### Main source of time pressure
+### Principale source de pression temporelle
 
-The main time sink is the evaluation of whether a project is worth defending.
+La principale perte de temps réside dans l'évaluation du fait qu'un projet
+vaille ou non d'être défendu.
 
-That evaluation is not reducible to one variable.
+Cette évaluation ne se réduit pas à une seule variable.
 
-It combines:
+Elle combine :
 
-- strategic relevance for the association
-- risk and upside assessment
-- expert review
-- support-function input
-- administrative and funder timing outside Stan's direct control
+- la pertinence stratégique pour l'association
+- l'évaluation du risque et du potentiel
+- l'examen expert
+- l'apport des fonctions support
+- des temporalités administratives et financeurs hors du contrôle direct de
+  Stan
 
-The internal decision is only one layer.
+La décision interne n'est qu'une couche du processus.
 
-Even after internal validation, timelines remain exposed to consultation steps, governance processes, and funder response timing.
+Même après validation interne, les délais restent exposés aux étapes de
+consultation, aux processus de gouvernance et au calendrier de réponse des
+financeurs.
 
-### Decision model
+### Modèle de décision
 
-Stan described a three-level decision model.
+Stan a décrit un modèle de décision à trois niveaux.
 
-#### Strategic and political level
+#### Niveau stratégique et politique
 
-- current public-policy orientation
-- calls for projects or related institutional signals
-- fit with the association's mission, scope, and values
+- orientation actuelle de la politique publique
+- appels à projets ou signaux institutionnels apparentés
+- adéquation avec la mission, le périmètre et les valeurs de l'association
 
-At this level, a project is stronger when it already moves in the direction expected by current policy rather than against it.
+À ce niveau, un projet est plus solide lorsqu'il va déjà dans le sens attendu
+par la politique publique plutôt que contre elle.
 
-#### Technical and economic level
+#### Niveau technique et économique
 
-- budget and financing realism
-- HR mix and capability fit
-- use of already-available buildings or resources
-- calibration of means against the project objective
+- réalisme budgétaire et de financement
+- adéquation entre le mix RH et les capacités requises
+- usage de bâtiments ou de ressources déjà disponibles
+- calibration des moyens par rapport à l'objectif du projet
 
-#### Operational level
+#### Niveau opérationnel
 
-- practical feasibility
-- staff availability
-- implementation burden
-- concrete response to an identified need on the ground
+- faisabilité pratique
+- disponibilité des équipes
+- charge de mise en oeuvre
+- réponse concrète à un besoin identifié sur le terrain
 
-### How decisions are influenced
+### Comment les décisions sont influencées
 
-Stanislas Faure emphasized communication, conviction, and persuasion as part of the work.
+Stanislas Faure a insisté sur le fait que la communication, la conviction et
+la persuasion font partie du travail.
 
-A project must often be defended through several instances rather than merely decided once.
+Un projet doit souvent être défendu devant plusieurs instances plutôt que
+simplement décidé une fois.
 
-Support functions such as HR, finance, and information systems provide input.
+Des fonctions support comme les RH, la finance et les systèmes d'information
+apportent leur contribution.
 
-Other bodies may also slow or shape the path, including governance bodies, staff-representation consultation, and external funders.
+D'autres instances peuvent aussi ralentir ou façonner le cheminement,
+notamment les organes de gouvernance, les consultations de représentation du
+personnel et les financeurs externes.
 
-Board approval is not required for every decision.
+L'approbation du conseil d'administration n'est pas requise pour chaque
+décision.
 
-He described a practical threshold logic in which some significant budget decisions can move without prior board approval, while larger commitments trigger a different governance bar.
+Il a décrit une logique pratique de seuil selon laquelle certaines décisions
+budgétaires significatives peuvent avancer sans approbation préalable du
+conseil, alors que des engagements plus lourds déclenchent une autre exigence
+de gouvernance.
 
-His AGEVAL example suggested that budget adjustments for implementation did not require prior board approval in the same way a much larger commitment would.
+Son exemple AGEVAL suggérait que des ajustements budgétaires de mise en oeuvre
+ne demandaient pas une approbation préalable du conseil de la même manière
+qu'un engagement bien plus important.
 
-### Signal, participation, and power
+### Signal, participation et pouvoir
 
-Stanislas Faure did not describe a context where decision-making is broadly broken.
+Stanislas Faure n'a pas décrit un contexte où la décision fonctionnerait mal
+de manière générale.
 
-He described a system that is already collegial, upward-and-downward, and attentive to field reality, while keeping role boundaries explicit.
+Il a décrit un système déjà collégial, ascendant et descendant, attentif à la
+réalité du terrain tout en gardant des frontières de rôle explicites.
 
-The organization does not pretend that frontline staff hold final decision power.
+L'organisation ne prétend pas que les équipes de première ligne détiennent le
+pouvoir final de décision.
 
-The stronger idea is the crossing of:
+L'idée la plus forte est le croisement entre :
 
-- experiential knowledge from the field
-- formal obligations and protocols
-- arbitration by people who carry the decision responsibility
+- la connaissance expérientielle du terrain
+- les obligations formelles et les protocoles
+- l'arbitrage porté par les personnes qui assument la responsabilité de la
+  décision
 
-This makes generic participation language weaker in this AAJD context than language about reliability, clarity, and decision-ready field signal.
+Dans ce contexte AAJD, cela affaiblit le langage générique de participation
+par rapport à un langage centré sur la fiabilité, la clarté et un signal
+terrain suffisamment prêt pour la décision.
 
-That is useful product signal rather than bad news.
+C'est un signal produit utile, pas une mauvaise nouvelle.
 
-An already functional collegial environment may be easier to equip than a dysfunctional one because the organization already accepts shared inputs, explicit escalation, and role boundaries.
+Un environnement collégial déjà fonctionnel peut être plus facile à équiper
+qu'un environnement dysfonctionnel, parce que l'organisation accepte déjà des
+apports partagés, une escalade explicite et des frontières de rôle claires.
 
-The same pattern may later be worth testing in financially healthy organizations such as Resbeut rather than treating dysfunction as the only valid entry point.
+Le même schéma pourra plus tard mériter d'être testé dans des organisations en
+bonne santé financière comme Resbeut, plutôt que de traiter le
+dysfonctionnement comme seul point d'entrée valable.
 
-### Language corrections worth keeping
+### Corrections de langage à conserver
 
-- `pertinence` sounded elitist in this context
-- use `reliability` rather than `relevance` in English-language notes derived from this call
-- `clear framing of the issue being brought for decision` is a stronger formulation for this context
-- in French follow-up material, prefer concrete wording about several decision levels and field signal that is clear and reliable enough to reach decision over abstract expressions such as `centre d'arbitrage` or `remontee horizontale`
-- avoid wording that implies AAJD first has a broken upward flow; Stan described a functioning collegial system and emphasized `fiabilite` as signal quality once it is structured, coordinated, and clear enough to reach decision
+- `pertinence` a sonné élitiste dans ce contexte
+- utiliser `reliability` plutôt que `relevance` dans les notes en anglais
+  dérivées de cet échange
+- `clear framing of the issue being brought for decision` est une formulation
+  plus forte pour ce contexte
+- dans les documents de suivi en français, préférer un vocabulaire concret sur
+  les différents niveaux de décision et sur un signal terrain assez clair et
+  fiable pour remonter jusqu'à la décision, plutôt que des expressions
+  abstraites comme `centre d'arbitrage` ou `remontee horizontale`
+- éviter une formulation qui implique qu'AAJD partirait d'un flux ascendant
+  cassé ; Stan a décrit un système collégial fonctionnel et insisté sur la
+  `fiabilite` comme qualité du signal une fois structuré, coordonné et assez
+  clair pour remonter jusqu'à la décision
 
-The useful framing is not that some people are relevant and others are noise.
+Le cadrage utile n'est pas de dire que certaines personnes sont pertinentes et
+d'autres du bruit.
 
-The useful framing is that field reality can be made clearer, more reliable, and easier to present in a form that a decision body can actually arbitrate.
+Le cadrage utile est de dire que la réalité du terrain peut être rendue plus
+claire, plus fiable et plus facile à présenter sous une forme qu'une instance
+de décision peut réellement arbitrer.
 
-### Existing structures and tools
+### Structures et outils déjà en place
 
-- quality-circle logic is already present in the organization
-- GEPP groups help surface recurring issues and systemic questions
-- AGEVAL is used as a broad medico-social software base for tracking progress, objectives, and operational information
-- an SDI structures objectives and information hierarchy
-- cross-service visibility appears partial rather than absent
+- une logique de cercle qualité est déjà présente dans l'organisation
+- les groupes GEPP aident à faire remonter des sujets récurrents et des
+  questions systémiques
+- AGEVAL est utilisé comme base logicielle médico-sociale large pour suivre
+  l'avancement, les objectifs et les informations opérationnelles
+- un SDI structure les objectifs et la hiérarchie de l'information
+- la visibilité transversale entre services paraît partielle plutôt
+  qu'absente
 
-### AI boundary and presentation sensitivity
+### Frontière IA et sensibilité de présentation
 
-He reacted positively to AI-assisted note-taking, summarization, and drafting as time-saving support functions.
+Il a réagi positivement à la prise de notes assistée par IA, à la synthèse et
+à la rédaction comme fonctions de support faisant gagner du temps.
 
-He reacted negatively to the idea of being dependent on AI analysis for the decision itself or to the idea that AI would effectively decide in place of decision-makers.
+Il a réagi négativement à l'idée de dépendre d'une analyse IA pour la décision
+elle-même ou à l'idée que l'IA déciderait en pratique à la place des
+décideurs.
 
-That distinction should stay explicit in future presentations.
+Cette distinction doit rester explicite dans les présentations futures.
 
-The call reinforced a broader product boundary now captured in `strategy/decision-support-boundaries.md`: structuring inputs, synthesizing them, recommending actions, and holding final decision authority are separate layers.
+L'échange a renforcé une frontière produit plus large désormais capturée dans
+`strategy/decision-support-boundaries.md` : structurer les entrées, les
+synthétiser, recommander des actions et détenir l'autorité finale de décision
+sont des couches séparées.
 
-DMG becomes easier to position in this environment when it is framed first as governance infrastructure for clearer field inputs and explicit decision boundaries, not as a machine that replaces decision-makers.
+DMG devient plus facile à positionner dans cet environnement lorsqu'il est
+présenté d'abord comme une infrastructure de gouvernance pour des entrées
+terrain plus claires et des frontières de décision explicites, et non comme
+une machine qui remplace les décideurs.
 
-### Implications for DMG framing
+### Implications pour le framing DMG
 
-The strongest angle exposed by this conversation is not generic structured participation.
+L'angle le plus fort révélé par cet échange n'est pas une participation
+structurée générique.
 
-The stronger AAJD-specific wedge is closer to:
+Le wedge spécifique AAJD le plus fort se rapproche plutôt de :
 
-- making field data more reliable before escalation
-- clarifying the subject that reaches decision
-- improving legibility across levels and services
-- helping institutional actors carry a case through a multi-instance process
+- rendre les données terrain plus fiables avant l'escalade
+- clarifier le sujet qui remonte jusqu'à la décision
+- améliorer la lisibilité entre niveaux et entre services
+- aider des acteurs institutionnels à faire avancer un dossier à travers un
+  processus multi-instances
 
-In this AAJD context, the thesis looks more credible when framed around decision-ready field signal than when framed around bottom-up participation alone.
+Dans ce contexte AAJD, la thèse paraît plus crédible lorsqu'elle est cadrée
+autour d'un signal terrain prêt pour la décision que lorsqu'elle est cadrée
+autour de la seule participation ascendante.
 
-This does not mean the product can never support recommendation layers later.
+Cela ne veut pas dire que le produit ne pourra jamais supporter plus tard des
+couches de recommandation.
 
-It means the presentation should separate decision support from decision replacement and adapt the emphasis to the audience.
+Cela veut dire que la présentation doit séparer l'appui à la décision du
+remplacement de la décision et adapter l'accent mis selon l'audience.
 
-### Follow-up paths opened
+### Pistes de suivi ouvertes
 
-- Stanislas Faure proposed a follow-up with two information-system colleagues around the SDI
-- He proposed a follow-up with Maryline around AGEVAL
-- He also signaled openness to a potential test, while making clear that he would still weigh the opinion of the technical team on fit and risk
+- Stanislas Faure a proposé un suivi avec deux collègues des systèmes
+  d'information autour du SDI
+- Il a proposé un suivi avec Maryline autour d'AGEVAL
+- Il a aussi signalé une ouverture à un test potentiel, tout en précisant qu'il
+  continuerait à prendre en compte l'avis de l'équipe technique sur
+  l'ajustement et le risque
 
-These are stronger next surfaces for operational fit testing than another abstract strategic conversation.
+Ce sont des surfaces suivantes plus fortes pour tester l'ajustement
+opérationnel qu'une nouvelle conversation stratégique abstraite.
 
-## Additional durable signal from the full transcript pass
+## Signal durable supplémentaire issu du passage complet sur la transcription
 
-### Hybrid management model
+### Modèle de management hybride
 
-The later portion of the transcript sharpened an important constraint.
+La partie ultérieure de la transcription a renforcé une contrainte importante.
 
-AAJD is not described as a stuck top-down structure waiting to be made participative.
+AAJD n'est pas décrit comme une structure top-down bloquée qui attendrait
+d'être rendue plus participative.
 
-Stanislas Faure described a hybrid model with both:
+Stanislas Faure a décrit un modèle hybride avec à la fois :
 
-- a real decision center that arbitrates and carries responsibility
-- a horizontal and matrix-like layer that surfaces recurring issues from the field
+- un vrai centre de décision qui arbitre et porte la responsabilité
+- une couche horizontale et matricielle qui fait remonter des sujets
+  récurrents du terrain
 
-He explicitly used quality-circle logic as a reference point.
+Il a explicitement utilisé la logique de cercle qualité comme point de
+référence.
 
-That matters because the DMG wedge here is not to invent participation where none exists.
+C'est important, parce que le wedge DMG ici ne consiste pas à inventer de la
+participation là où il n'y en a pas.
 
-It is to make plural field signal more legible, more comparable across dispositifs, and easier to escalate without losing clarity.
+Il consiste à rendre un signal terrain pluriel plus lisible, plus comparable
+entre dispositifs et plus facile à escalader sans perdre en clarté.
 
-### GEPP and transversal problem handling
+### GEPP et traitement transversal des problèmes
 
-The transcript added stronger detail on GEPP groups.
+La transcription a ajouté des détails plus forts sur les groupes GEPP.
 
-Useful points to preserve:
+Points utiles à conserver :
 
-- GEPP is described here as a plural evaluation and piloting group at the dispositif level
-- the group should be socially plural rather than profession-specific
-- a valid group can include a chauffeur, maitresse de maison, secretaire, educateur, psychologue, and manager
-- directors can treat some issues locally and escalate systemic questions to codir when the pattern is broader than one site
+- GEPP est décrit ici comme un groupe pluriel d'évaluation et de pilotage au
+  niveau du dispositif
+- le groupe doit être socialement pluriel plutôt que spécifique à une seule
+  profession
+- un groupe valable peut inclure un chauffeur, une maîtresse de maison, une
+  secrétaire, un éducateur, un psychologue et un manager
+- les directeurs peuvent traiter certains sujets localement et escalader les
+  questions systémiques au codir lorsque le motif dépasse un seul site
 
-The important product implication is cross-dispositif pattern detection.
+L'implication produit importante est la détection de motifs trans-dispositifs.
 
-A recurring issue only becomes budget-actionable when it stops looking like one isolated complaint and starts looking like a repeated operational pattern across roles or sites.
+Un sujet récurrent ne devient actionnable budgétairement que lorsqu'il cesse de
+ressembler à une plainte isolée pour commencer à ressembler à un motif
+opérationnel répété entre rôles ou entre sites.
 
-### Stronger institutional wedge
+### Wedge institutionnel plus fort
 
-The transcript made the AAJD-specific wedge more concrete.
+La transcription a rendu le wedge spécifique AAJD plus concret.
 
-The stronger fit is not generic employee voice.
+L'ajustement le plus fort n'est pas une voix salariée générique.
 
-The stronger fit is closer to:
+L'ajustement le plus fort se rapproche plutôt de :
 
-- reliable field signal that survives escalation
-- plural inputs that remain role-distinct instead of collapsing into one flat summary
-- cross-service and cross-dispositif visibility on recurring issues
-- decision-ready framing for a human decision-maker who still owns the risk
+- un signal terrain fiable qui survit à l'escalade
+- des entrées plurielles qui restent distinctes par rôle au lieu d'être
+  aplaties dans un résumé unique
+- une visibilité transversale entre services et entre dispositifs sur des
+  problèmes récurrents
+- un cadrage prêt pour la décision à destination d'un décideur humain qui garde
+  la responsabilité du risque
 
-### Concrete DMG flow example to test later
+### Exemple concret de flux DMG à tester plus tard
 
-One concrete fit hypothesis is a GEPP-to-codir structured draft.
+Une hypothèse concrète d'ajustement est un brouillon structuré allant de GEPP
+au codir.
 
-The raw material would start from plural role-distinct observations inside one dispositif.
+La matière première partirait d'observations plurielles et distinctes par rôle
+à l'intérieur d'un dispositif.
 
-Instead of producing one cleaned narrative summary, a stronger DMG-shaped output would preserve structure such as:
+Au lieu de produire un résumé narratif unique nettoyé, une sortie plus proche
+de la forme DMG préserverait une structure du type :
 
-- issue label
-- dispositif concerned
-- roles reporting the issue
-- recurrence window
-- concrete observed effects
-- what has already been tried locally
-- whether the same pattern appears elsewhere
-- systems, HR, budget, or governance dependency
-- requested arbitration level
+- libellé du sujet
+- dispositif concerné
+- rôles qui signalent le sujet
+- fenêtre de récurrence
+- effets observés concrets
+- ce qui a déjà été essayé localement
+- si le même motif apparaît ailleurs
+- dépendance aux systèmes, aux RH, au budget ou à la gouvernance
+- niveau d'arbitrage demandé
 
-That would make the output easier to compare across dispositifs and easier to escalate to codir without losing the plurality of the original field signal.
+Cela rendrait la sortie plus facile à comparer entre dispositifs et plus facile
+à faire remonter au codir sans perdre la pluralité du signal terrain initial.
 
-### Named systems and named people
+### Systèmes nommés et personnes nommées
 
-The transcript now supports keeping these names explicit:
+La transcription permet désormais de garder explicitement ces noms :
 
-- AGEVAL as the broad medico-social tracking base already used internally
-- SDI as the schema-level information structure worth inspecting
-- Stephane Dulac as a named information-systems contact
-- Yohan as another information-systems contact
-- Maryline Bellanc as the AGEVAL-adjacent operations contact proposed for follow-up
+- AGEVAL comme base large de suivi médico-social déjà utilisée en interne
+- SDI comme structure d'information de niveau schéma à inspecter
+- Stephane Dulac comme contact nommé côté systèmes d'information
+- Yohan comme autre contact côté systèmes d'information
+- Maryline Bellanc comme contact opérationnel adjacent à AGEVAL proposé pour le
+  suivi
 
-These names make the follow-up path more operational than a generic second call.
+Ces noms rendent la piste de suivi plus opérationnelle qu'un deuxième appel
+générique.
 
-### Offer, openness, and boundary
+### Ouverture, intérêt et frontière
 
-Stanislas Faure again showed a clear pattern:
+Stanislas Faure a de nouveau montré un schéma clair :
 
-- positive toward AI for note-taking, summarization, and drafting support
-- open to practical testing
-- negative toward AI replacing accountable human decision-making
-- willing to defer to technical-security judgment from the information-systems side when needed
+- favorable à l'IA pour la prise de notes, la synthèse et l'aide à la rédaction
+- ouvert à un test pratique
+- opposé à une IA qui remplacerait une prise de décision humaine responsable
+- prêt à s'en remettre au jugement technique et sécurité du côté systèmes
+  d'information lorsque c'est nécessaire
 
-That last point is commercially important.
+Ce dernier point est commercialement important.
 
-The next fit conversation should assume a technical-risk gate, not treat Stan alone as the entire approval path.
+La prochaine conversation d'ajustement doit présupposer un filtre de risque
+technique, et non traiter Stan comme s'il représentait seul l'intégralité du
+chemin d'approbation.
 
-### Concrete next actions
+### Prochaines actions concrètes
 
-The best next move is now more specific than the previous note version.
+Le meilleur prochain mouvement est désormais plus spécifique que dans la
+version précédente de la note.
 
-It is to inspect the actual path from field expression to decision-ready material by following:
+Il consiste à inspecter le chemin réel allant de l'expression terrain jusqu'à
+une matière prête pour la décision en suivant :
 
-- GEPP inputs
-- codir escalation logic
-- AGEVAL handling and data-entry practice
-- SDI structure and information visibility
-- portal-level visibility across dispositifs
+- les entrées GEPP
+- la logique d'escalade vers le codir
+- le traitement AGEVAL et les pratiques de saisie
+- la structure SDI et la visibilité de l'information
+- la visibilité au niveau portail entre dispositifs
 
-This is the shortest path to finding whether DMG would remove manual recopies, fragmented escalation, or weak cross-service legibility in an already collegial environment.
+C'est le chemin le plus court pour déterminer si DMG supprimerait des
+recopies manuelles, une escalade fragmentée ou une faible lisibilité
+transverse entre services dans un environnement déjà collégial.
 
-### Working definitions for the next follow-up
+### Définitions de travail pour le prochain suivi
 
-Keep the next AAJD follow-up legible by using explicit labels instead of assuming institutional shorthand.
+Garder le prochain suivi AAJD lisible en utilisant des libellés explicites
+plutôt qu'un raccourci institutionnel implicite.
 
-- `GEPP`: plural field groups used to surface issues, evaluate situations, and prepare escalation across roles inside one dispositif
-- `portal`: the internal information portal where teams can access documents and compare information across dispositifs
-- `AGEVAL`: the existing medico-social software base used for tracking, reporting, and progress visibility
-- `DUERP`: the mandatory risk-evaluation document, discussed here especially through psychosocial-risk use cases
-- `PCA`: the continuity-planning document that captures how service continues through disruptive situations such as weather or utility failure
-- `SDI`: the schema directeur d'information, meaning the higher-level information structure and objective hierarchy behind the current system landscape
+- `GEPP` : groupes terrain pluriels utilisés pour faire remonter des sujets,
+  évaluer des situations et préparer l'escalade entre rôles à l'intérieur d'un
+  dispositif
+- `portal` : portail d'information interne où les équipes peuvent accéder aux
+  documents et comparer l'information entre dispositifs
+- `AGEVAL` : base logicielle médico-sociale existante utilisée pour le suivi,
+  le reporting et la visibilité sur l'avancement
+- `DUERP` : document obligatoire d'évaluation des risques, évoqué ici surtout
+  via des cas d'usage liés aux risques psychosociaux
+- `PCA` : document de continuité d'activité qui décrit comment le service se
+  poursuit dans des situations perturbées comme une météo extrême ou une panne
+  de service
+- `SDI` : schéma directeur d'information, c'est-à-dire la structure
+  d'information de niveau supérieur et la hiérarchie des objectifs derrière le
+  paysage système actuel
 
-### What a low-risk first test means here
+### Ce que signifie ici un premier test à faible risque
 
-The next conversation should not jump directly to automated recommendation or decision support.
+La prochaine conversation ne doit pas sauter directement vers de la
+recommandation automatisée ou de l'aide à la décision.
 
-The safer first test in this AAJD environment is narrower:
+Le premier test le plus sûr dans cet environnement AAJD est plus étroit :
 
-- capture a meeting or group exchange and produce cleaner notes faster
-- produce a structured synthesis after a discussion without changing who decides
-- improve formatting, grouping, and escalation readability before touching decision logic itself
+- capter une réunion ou un échange de groupe et produire des notes plus propres
+  plus vite
+- produire une synthèse structurée après une discussion sans changer qui décide
+- améliorer la mise en forme, le regroupement et la lisibilité de l'escalade
+  avant de toucher à la logique de décision elle-même
 
-The commercial reason is simple.
+La raison commerciale est simple.
 
-Stanislas Faure was open to time-saving support for note-taking and synthesis, but cautious about anything that looked like delegated judgment.
+Stanislas Faure était ouvert à un support faisant gagner du temps sur la prise
+de notes et la synthèse, mais prudent dès que cela ressemblait à un jugement
+délégué.
 
-The operational reason is just as important.
+La raison opérationnelle est tout aussi importante.
 
-Any first test would likely need to pass information-systems review for security, privacy, and fit with existing tools before it could be considered acceptable.
+Tout premier test devrait probablement passer une revue des systèmes
+d'information sur la sécurité, la confidentialité et l'ajustement aux outils
+existants avant de pouvoir être jugé acceptable.
 
-## Public context and source links
+## Contexte public et liens source
 
-Useful public sources worth keeping close to this note:
+Sources publiques utiles à garder proches de cette note :
 
 - https://www.pappers.fr/entreprise/aajd-780856910
 - https://www.pappers.fr/entreprise/aajd-780856910/comptes/AAJD%20-%20Comptes%20annuels%202024%2031-12-2024.pdf
@@ -315,13 +430,19 @@ Useful public sources worth keeping close to this note:
 - https://www.aajd.fr/index.php/histoire
 - https://www.aajd.fr/index.php/projet-associatif
 
-Public-site signals already useful for framing:
+Signaux de site public déjà utiles pour le cadrage :
 
-- AAJD presents itself as a nonprofit association with a service-public mission and an inclusion-oriented project framework
-- the public project note emphasizes safety, dignity, coherence, service quality, and inclusive access to rights
-- the public direction-generale note explicitly describes mutualized services, project-financing follow-up, HR and legal support, transversal process improvement, and digital-tool investment
+- AAJD se présente comme une association à but non lucratif avec une mission de
+  service public et un cadre de projet orienté inclusion
+- la note projet publique insiste sur la sécurité, la dignité, la cohérence,
+  la qualité de service et un accès inclusif aux droits
+- la note publique sur la direction générale décrit explicitement des services
+  mutualisés, le suivi du financement de projets, un support RH et juridique,
+  l'amélioration transverse des processus et l'investissement dans les outils
+  numériques
 
-Partners listed on the public site and worth preserving for future network scans:
+Partenaires listés sur le site public et utiles à conserver pour de futures
+lectures réseau :
 
 - ARS Normandie
 - Conseil Departemental de la Manche
@@ -329,8 +450,8 @@ Partners listed on the public site and worth preserving for future network scans
 - Caf de la Manche
 - Academie de Caen
 - Credit Mutuel Maine-Anjou Basse-Normandie
-- CREAI Normandie
+- CREAI (Regional Center for Children and Adults with Disabilities) Normandie
 - Espace Sentein
-- URIOPSS Normandie
-- IRTS Normandie Caen
-- IAE Caen
+- URIOPSS (Regional Union of Private Non-Profit Health and Social Organizations) Normandie
+- IRTS (Regional Institute of Social Work) Normandie Caen
+- IAE (Integration through Economic Activity) Caen
