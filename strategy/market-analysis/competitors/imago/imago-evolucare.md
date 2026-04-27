@@ -77,6 +77,10 @@ It surfaced a more local operational difficulty in a medico-social setting:
 - staff need the organization to create discipline around structured entry
 - a tariffing / transition problem may create repeated mapping work in a specific sector context
 
+Additional signal captured from the same Eric conversation thread:
+
+- even if Ségur-related software deployment coverage expands across ESSMS, that deployment alone does not guarantee the reliability of data entry quality in day-to-day operations
+
 That is useful, but it should stay calibrated as a sector-specific operational issue rather than being inflated into a universal product thesis.
 
 Eric’s request was also tactically important:

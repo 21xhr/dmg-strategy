@@ -17,6 +17,8 @@ This is the strategy repo.
 - When referring to repositories, use `strategy repo` for the private planning repo and `workspace repo` or `shareable repo` for the shareable workspace repo.
 - Keep this instruction file short and let the tracked notes carry the durable policy.
  - When a note is renamed or moved, remove the stale source file in the same slice or replace it with a one-line pointer only when a temporary redirect is genuinely needed; do not keep old and new active copies side by side.
+ - Do not remove existing durable content unless removal is explicitly requested, factually contradicted by source material, or required by a documented structure change in the same slice.
+ - For strategy-repo documentation changes, always load and follow `strategy/documentation-update-dependency-model.md` as the private planning dependency router.
 
 ## Routing rule
 - Treat this file as the router for strategy work, not the end state for a request.
@@ -42,7 +44,6 @@ This is the strategy repo.
 - When a roadmap reaches its completion criteria and the relevant code validation passes, archive it in `strategy/roadmaps/archive/` with a date-prefixed filename and remove it from the active execution sequence in the same slice.
 - Do not keep archived-roadmap history in backlog files; backlog entries are forward-looking only.
 - When a roadmap's own completion criteria or status markers indicate that the track is mostly finished, ask whether it should be archived instead of leaving it in the active roadmap lane.
-- When a note is renamed or moved, remove the stale source file in the same slice or replace it with a one-line pointer only when a temporary redirect is genuinely needed; do not keep old and new active copies side by side.
 
 ## Release workflow
 - When work concerns preserving demo states, tags, or baseline manifests, follow [releases/repo-and-release-workflow.md](../releases/repo-and-release-workflow.md).

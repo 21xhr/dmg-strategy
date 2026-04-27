@@ -23,6 +23,11 @@ Terms within each category are ordered alphabetically.
 - BPI: Banque Publique d'Investissement, the French public investment bank
 - RLS: Row-Level Security
 - CAC: Customer Acquisition Cost
+- CEO: Chief Executive Officer, responsible for company-level strategy and final executive direction
+- CFO: Chief Financial Officer, responsible for financial strategy, planning, and reporting
+- CMO: Chief Marketing Officer, responsible for marketing strategy and demand generation
+- COO: Chief Operating Officer, responsible for day-to-day operations and execution
+- CTO: Chief Technology Officer, responsible for technology strategy and engineering leadership
 - DMG: Decision Making Governance (subject to change)
 - dilution: the percentage of ownership given up when issuing shares to investors
 - LOI: Letter of Intent
@@ -50,7 +55,6 @@ Terms within each category are ordered alphabetically.
 - HDS: Hébergeur de Données de Santé, the French health-data hosting certification and operating model
 - HTML: HyperText Markup Language
 - JWT: JSON Web Token
-- PNG: Portable Network Graphics
 - PR: Pull Request, a proposed set of repository changes submitted for review before merging into the main branch
 - quadratic voting: a voting mechanism where each additional vote costs more than the previous one, reducing domination by a single actor
 - RH: Ressources Humaines, the human-resources function and related workforce management scope
@@ -80,16 +84,12 @@ Terms within each category are ordered alphabetically.
 
 ## Strategy and market terms
 
+- DSS: Decision Support Systems, software systems designed to support decision-making in semi-structured or complex contexts
 - moat: a defensible competitive advantage that makes a product harder to displace
 - pilot: a limited real-world deployment with one customer or user group, one clear use case, and explicit success criteria
+- SWOT: Strengths, Weaknesses, Opportunities, Threats, a structured strategic analysis framework
 - vertical: a specific market segment or industry with its own users, constraints, buying logic, and use cases
-- wedge: the first narrow market entry point for validating adoption before broader expansion
- - wedge: the first narrow market entry point for validating adoption before broader expansion
- - CEO: Chief Executive Officer, the senior executive responsible for overall strategy and operations
- - CFO: Chief Financial Officer, responsible for financial strategy and reporting
- - CTO: Chief Technology Officer, responsible for technology strategy and engineering leadership
- - CMO: Chief Marketing Officer, responsible for marketing and growth strategy
- - COO: Chief Operating Officer, responsible for day-to-day operations and execution
+- wedge: anglicisme toléré, first narrow market entry point for validating adoption before broader expansion
 
 ## Organizational and sector terms
 

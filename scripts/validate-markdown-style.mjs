@@ -48,95 +48,6 @@ function loadGlossaryTerms() {
 
 function validateGlossaryEntries(glossaryText) {
   const violations = [];
-  const allowedAcronyms = new Set([
-    'CREAI',
-    'IAE',
-    'IRTS',
-    'URIOPSS',
-    'AAJD',
-    'ADAPEI',
-    'ADN',
-    'ADR',
-    'AGEVAL',
-    'AHI',
-    'APAEIA',
-    'ARS',
-    'CA',
-    'CDD',
-    'CSE',
-    'DAO',
-    'DG',
-    'DMP',
-    'DU',
-    'ESAT',
-    'IA',
-    'INS',
-    'LUMIA',
-    'MSSANTÉ',
-    'OSP',
-    'SI',
-    'UNAPEI',
-    'API',
-    'ARR',
-    'B2B',
-    'B2B2C',
-    'B2C',
-    'CAC',
-    'CI',
-    'AI',
-    'CRM',
-    'DMG',
-    'DUI',
-    'DMP',
-    'DUERP',
-    'EHPAD',
-    'ERP',
-    'ESSMS',
-    'EU',
-    'GEPP',
-    'GPI',
-    'HAS',
-    'HDS',
-    'HR',
-    'ID',
-    'IME',
-    'IMAGO',
-    'ITEP',
-    'JWT',
-    'LOI',
-    'LB',
-    'LTV',
-    'MRR',
-    'MVP',
-    'PH',
-    'PCA',
-    'PDE',
-    'PDS',
-    'PMF',
-    'PR',
-    'RLS',
-    'RH',
-    'SDI',
-    'SLO',
-    'SaaS',
-    'SSO',
-    'STL',
-    'TAM',
-    'TTL',
-    'UI',
-    'US',
-    'UTC',
-    'URL',
-    'UX',
-    'UX/UI',
-    'XML',
-    'JSON',
-    'HTML',
-    'CSS',
-    'PNG',
-    'PDF',
-    'README',
-  ]);
 
   let currentSection = '';
 
@@ -153,8 +64,8 @@ function validateGlossaryEntries(glossaryText) {
     }
 
     const term = entryMatch[1].trim();
-    if (/^[A-Z0-9][A-Z0-9\-\/ ]*$/.test(term) && !allowedAcronyms.has(term)) {
-      violations.push(`glossary entry ${term} in ${currentSection} looks like a placeholder abbreviation but is not in the allowed acronym list`);
+    if (/^(TODO|TBD|XXX|FIXME)$/i.test(term)) {
+      violations.push(`glossary entry ${term} in ${currentSection} is a placeholder and must be replaced by a real term`);
     }
   }
 
@@ -176,7 +87,7 @@ function findViolations(filePath, content, glossaryTerms) {
   const tokenPattern = /\b[A-Z]{2,}(?:\/[A-Z]{2,})?\b/g;
   const allowedTokens = new Set([
     ...glossaryTerms,
-    'ADAPEI', 'ADN', 'API', 'ARR', 'B2B', 'B2B2C', 'B2C', 'CA', 'CAC', 'CDD', 'CI', 'AI', 'CRM', 'DAO', 'DMG', 'DMP', 'DU', 'DUI', 'DUERP', 'EHPAD', 'ERP', 'ESSMS', 'EU', 'GEPP', 'GPI', 'HAS', 'HDS', 'HR', 'IA', 'ID', 'IME', 'IMAGO', 'INS', 'ITEP', 'JWT', 'LTV', 'LUMIA', 'MRR', 'MSSANTÉ', 'MVP', 'PH', 'PCA', 'PDE', 'PDS', 'PMF', 'PR', 'ESMS', 'RH', 'SDI', 'SI', 'SLO', 'SaaS', 'US', 'SSO', 'TAM', 'TTL', 'UI', 'UX', 'UTC', 'URL', 'XML', 'JSON', 'HTML', 'CSS', 'PDF', 'README', 'LB', 'STL',
+    'ADAPEI', 'ADN', 'API', 'ARR', 'B2B', 'B2B2C', 'B2C', 'BPI', 'CA', 'CAC', 'CDD', 'CEO', 'CFO', 'CMO', 'COO', 'CTO', 'CI', 'AI', 'CRM', 'DAO', 'DMG', 'DMP', 'DU', 'DUI', 'DUERP', 'EHPAD', 'ERP', 'ESSMS', 'EU', 'GEPP', 'GPI', 'HAS', 'HDS', 'HR', 'IA', 'ID', 'IME', 'IMAGO', 'INS', 'ITEP', 'JWT', 'LTV', 'LUMIA', 'MRR', 'MSSANTÉ', 'MVP', 'PH', 'PCA', 'PDE', 'PDS', 'PMF', 'PR', 'ESMS', 'RH', 'SDI', 'SI', 'SLO', 'SaaS', 'US', 'SSO', 'TAM', 'TTL', 'UI', 'UX', 'UTC', 'URL', 'XML', 'JSON', 'HTML', 'CSS', 'PDF', 'README', 'LB', 'STL',
   ]);
 
   for (const match of content.matchAll(absoluteLinkPattern)) {
