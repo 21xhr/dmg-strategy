@@ -1,0 +1,116 @@
+{
+  "version": 1,
+  "description": "Machine-readable recurring documentation review sets for strategy repo planning material. Human-readable policy source: strategy/documentation-update-dependency-model.md.",
+  "eventTypes": [
+    {
+      "id": "product-boundary-clarification",
+      "description": "Product framing, scope, or durable thesis wording is clarified.",
+      "defaultTargets": [
+        {
+          "path": "strategy/00-strategy.md",
+          "reason": "Boundary clarifications can alter the top-level strategic framing."
+        },
+        {
+          "path": "strategy/roadmap.md",
+          "reason": "Boundary clarifications can change execution framing and sequencing assumptions."
+        },
+        {
+          "path": "strategy/backlog.md",
+          "reason": "Boundary clarifications can invalidate backlog lane wording."
+        }
+      ],
+      "thresholds": [
+        "Update only when current strategic boundaries or reusable positioning language changed.",
+        "Do not update for local prose cleanup that leaves the boundary unchanged."
+      ]
+    },
+    {
+      "id": "architecture-or-workspace-structure-decision",
+      "description": "A decision changes ownership or boundaries between strategy and workspace repos.",
+      "defaultTargets": [
+        {
+          "path": "strategy/documentation-update-dependency-model.md",
+          "reason": "Boundary decisions can alter private planning workflow policy."
+        },
+        {
+          "path": "strategy/roadmap.md",
+          "reason": "Repo-boundary changes can alter execution ownership assumptions."
+        },
+        {
+          "path": "strategy/backlog.md",
+          "reason": "Repo-boundary changes can alter planning lane placement."
+        }
+      ],
+      "thresholds": [
+        "Update only when ownership, repository boundary, or execution handoff changed.",
+        "Do not update for implementation details inside an unchanged boundary."
+      ]
+    },
+    {
+      "id": "implementation-change-with-doc-impact",
+      "description": "Implementation shifts in either repo change private planning assumptions or reusable strategic claims.",
+      "defaultTargets": [
+        {
+          "path": "strategy/roadmap.md",
+          "reason": "Implementation changes can invalidate current execution assumptions."
+        },
+        {
+          "path": "strategy/backlog.md",
+          "reason": "Implementation changes can obsolete pending planning lanes."
+        },
+        {
+          "path": "fundraising/briefs/audience-pitch-notes.md",
+          "reason": "Implementation changes can affect derivative investor-facing framing."
+        }
+      ],
+      "thresholds": [
+        "Update only when current planning assumptions or derivative narrative claims become misleading.",
+        "Do not update for internal refactors that leave strategic assumptions unchanged."
+      ]
+    },
+    {
+      "id": "naming-or-glossary-change",
+      "description": "A durable term is introduced, renamed, narrowed, or corrected in strategy materials.",
+      "defaultTargets": [
+        {
+          "path": "strategy/glossary.md",
+          "reason": "Durable vocabulary changes should be captured in the glossary."
+        },
+        {
+          "path": "strategy/00-strategy.md",
+          "reason": "Core strategy language should stay aligned with glossary terms."
+        },
+        {
+          "path": "fundraising/briefs/audience-pitch-notes.md",
+          "reason": "Derivative materials should stay aligned with authoritative terms."
+        }
+      ],
+      "thresholds": [
+        "Update only when terminology affects cross-note comprehension or durable framing.",
+        "Do not update for one-off wording choices without durable meaning."
+      ]
+    },
+    {
+      "id": "external-network-or-fundraising-learning",
+      "description": "External-network or fundraising signals materially change reusable strategy theses.",
+      "defaultTargets": [
+        {
+          "path": "external-network/plans/contact-documentation-workflow.md",
+          "reason": "Learning can alter relationship capture and follow-up workflow assumptions."
+        },
+        {
+          "path": "fundraising/plans/market-feedback-and-loi-plan.md",
+          "reason": "Learning can alter feedback loops and qualification plans."
+        },
+        {
+          "path": "strategy/backlog.md",
+          "reason": "Learning can create new planning lanes or obsolete existing ones."
+        }
+      ],
+      "thresholds": [
+        "Update only when reusable thesis-level implications changed.",
+        "Do not update for isolated contact notes without durable cross-slice impact."
+      ]
+    }
+  ]
+}

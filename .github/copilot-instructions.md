@@ -20,6 +20,14 @@ This is the strategy repo.
  - Do not remove existing durable content unless removal is explicitly requested, factually contradicted by source material, or required by a documented structure change in the same slice.
  - For strategy-repo documentation changes, always load and follow `strategy/documentation-update-dependency-model.md` as the private planning dependency router.
 
+## Documentation authority hierarchy
+- Use a one-direction three-layer routing model for strategy-repo documentation governance.
+- Router layer: this file routes strategy work to policy sources.
+- Policy layer: `strategy/documentation-update-dependency-model.md` is the human-readable source of truth for workflow meaning and thresholds.
+- Data layer: `strategy/documentation-update-manifest.json` is machine-readable mapping for recurring review sets.
+- Do not define workflow taxonomy details in this router file.
+- Do not treat the manifest as the primary human policy source.
+
 ## Routing rule
 - Treat this file as the router for strategy work, not the end state for a request.
 - When the user asks to implement the next slice of a roadmap, first identify the concrete slice, the owning repo, and the nearest implementation surface.
@@ -36,6 +44,8 @@ This is the strategy repo.
 
 ## Planning and roadmap handling
 - Before landing strategy or architecture-impacting material, check `strategy/backlog.md` and any relevant `strategy/roadmaps/` note so new work stays aligned with the tracked plan.
+- When a backlog item or lane becomes concrete enough to move into a dedicated roadmap, remove the superseded backlog bullets in the same slice unless the backlog still holds distinct unscheduled work.
+- When a backlog item or lane becomes concrete enough to move into a dedicated roadmap, remove the superseded backlog bullets in the same slice instead of leaving a tracker pointer unless the backlog still holds distinct unscheduled work.
 - When creating or reshaping a roadmap, include a status snapshot and explicit completion criteria or checkpoint signals so archival decisions do not rely on memory or gut feel.
 - When reshaping a roadmap, keep the execution sequence concrete and justified: active lanes should have a current status snapshot, explicit completion criteria, and a clear reason they belong in `Now` or `Next`.
 - When working a roadmap slice, update the active roadmap note in the same slice with the completed work, the next suggested slice, and any farther move that is now concrete enough to name.

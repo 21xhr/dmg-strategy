@@ -4,11 +4,30 @@
 
 This note captures a planning model for how documentation updates could scale across DMG work.
 
-The shareable standing-rule implementation lives in [documentation-update-dependency-model](../dmg-workspace/apps/docs/system-architecture/documentation-update-dependency-model.md) and [documentation-update-manifest.json](../dmg-workspace/apps/docs/system-architecture/documentation-update-manifest.json).
+The shareable standing-rule implementation for the workspace repo lives in `apps/docs/system-architecture/documentation-update-dependency-model.md` and `apps/docs/system-architecture/documentation-update-manifest.json` in the workspace repo.
+
+For the strategy repo, this note is the human-readable policy source and `strategy/documentation-update-manifest.json` is the machine-readable recurring workflow map.
 
 This note is not the source of truth for shareable product architecture.
 
 It remains a private planning note for private-first boundary decisions, cross-repo implications, operator workflows, and tenant-facing structuring ideas that are not yet rewritten into shareable current-state or standing-rule docs.
+
+## Authority hierarchy
+
+Use a one-direction three-layer routing model:
+
+1. Router layer: `.github/copilot-instructions.md` routes strategy tasks to the proper policy source.
+2. Policy layer: this file defines strategy-repo documentation workflow semantics and thresholds.
+3. Data layer: `strategy/documentation-update-manifest.json` stores machine-readable recurring workflow mappings.
+
+Keep routing and policy direction one-way.
+
+- Router to policy: allowed.
+- Policy to data: allowed.
+- Data to policy: not authoritative.
+
+The manifest must not introduce workflow semantics that are not defined here.
+If this policy changes, update this file first and align `strategy/documentation-update-manifest.json` in the same slice.
 
 ## Core idea
 
@@ -81,6 +100,8 @@ Keep this note in private planning for planning-only extensions that do not yet 
 If the boundary is unclear, default to keeping the material here until the shareable/private split is explicit.
 
 Promote concrete shareable rules into the docs app instead of duplicating them here.
+
+If a recurring strategy-repo documentation workflow changes, update this note and `strategy/documentation-update-manifest.json` in the same slice.
 
 Use this note only when the material still needs to translate into:
 
