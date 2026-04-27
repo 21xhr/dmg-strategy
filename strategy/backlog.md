@@ -33,14 +33,6 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 - define the workspace developer-onboarding document shape so the root README stays high-level while one modern quick-start guide carries local setup, first-run checks, and next-surface pointers
 - extend the documentation prose guard so meta-routing sentences about what belongs in private notes or what a guide should become are blocked in shareable repo markdown before commit
 
-### Market research and competition mapping
-
-- define a recurring market-research workflow that starts with a broad taxonomy map, then branches into architecture-specific deep dives
-- build and maintain a competition watchlist separating direct decision-workflow competitors from adjacent collaboration or knowledge tools
-- produce a reusable DSS architecture comparison table (data-driven, model-driven, knowledge-driven, communication-driven, agentic)
-- track regulatory and governance constraints (EU AI Act, auditability, human oversight) as part of competitive positioning
-- add a repeatable link from market-research evidence into SWOT updates so strategic conclusions always reference source-backed findings
-
 ### Naming and scope cleanup
 
 - run a multi-repo naming pass across docs, backend, and frontend so tenant scope, session scope, maintenance state, and provider boundaries are explicit

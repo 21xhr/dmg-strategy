@@ -193,6 +193,25 @@ Checkpoint to start this track cleanly:
 - session-finalization events stay distinguishable from end-of-challenge events in the scheduler and notification hub
 - farther move: add operator-visible notification status reporting once transport health is measurable
 
+#### 2. Market research and competition mapping
+
+Goal:
+
+- build a repeatable market-research program that sharpens competition mapping, trend tracking, and evidence-backed SWOT work
+- separate direct decision-workflow competitors from adjacent collaboration, intelligence, and knowledge tools
+- turn broad research prompts into phased durable notes, comparison tables, and reusable search programs
+
+Status:
+
+- tracked in [strategy/roadmaps/market-research-roadmap.md](roadmaps/market-research-roadmap.md)
+- initial program note exists and the backlog lane has enough content to move into a dedicated roadmap
+- next suggested slice: create the broad taxonomy table and the first competition watchlist note
+
+Why this is now active:
+
+- the research scope is now concrete enough to schedule as a multi-phase roadmap rather than keep as loose backlog bullets
+- future SWOT and competitor work will drift unless the research cadence, output shapes, and review rules are made explicit
+
 ## Completed surface tracks
 
 ### Frontend productization
