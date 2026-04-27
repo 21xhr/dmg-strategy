@@ -214,6 +214,25 @@ Why this is now active:
 - the research scope is now concrete enough to schedule as a multi-phase roadmap rather than keep as loose backlog bullets
 - future SWOT and competitor work will drift unless the research cadence, output shapes, and review rules are made explicit
 
+### Next
+
+#### 3. Observability and frontend foundation
+
+Goal:
+
+- establish runtime observability, typed frontend API boundaries, and CI-gated critical-flow E2E coverage as one coherent SaaS-readiness implementation lane
+
+Status:
+
+- tracked in [strategy/roadmaps/observability-and-frontend-foundation-roadmap.md](roadmaps/observability-and-frontend-foundation-roadmap.md)
+- scope is normalized into three sequential slices (PR-13 health and metrics, PR-14 typed frontend API boundary, PR-15 critical-flow E2E coverage)
+- next suggested slice: start PR-13 with health and metrics response-shape contract design tied to admin dashboard consumption
+
+Why this is next:
+
+- the lane is concrete enough for execution and has explicit acceptance criteria
+- it creates the reliability and contract baseline needed before broader SaaS-facing operational hardening
+
 ## Completed surface tracks
 
 ### Frontend productization
