@@ -35,11 +35,15 @@ Terms within each category are ordered alphabetically.
 - LTV: Lifetime Value
 - MRR: Monthly Recurring Revenue
 - MVP: Minimum Viable Product
-- NV: Naamloze Vennootschap, a Dutch or Belgian public limited company legal form
 - PMF: Product Market Fit
 - pre-money valuation: the company's assessed value before investment money comes in
-- SAS: Societe par Actions Simplifiee, a French legal company form commonly used by venture-backed startups
 - TAM: Total Addressable Market
+
+## Company legal forms and entity names
+
+- NV: Naamloze Vennootschap, legal suffix used in company names in Dutch and Belgian contexts
+- SAS: Societe par Actions Simplifiee, legal suffix used in French company names
+- TS Holding: legal entity name used in Make.org capitalization history (do not reduce to isolated TS)
 
 ## Technical terms
 - DAO: Decentralized Autonomous Organization, organisation autonome décentralisée gérée par des règles codées dans un smart contract
@@ -92,7 +96,6 @@ Terms within each category are ordered alphabetically.
 - pilot: a limited real-world deployment with one customer or user group, one clear use case, and explicit success criteria
 - RDI: Recherche, Developpement et Innovation, public-aid and tax-incentive framing used for innovation activities
 - SWOT: Strengths, Weaknesses, Opportunities, Threats, a structured strategic analysis framework
-- TS: acronym used in legal-entity names such as TS Holding; treat as a proper-name token in company-structure notes
 - vertical: a specific market segment or industry with its own users, constraints, buying logic, and use cases
 - wedge: tolerated anglicism, first narrow market entry point for validating adoption before broader expansion
 
@@ -113,12 +116,15 @@ Terms within each category are ordered alphabetically.
 - HR: Human Resources
 - IME: Institut Medico-Educatif
 - ITEP: Institut Therapeutique, Educatif et Pedagogique
-- NYC: New York City, municipal-government context appearing in civic-tech deployment references
 - OECD: Organisation for Economic Co-operation and Development, international organization publishing policy and public-governance analyses
 - PCA: Plan de Continuite d'Activite, the continuity-planning document for maintaining service during disruption
 - SDI: Schema Directeur des Systemes d'Information, a strategic information-systems framework for organizing objectives, priorities, and system evolution
 - UK: United Kingdom, country abbreviation used in procurement and market references
 - codir: comite de direction, the internal leadership group where cross-cutting operational and strategic issues are escalated
+
+## Geographic abbreviations
+
+- NYC: New York City, city abbreviation used in civic-tech deployment references
 
 ## Numeric marker terms
 

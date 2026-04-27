@@ -17,6 +17,7 @@ It should not become a second documentation tree.
 - DMG is not only a prioritization tool. It is also a system for reducing uncertainty before committing execution capacity.
 - The stronger cross-vertical framing is not only that streaming needs better live interaction. It is that many environments already spend money trying to reduce decision noise, shorten feedback loops, and turn diffuse demand into a more actionable priority signal.
 - DMG is stronger when the real problem is deciding what gets priority when execution capacity is limited.
+- Workflows can automate execution flow; DMG captures value where organizations must arbitrate between competing priorities, formalize why, and retain reusable decision history.
 - DMG is stronger when it is framed as a system for designing behavior through explicit rules.
 - Many competitors compete by filtering and synthesizing mass expression after the interaction happens, while DMG structures interaction rules upstream.
 - DMG's stronger hypothesis is that you design the interaction rules upstream so meaningful behavior is generated before analysis.

@@ -18,7 +18,7 @@ Cross-tenant comparison surfaces should stay deferred until the platform has an 
 ## Why drift-threshold alerting first
 
 - it extends existing per-tenant health, failure-history, and trend infrastructure without opening a new data-sharing boundary
-- it fits current operator workflows where remediation is tenant-local and actionability is immediate
+- it fits current operator workflows where remediation is tenant-local and actionability is immediate, because the same tenant operator can acknowledge the alert, inspect failures, and tune threshold policy directly in the runtime-notification surface without cross-tenant escalation
 - it avoids introducing comparative rankings that can be noisy or misleading before normalization assumptions are explicit
 
 ## Why cross-tenant comparison is deferred

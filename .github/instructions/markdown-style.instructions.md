@@ -17,6 +17,7 @@ description: "Use when writing durable markdown in the strategy repo, especially
 - Before using a new acronym or sector abbreviation, check `strategy/glossary.md`. If the term is not already defined, add it to the glossary in the same slice before relying on it in durable notes.
 - Glossary-defined abbreviations are allowed in durable notes; do not rewrite them into full words just to avoid the acronym.
 - Keep glossary entries monolingual. If a note or entry is written in English, keep any retention marker, qualifier, or metadata in English as well; if a note or entry is written in French, keep that metadata in French as well.
+- When `strategy/glossary.md` changes, update `scripts/validate-markdown-style.mjs` in the same slice to keep glossary policy enforcement aligned with the current term set and section structure.
 
 ## Language
 

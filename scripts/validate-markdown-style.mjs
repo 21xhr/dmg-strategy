@@ -30,6 +30,15 @@ function getChangedMarkdownFiles() {
   });
 }
 
+function getChangedFiles() {
+  const output = runGit(['status', '--porcelain=v1', '--untracked-files=all']);
+  if (!output) {
+    return new Set();
+  }
+
+  return new Set(output.split(/\r?\n/).map((line) => line.slice(3)).filter(Boolean));
+}
+
 function loadGlossaryTerms() {
   const glossaryPath = path.join(repoRoot, 'strategy', 'glossary.md');
   if (!fs.existsSync(glossaryPath)) return new Set();
@@ -122,11 +131,13 @@ function findViolations(filePath, content, glossaryTerms) {
     }
   }
 
-  for (const match of content.matchAll(tokenPattern)) {
-    const token = match[0];
-    if (!allowedTokens.has(token) && !allowedTokens.has(token + 'É')) {
-        // Simple hack for MSSANTÉ vs MSSANT mismatch if the regex stops at accents
-        violations.push(`unlisted abbreviation: ${token}`);
+  if (filePath !== 'strategy/glossary.md') {
+    for (const match of content.matchAll(tokenPattern)) {
+      const token = match[0];
+      if (!allowedTokens.has(token) && !allowedTokens.has(token + 'É')) {
+          // Simple hack for MSSANTÉ vs MSSANT mismatch if the regex stops at accents
+          violations.push(`unlisted abbreviation: ${token}`);
+      }
     }
   }
 
@@ -134,6 +145,7 @@ function findViolations(filePath, content, glossaryTerms) {
 }
 
 const changedFiles = getChangedMarkdownFiles();
+const changedAllFiles = getChangedFiles();
 if (changedFiles.length === 0) {
   process.exit(0);
 }
@@ -146,6 +158,10 @@ const problems = [];
 
 if (glossaryViolations.length > 0) {
   problems.push(`strategy/glossary.md:\n  - ${glossaryViolations.join('\n  - ')}`);
+}
+
+if (changedAllFiles.has('strategy/glossary.md') && !changedAllFiles.has('scripts/validate-markdown-style.mjs')) {
+  problems.push('strategy/glossary.md:\n  - glossary changed without updating scripts/validate-markdown-style.mjs in the same slice');
 }
 
 for (const filePath of changedFiles) {

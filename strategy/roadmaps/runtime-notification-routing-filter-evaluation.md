@@ -23,9 +23,13 @@ Keep current routing boundaries and defer per-user filter logic until explicit t
 Open a dedicated implementation slice only if at least one of these conditions becomes true:
 
 - privacy policy requires role- or audience-specific suppression of selected runtime-notification intents
+- example: a tenant policy allows support operators to see runtime-health status but disallows delivery of patient-sensitive notification content.
 - transport volume requires user-level or segment-level shaping to prevent noisy event classes from reducing operator signal quality
+- example: session-tick notification volume degrades operator signal quality during peak usage and needs segment-specific suppression.
 - tenant-specific contractual requirements require stricter routing isolation than current tenant-scoped transport boundaries
+- example: an enterprise tenant contract requires runtime notifications for one business unit to be visible only to explicitly assigned operators.
 - provider-side policy constraints require selective delivery to specific participant segments
+- example: a provider policy change allows notifications only in approved role-scoped channels, requiring segment-aware delivery targeting.
 
 ## Guardrails for future implementation
 
@@ -39,5 +43,7 @@ If this work is reopened later:
 ## Recommended next step
 
 Continue with tenant-local drift-threshold alerting as the active runtime-notification implementation lane.
+
+This means operators can detect, acknowledge, and remediate alert conditions directly inside their tenant runtime-notification surface without waiting for cross-tenant normalization or platform-support mediation.
 
 Revisit routing-filter design only when trigger conditions become explicit in roadmap scope or tenant governance requirements.
