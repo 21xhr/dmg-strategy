@@ -2,11 +2,16 @@
 
 ## Objet
 
-Cette note conserve uniquement ce qui reste à clarifier après le premier
-échange et après le mail de suivi envoyé.
+Eric et Nathalie ont répondu positivement au mail de suivi du 2026-04-27. Rencontre confirmée vendredi matin (2026-05-01)
+à Saint Pair sur Mer pour discuter de l'exploration des idées avec leurs partenaires et des modalités de collaboration.
 
 Le mail envoyé est archivé dans
 [external-network/network-contacts/Eric-and-Nathalie-Conseil-Evolution/2026-04-27-follow-up-mail.md](external-network/network-contacts/Eric-and-Nathalie-Conseil-Evolution/2026-04-27-follow-up-mail.md).
+
+## Réponse d'Eric (2026-04-27)
+
+Eric et Nathalie expriment leur intérêt. L'échange précédent leur a donné des idées à tester avec leurs partenaires.
+Ils souhaitent approfondir ces idées et convenir des modalités de collaboration avant de les soumettre aux partenaires.
 
 ## Ce qu'il reste à vérifier
 
@@ -17,5 +22,11 @@ Le mail envoyé est archivé dans
 
 ## Prochaine suite crédible
 
-- Attendre le retour au mail envoyé.
-- Sans réponse sous 8 à 10 jours, envoyer une relance courte centrée sur un cas d'usage concret, une structure précise ou un interlocuteur nommé.
+## Points de préparation pour la rencontre vendredi
+
+- Récapituler les idées principales échangées (structuration amont du signal, participation, arbitrage)
+- Préparer hypothèse la plus crédible sur le wedge (où DMG s'ajoute sans friction)
+- Exemples concrets de friction observée (saisie, cartographie, exploitation) et coût approximatif
+- Proposer timeline et structure pour les tests avec les partenaires
+- Clarifier l'interlocuteur principal chez les partenaires pour itérations rapides
+- Discuter des modalités de collaboration (structure d'engagement, timeline, confidentialité si applicable)
