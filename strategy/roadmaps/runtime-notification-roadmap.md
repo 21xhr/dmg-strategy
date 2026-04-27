@@ -12,14 +12,15 @@ Documentation placement and repo-governance rules are defined in `system-archite
 
 ## Current state
 
-Challenge lifecycle subscribers currently log major events but do not yet fan out notifications to runtime consumers.
+Runtime notifications are already on explicit delivery boundaries in the workspace repo.
 
 Today that means:
 
-- `src/eventSubscribers/notificationService.ts` currently records notification-relevant lifecycle events without delivering them to runtime transports
-- websocket fanout is not yet expressed as a stable application boundary
-- provider-backed public messaging is not yet modeled as a reusable delivery interface
-- event producers remain clean, but notification delivery is deferred rather than explicitly designed
+- challenge events map to transport-agnostic notification intents
+- websocket fanout and provider-backed transport delivery are active behind dedicated transport adapters
+- notification health reporting includes transport metrics, dead-letter history, and trend summaries
+- failure-threshold configuration is tenant-backed and visible in the operator runtime-notification surface
+- persisted runtime-notification health history survives process restarts for trend and failure-history review
 
 ## Architecture to preserve
 
@@ -43,9 +44,11 @@ That target includes:
 
 ## Next suggested slice
 
-- completed slices: explicit payload mapping, websocket transport adapter, subscriber bridge for active listeners, provider-backed delivery policy, provider transport adapter, throttling signals, retry posture, queue-backed delivery, transport-level metrics, provider transport health reporting, dead-letter style handling for repeated public-message failures, operator-visible notification status reporting, recurring failure history with repeated-failure alerting signals, operator-facing trend summaries (failure rates by time window, trend direction, common failure causes), configurable failure threshold via environment variable, and persisted runtime-notification health history for cross-restart retention
-- next suggested slice: (road complete) next opportunity is to add alerting on configured drift thresholds or cross-tenant comparison surfaces if capacity and operational value justify
-- farther move: evaluate whether event routing should include tenant-specific or per-user filtering if privacy or traffic-shaping requirements emerge
+- completed slices: explicit payload mapping, websocket transport adapter, subscriber bridge for active listeners, provider-backed delivery policy, provider transport adapter, throttling signals, retry posture, queue-backed delivery, transport-level metrics, provider transport health reporting, dead-letter style handling for repeated public-message failures, operator-visible notification status reporting, recurring failure history with repeated-failure alerting signals, operator-facing trend summaries (failure rates by time window, trend direction, common failure causes), configurable failure threshold via tenant policy, persisted runtime-notification health history for cross-restart retention, and decision framing for drift-threshold alerting versus cross-tenant comparison surfaces
+- next suggested slice: implement tenant-local drift-threshold alerting on top of the existing runtime trend surface, with explicit thresholds and acknowledgement flow in the operator runtime-notification surface
+- farther move: evaluate tenant-specific and per-user runtime-notification routing filters only when privacy segmentation or traffic shaping requirements become explicit
+
+This slice is captured in [runtime notification drift-threshold and comparison decision](runtime-notification-drift-threshold-and-comparison-decision.md).
 
 ## Migration phases
 

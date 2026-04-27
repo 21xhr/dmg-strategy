@@ -179,8 +179,9 @@ Status:
 
 - tracked in [strategy/roadmaps/runtime-notification-roadmap.md](roadmaps/runtime-notification-roadmap.md)
 - session-completed and challenge-completed emission remain separate signals before transport fanout depends on them
-- explicit payload mapping, websocket transport adapter, active-subscriber bridge, provider delivery policy, provider transport adapter, throttling signals, retry posture, queue-backed delivery, and transport metrics are in place for the runtime delivery boundary
-- next suggested slice: add provider transport health reporting and dead-letter style handling for repeated public-message failures
+- explicit payload mapping, websocket transport adapter, active-subscriber bridge, provider delivery policy, provider transport adapter, throttling signals, retry posture, queue-backed delivery, transport metrics, provider transport health reporting, dead-letter handling, operator-visible runtime status reporting, trend summaries, and persisted health history are in place for the runtime delivery boundary
+- drift-threshold versus cross-tenant comparison sequencing is captured in [runtime-notification-drift-threshold-and-comparison-decision.md](roadmaps/runtime-notification-drift-threshold-and-comparison-decision.md)
+- next suggested slice: implement tenant-local drift-threshold alerting and acknowledgement flow in the runtime-notification operator surface
 
 Why this is now active:
 
@@ -191,7 +192,7 @@ Checkpoint to start this track cleanly:
 
 - notification transport boundaries stay explicit before presentation logic starts depending on them
 - session-finalization events stay distinguishable from end-of-challenge events in the scheduler and notification hub
-- farther move: add operator-visible notification status reporting once transport health is measurable
+- farther move: evaluate tenant-specific and per-user notification-routing filters when privacy segmentation or traffic-shaping requirements become explicit
 
 #### 2. Market research and competition mapping
 
