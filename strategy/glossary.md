@@ -89,7 +89,7 @@ Terms within each category are ordered alphabetically.
 - pilot: a limited real-world deployment with one customer or user group, one clear use case, and explicit success criteria
 - SWOT: Strengths, Weaknesses, Opportunities, Threats, a structured strategic analysis framework
 - vertical: a specific market segment or industry with its own users, constraints, buying logic, and use cases
-- wedge: anglicisme toléré, first narrow market entry point for validating adoption before broader expansion
+- wedge: tolerated anglicism, first narrow market entry point for validating adoption before broader expansion
 
 ## Organizational and sector terms
 

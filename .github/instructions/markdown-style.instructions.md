@@ -16,6 +16,7 @@ description: "Use when writing durable markdown in the strategy repo, especially
 
 - Before using a new acronym or sector abbreviation, check `strategy/glossary.md`. If the term is not already defined, add it to the glossary in the same slice before relying on it in durable notes.
 - Glossary-defined abbreviations are allowed in durable notes; do not rewrite them into full words just to avoid the acronym.
+- Keep glossary entries monolingual. If a note or entry is written in English, keep any retention marker, qualifier, or metadata in English as well; if a note or entry is written in French, keep that metadata in French as well.
 
 ## Language
 
@@ -25,4 +26,6 @@ description: "Use when writing durable markdown in the strategy repo, especially
 ## Note hygiene
 
 - When a durable note is renamed or moved, delete the stale source file in the same slice unless a one-line redirect is intentionally needed during the transition.
+- Delete obsolete zero-information files outright when no active transition need exists. Do not keep empty `obsolete` stubs just because a file existed earlier.
+- When a backlog item or lane is promoted into a dedicated roadmap or another focused durable note, remove the superseded backlog text in the same slice unless the backlog still carries distinct unscheduled work.
 
