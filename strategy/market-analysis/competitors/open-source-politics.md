@@ -1,5 +1,7 @@
 # Open Source Politics
 
+**Snapshot date**: 2026-04-16
+
 ## Why this file matters
 
 Open Source Politics matters because it represents the service and implementation layer around Decidim in France more clearly than Decidim alone.

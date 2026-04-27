@@ -1,5 +1,7 @@
 # IMAGO YouTube Transcript Corpus
 
+**Snapshot date**: 2026-04-25
+
 ## Purpose
 
 This folder holds plain-text transcripts imported from the local Downloads transcript folder.

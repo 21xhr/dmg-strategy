@@ -1,5 +1,7 @@
 # Evolucare IMAGO
 
+**Snapshot date**: 2026-04-27
+
 ## Why this file matters
 
 IMAGO matters because it is a serious, broad medico-social operating stack in the exact neighborhood where DMG may try to prove value next.

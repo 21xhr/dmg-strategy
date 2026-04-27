@@ -1,7 +1,7 @@
 # Wrike Customer Stories — Extracted Survey
 
 **Source**: https://www.wrike.com/customer-stories/  
-**Date**: 2026-04-27
+**Snapshot date**: 2026-04-27
 
 ## Overview
 

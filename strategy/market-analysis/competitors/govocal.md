@@ -1,5 +1,7 @@
 # Go Vocal
 
+**Snapshot date**: 2026-04-16
+
 ## Why this file matters
 
 Go Vocal matters because it is a serious commercial participation platform rather than a mostly civic-cause-centered consultation brand.

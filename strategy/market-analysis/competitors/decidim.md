@@ -1,5 +1,7 @@
 # Decidim
 
+**Snapshot date**: 2026-04-16
+
 ## Why this file matters
 
 Decidim matters because it is one of the clearest examples of participation infrastructure being treated as democratic architecture rather than only as a hosted consultation service.

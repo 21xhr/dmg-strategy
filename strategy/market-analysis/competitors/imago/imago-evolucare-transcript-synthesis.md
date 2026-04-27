@@ -1,5 +1,7 @@
 # IMAGO Transcript Synthesis
 
+**Snapshot date**: 2026-04-25
+
 ## Source corpus
 
 This note summarizes the imported transcript corpus under [IMAGO YouTube Transcript Corpus](../imago-evolucare-transcripts/README.mdDME.md).

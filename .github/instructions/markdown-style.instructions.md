@@ -29,3 +29,10 @@ description: "Use when writing durable markdown in the strategy repo, especially
 - Delete obsolete zero-information files outright when no active transition need exists. Do not keep empty `obsolete` stubs just because a file existed earlier.
 - When a backlog item or lane is promoted into a dedicated roadmap or another focused durable note, remove the superseded backlog text in the same slice unless the backlog still carries distinct unscheduled work.
 
+## Research snapshots
+
+- For competitor research notes under `strategy/market-analysis/competitors/**`, include a `Snapshot date` field near the top of the note.
+- On note creation, set `Snapshot date` to the creation date.
+- On substantive updates, refresh `Snapshot date` to the update date in the same slice.
+- When recovering or normalizing existing competitor notes, use the file's latest Git change date as the initial `Snapshot date` baseline.
+

@@ -30,12 +30,15 @@ Terms within each category are ordered alphabetically.
 - CTO: Chief Technology Officer, responsible for technology strategy and engineering leadership
 - DMG: Decision Making Governance (subject to change)
 - dilution: the percentage of ownership given up when issuing shares to investors
+- EBITDA: Earnings Before Interest, Taxes, Depreciation, and Amortization, an operating-profitability indicator
 - LOI: Letter of Intent
 - LTV: Lifetime Value
 - MRR: Monthly Recurring Revenue
 - MVP: Minimum Viable Product
+- NV: Naamloze Vennootschap, a Dutch or Belgian public limited company legal form
 - PMF: Product Market Fit
 - pre-money valuation: the company's assessed value before investment money comes in
+- SAS: Societe par Actions Simplifiee, a French legal company form commonly used by venture-backed startups
 - TAM: Total Addressable Market
 
 ## Technical terms
@@ -87,7 +90,9 @@ Terms within each category are ordered alphabetically.
 - DSS: Decision Support Systems, software systems designed to support decision-making in semi-structured or complex contexts
 - moat: a defensible competitive advantage that makes a product harder to displace
 - pilot: a limited real-world deployment with one customer or user group, one clear use case, and explicit success criteria
+- RDI: Recherche, Developpement et Innovation, public-aid and tax-incentive framing used for innovation activities
 - SWOT: Strengths, Weaknesses, Opportunities, Threats, a structured strategic analysis framework
+- TS: acronym used in legal-entity names such as TS Holding; treat as a proper-name token in company-structure notes
 - vertical: a specific market segment or industry with its own users, constraints, buying logic, and use cases
 - wedge: tolerated anglicism, first narrow market entry point for validating adoption before broader expansion
 
@@ -97,6 +102,8 @@ Terms within each category are ordered alphabetically.
 - ARS: Agence Regionale de Sante, the French regional health authority
 - CA: Conseil d'Administration, the governing board of an association or similar organization
 - CSE: Comite Social et Economique, the elected staff-representation body consulted on defined employment and workplace matters
+- CESE: Conseil Economique, Social et Environnemental, French constitutional consultative assembly
+- CNDP: Commission Nationale du Debat Public, French public body supervising large-scale public consultation processes
 - DG: Directeur general, equivalent to general management or director-general level depending on context
 - DUERP: Document Unique d'Evaluation des Risques Professionnels, the mandatory workplace risk-evaluation document
 - EHPAD: Etablissement d'Hebergement pour Personnes Agees Dependantes
@@ -106,9 +113,16 @@ Terms within each category are ordered alphabetically.
 - HR: Human Resources
 - IME: Institut Medico-Educatif
 - ITEP: Institut Therapeutique, Educatif et Pedagogique
+- NYC: New York City, municipal-government context appearing in civic-tech deployment references
+- OECD: Organisation for Economic Co-operation and Development, international organization publishing policy and public-governance analyses
 - PCA: Plan de Continuite d'Activite, the continuity-planning document for maintaining service during disruption
 - SDI: Schema Directeur des Systemes d'Information, a strategic information-systems framework for organizing objectives, priorities, and system evolution
+- UK: United Kingdom, country abbreviation used in procurement and market references
 - codir: comite de direction, the internal leadership group where cross-cutting operational and strategic issues are escalated
+
+## Numeric marker terms
+
+- II: Roman numeral two, commonly used in legal-entity naming conventions (for example fund vehicles or subsidiary suffixes)
 
 ## Organizations mentioned in current outreach notes
 

@@ -1,3 +1,5 @@
+**Snapshot date**: 2026-04-25
+
 ## 1. Coût, gouvernance et décision
 
 L’avantage DMG réside dans la capacité à proposer une couche de gouvernance agile, là où IMAGO (et la plupart des ERP) nécessitent des développements lourds et coûteux pour intégrer ce type de workflow décisionnel.

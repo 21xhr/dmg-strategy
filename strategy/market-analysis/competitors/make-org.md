@@ -1,5 +1,7 @@
 # Make.org
 
+**Snapshot date**: 2026-04-16
+
 ## Why this file matters
 
 Make.org is worth deeper analysis because it appears to be more than a generic civic-participation product.
