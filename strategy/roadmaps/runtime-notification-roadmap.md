@@ -44,12 +44,20 @@ That target includes:
 
 ## Next suggested slice
 
-- completed slices: explicit payload mapping, websocket transport adapter, subscriber bridge for active listeners, provider-backed delivery policy, provider transport adapter, throttling signals, retry posture, queue-backed delivery, transport-level metrics, provider transport health reporting, dead-letter style handling for repeated public-message failures, operator-visible notification status reporting, recurring failure history with repeated-failure alerting signals, operator-facing trend summaries (failure rates by time window, trend direction, common failure causes), configurable failure threshold via tenant policy, persisted runtime-notification health history for cross-restart retention, decision framing for drift-threshold alerting versus cross-tenant comparison surfaces, tenant-local drift-threshold alert acknowledgement flow in the operator runtime-notification surface, and shareable documentation of drift-alert policy ownership, acknowledgement semantics, and operator action boundaries in [runtime-notification-drift-alert-policy.md](../dmg-workspace/apps/docs/system-architecture/runtime-notification-drift-alert-policy.md)
-- next suggested slice: extend operator dashboard to display acknowledgement history and per-tenant drift-alert audit trail, making operator and owner review of alert lifecycle visible without requiring database queries
+- completed slices: explicit payload mapping, websocket transport adapter, subscriber bridge for active listeners, provider-backed delivery policy, provider transport adapter, throttling signals, retry posture, queue-backed delivery, transport-level metrics, provider transport health reporting, dead-letter style handling for repeated public-message failures, operator-visible notification status reporting, recurring failure history with repeated-failure alerting signals, operator-facing trend summaries (failure rates by time window, trend direction, common failure causes), configurable failure threshold via tenant policy, persisted runtime-notification health history for cross-restart retention, decision framing for drift-threshold alerting versus cross-tenant comparison surfaces, tenant-local drift-threshold alert acknowledgement flow in the operator runtime-notification surface, shareable documentation of drift-alert policy ownership, acknowledgement semantics, and operator action boundaries in [runtime-notification-drift-alert-policy.md](runtime-notification-drift-alert-policy), and operator-surface acknowledgement history with tenant-scoped drift-alert audit trail visibility
+- active phase: Phase 4 - Hardening and observability
+- next suggested slice (Phase 4): add a tenant-facing escalation handoff workflow for drift-alert incidents so operators can persist escalation context and route the handoff through explicit owner or engineering follow-up paths
 - farther move completed: tenant-specific and per-user runtime-notification routing filters are evaluated and deferred behind explicit trigger criteria in [runtime-notification-routing-filter-evaluation.md](runtime-notification-routing-filter-evaluation.md)
 - farther move next opportunity: open a dedicated implementation slice only if privacy segmentation, traffic-shaping constraints, or contractual routing requirements become explicit
 
 This slice is captured in [runtime notification drift-threshold and comparison decision](runtime-notification-drift-threshold-and-comparison-decision.md).
+
+## Phase status snapshot
+
+- Phase 1 - Notification boundary definition: completed
+- Phase 2 - Websocket transport: completed
+- Phase 3 - Provider-backed public messaging: completed
+- Phase 4 - Hardening and observability: active (current slice is tenant-facing escalation handoff workflow)
 
 ## Migration phases
 
