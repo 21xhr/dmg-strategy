@@ -77,7 +77,8 @@ Current extracted strategy docs:
 - `strategy/competitive-positioning.md`
 - `strategy/participation-and-adoption.md`
 - `strategy/uncertainty-reduction.md`
-- `strategy/source-material-workflow.md`
+- `strategy/governance-event-architecture.md`
+- `strategy/implementation-slice-workflow.md`
 - `strategy/decision-support-boundaries.md`
 
 Current extracted fundraising notes:
@@ -196,7 +197,25 @@ Checkpoint to start this track cleanly:
 - session-finalization events stay distinguishable from end-of-challenge events in the scheduler and notification hub
 - farther move: evaluate tenant-specific and per-user notification-routing filters when privacy segmentation or traffic-shaping requirements become explicit
 
-#### 2. Market research and competition mapping
+#### 2. Streaming governance workflow expansion
+
+Goal:
+
+- prove the governance-event direction in the streaming wedge with complete workflow-state, event-history, and projection surfaces
+- land at least two stream-operations governance workflows that are reusable across streamer tenants
+
+Status:
+
+- tracked in [strategy/roadmaps/streaming-governance-workflow-roadmap.md](roadmaps/streaming-governance-workflow-roadmap.md)
+- first workflow base is in progress through runtime-notification drift-alert acknowledgement and escalation slices
+- next suggested slice: start workflow-2 design for moderation-arbitration event and projection boundaries
+
+Why this is now active:
+
+- streaming has lower integration friction and shared platform constraints, so workflow proof points can land faster
+- two complete workflow implementations provide stronger evidence that DMG is a governance-event system rather than one isolated feature
+
+#### 3. Market research and competition mapping
 
 Goal:
 
@@ -217,7 +236,7 @@ Why this is now active:
 
 ### Next
 
-#### 3. Observability and frontend foundation
+#### 4. Observability and frontend foundation
 
 Goal:
 

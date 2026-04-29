@@ -42,22 +42,81 @@ That target includes:
 - policy-based throttling or suppression for noisy event classes such as session ticks
 - testable notification orchestration that can be exercised without coupling domain services to live transports
 
-## Next suggested slice
-
-- completed slices: explicit payload mapping, websocket transport adapter, subscriber bridge for active listeners, provider-backed delivery policy, provider transport adapter, throttling signals, retry posture, queue-backed delivery, transport-level metrics, provider transport health reporting, dead-letter style handling for repeated public-message failures, operator-visible notification status reporting, recurring failure history with repeated-failure alerting signals, operator-facing trend summaries (failure rates by time window, trend direction, common failure causes), configurable failure threshold via tenant policy, persisted runtime-notification health history for cross-restart retention, decision framing for drift-threshold alerting versus cross-tenant comparison surfaces, tenant-local drift-threshold alert acknowledgement flow in the operator runtime-notification surface, shareable documentation of drift-alert policy ownership, acknowledgement semantics, and operator action boundaries in [runtime-notification-drift-alert-policy.md](runtime-notification-drift-alert-policy), and operator-surface acknowledgement history with tenant-scoped drift-alert audit trail visibility
-- active phase: Phase 4 - Hardening and observability
-- next suggested slice (Phase 4): add a tenant-facing escalation handoff workflow for drift-alert incidents so operators can persist escalation context and route the handoff through explicit owner or engineering follow-up paths
-- farther move completed: tenant-specific and per-user runtime-notification routing filters are evaluated and deferred behind explicit trigger criteria in [runtime-notification-routing-filter-evaluation.md](runtime-notification-routing-filter-evaluation.md)
-- farther move next opportunity: open a dedicated implementation slice only if privacy segmentation, traffic-shaping constraints, or contractual routing requirements become explicit
-
-This slice is captured in [runtime notification drift-threshold and comparison decision](runtime-notification-drift-threshold-and-comparison-decision.md).
+Execution structure and handoff rules live in [implementation-slice-workflow.md](../implementation-slice-workflow.md).
 
 ## Phase status snapshot
 
 - Phase 1 - Notification boundary definition: completed
 - Phase 2 - Websocket transport: completed
 - Phase 3 - Provider-backed public messaging: completed
-- Phase 4 - Hardening and observability: active (current slice is tenant-facing escalation handoff workflow)
+- Phase 4 - Hardening and observability: active
+
+## Phase 4 execution board
+
+### Phase-4 Slice-1 - Drift-alert acknowledgement audit trail visibility
+
+Status: completed
+
+Completed outcome:
+
+- tenant-scoped acknowledgement history is persisted and returned in runtime-notification status
+- operator runtime-notification surface shows acknowledgement history entries
+
+### Phase-4 Slice-2 - Escalation handoff workflow for drift alerts
+
+Status: next
+
+Objective:
+
+- let operators create an explicit escalation handoff record for drift-alert incidents with structured context and target follow-up path
+
+In scope:
+
+- persistence model for escalation handoff records, tenant-scoped
+- operator API contract and routes for creating and listing handoff records
+- admin runtime-notification UI section for creating and reviewing handoff records
+- role checks aligned with existing operator-write boundaries and the current read-only support role
+
+Out of scope:
+
+- cross-tenant escalation routing
+- external ticket-system integration
+- automatic pager or webhook dispatch
+
+Concrete implementation slices:
+
+- Phase-4 Slice-2A: data model and migration for escalation handoff records
+- Phase-4 Slice-2B: contracts and API routes (create/list) with role and tenant enforcement
+- Phase-4 Slice-2C: admin UI form plus history panel for escalation handoff
+- Phase-4 Slice-2D: tests and shareable doc updates for new workflow surface
+
+Acceptance criteria:
+
+- operator-write sessions can create a tenant-scoped escalation handoff record
+- support sessions can read handoff history but cannot create records
+- runtime-notification status view includes visible escalation handoff history in admin UI
+- contract validations pass in browser-generated guards
+
+Validation commands:
+
+- `pnpm --filter @dmg/tooling run codegen:web-contracts`
+- `pnpm --filter @dmg/contracts build`
+- `pnpm --filter dmg-api build`
+- `pnpm --filter dmg-api test -- runtimeNotificationService`
+
+Manager checkpoint before marking completed:
+
+- verify acceptance criteria list is fully checked
+- verify validation commands pass without bypass
+- verify roadmap is updated to move Phase-4 Slice-2 to completed and promote next slice
+
+## Farther moves
+
+- completed: tenant-specific and per-user runtime-notification routing filters are evaluated and deferred behind explicit trigger criteria in [runtime-notification-routing-filter-evaluation.md](runtime-notification-routing-filter-evaluation.md)
+- next opportunity: open a dedicated implementation slice only if privacy segmentation, traffic-shaping constraints, or contractual routing requirements become explicit
+- companion roadmap: streaming governance workflow expansion is tracked in [streaming-governance-workflow-roadmap.md](streaming-governance-workflow-roadmap.md)
+
+Decision context is captured in [runtime notification drift-threshold and comparison decision](runtime-notification-drift-threshold-and-comparison-decision.md).
 
 ## Migration phases
 

@@ -38,6 +38,7 @@ It should not become a second documentation tree.
 - The decision-maker sees not only what people say they want, but what different participants are prepared to support under explicit rules.
 - DMG isn't “just a highly customized tool” but a configurable governance architecture with tenant-specific rule design.
 - **DMG becomes infrastructure for legible collective decision-making under tenant-specific rules**
+- A durable product line to test repeatedly: tenant-scoped governance workflows plus tenant-scoped governance event history, with reusable workflow modules activated per tenant profile.
 - **Is DMG less democratic?** DMG can make weighting explicit instead of letting loudness, free time, or raw activity become the hidden weighting system.
 - DMG aims to structure how influence is earned, constrained, and spent so the **resulting behavior is more decision-grade** under real execution limits.
 - The stronger product hypothesis is to design system rules that generate decision-grade participation upstream.

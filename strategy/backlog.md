@@ -23,7 +23,7 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 ### Runtime notifications
 
 - runtime notification transport is now tracked in `strategy/roadmaps/runtime-notification-roadmap.md`
-- add a tenant-facing drift-alert escalation handoff workflow so operator sessions can persist escalation context and route owner or engineering follow-up through explicit workflow state
+- streaming-governance workflow expansion is tracked in `strategy/roadmaps/streaming-governance-workflow-roadmap.md`
 
 ### Documentation tooling
 
@@ -102,7 +102,7 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 - decide whether ADRs should exist as a lightweight standing format for cross-repo boundary choices, and if so where they should live and how they should be linked from roadmap work
 - capture the current web-on-Vercel plus API-on-Render deployment model as an ADR once the first production deployment path is exercised end to end, including the rationale for keeping the API on a conventional Node-service host
 - include in that ADR the validation-stage infrastructure posture: why low-cost hosting is acceptable for pre-money validation, what makes it still credible, and which triggers should force the move to paid or more operationally capable infrastructure
-- define protected-path review controls for deployment manifests, reset scripts, secret-handling code, and maintenance-entrypoint changes, including whether code-owner rules or CI approval checks should gate those files
+- define protected-path review controls for deployment manifests, reset scripts, secret-handling code, maintainer policy files (including Copilot instructions and documentation-update policy files), and maintenance-entrypoint changes, including whether code-owner rules or CI approval checks should gate those files
 
 ## Working rule
 
