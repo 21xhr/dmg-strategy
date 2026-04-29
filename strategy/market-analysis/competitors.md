@@ -25,6 +25,16 @@ The useful questions are:
 - Productboard
 - Productroad-style tools
 
+### Configurable workflow and scoring platforms
+
+- Airtable
+- Wrike
+
+Why they matter:
+
+- they prove teams adopt flexible scoring and workflow automation quickly
+- they show where operational governance can look like decision support without fully covering strategic arbitration reuse
+
 Why they matter:
 
 - they prove roadmap arbitration and customer-prioritization workflow are real buying categories
@@ -87,8 +97,9 @@ Why they matter:
 
 ## Individual research notes
 
-- [[strategy/market-analysis/competitors/make-org]]
-- [[strategy/market-analysis/competitors/govocal]]
-- [[strategy/market-analysis/competitors/decidim]]
-- [[strategy/market-analysis/competitors/open-source-politics]]
-- [[imago-evolucare]]
+- [strategy/market-analysis/competitors/make-org.md](strategy/market-analysis/competitors/make-org.md)
+- [strategy/market-analysis/competitors/govocal.md](strategy/market-analysis/competitors/govocal.md)
+- [strategy/market-analysis/competitors/decidim.md](strategy/market-analysis/competitors/decidim.md)
+- [strategy/market-analysis/competitors/open-source-politics.md](strategy/market-analysis/competitors/open-source-politics.md)
+- [strategy/market-analysis/competitors/imago/imago-evolucare.md](strategy/market-analysis/competitors/imago/imago-evolucare.md)
+- [strategy/market-analysis/competitors/airtable.md](strategy/market-analysis/competitors/airtable.md)

@@ -84,6 +84,18 @@ Secondary objective:
 
 ## Immediate next artifacts
 
-- Add a concise competition watchlist note from the collective-intelligence map.
-- Add one DSS architecture comparison table in this folder.
-- Update `strategy/backlog.md` with a dedicated market-research lane if ongoing cadence is confirmed.
+- Completed on 2026-04-30: concise competition watchlist plus taxonomy baseline in [strategy/market-analysis/market-researches/2026-04-30-dss-taxonomy-and-watchlist.md](strategy/market-analysis/market-researches/2026-04-30-dss-taxonomy-and-watchlist.md).
+- Completed on 2026-04-30: architecture deep dives plus cross-architecture comparison table in [strategy/market-analysis/market-researches/2026-04-30-dss-architecture-deep-dives-and-comparison.md](strategy/market-analysis/market-researches/2026-04-30-dss-architecture-deep-dives-and-comparison.md).
+- Completed on 2026-04-30: governance overlay and reusable checklist in [strategy/market-analysis/market-researches/2026-04-30-regulatory-governance-overlay.md](strategy/market-analysis/market-researches/2026-04-30-regulatory-governance-overlay.md).
+- Completed on 2026-04-30: Airtable boundary note in [strategy/market-analysis/competitors/airtable.md](strategy/market-analysis/competitors/airtable.md).
+
+## SWOT evidence-linking method
+
+When a new market-research note introduces a claim that changes DMG's strategic reading, add one evidence link in the affected strategy note using this shape:
+
+- Claim changed:
+- Why it changed:
+- Evidence source:
+- Implication for DMG boundary:
+
+Only add synthesized implications to strategy notes. Keep raw research and source detail in market-research notes.

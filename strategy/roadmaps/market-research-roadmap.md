@@ -31,6 +31,14 @@ What is still missing is the operating shape.
 
 Today the research material is informative, but not yet structured into a scalable sequence of recurring outputs.
 
+Implementation update (2026-04-30):
+
+- the taxonomy and watchlist operating shape now exists in `strategy/market-analysis/market-researches/2026-04-30-dss-taxonomy-and-watchlist.md`
+- the architecture deep-dive and comparison baseline now exists in `strategy/market-analysis/market-researches/2026-04-30-dss-architecture-deep-dives-and-comparison.md`
+- the governance and regulatory overlay now exists in `strategy/market-analysis/market-researches/2026-04-30-regulatory-governance-overlay.md`
+- one Airtable competitor-boundary note now exists in `strategy/market-analysis/competitors/airtable.md`
+- one explicit SWOT evidence-linking method now exists in `strategy/market-analysis/market-researches/2026-04-27-market-research-program-notes.md`
+
 ## Completion criteria
 
 This roadmap can be considered complete when these conditions are true:
@@ -65,12 +73,14 @@ That includes:
 
 ## Next suggested slice
 
-- next suggested slice: build the broad taxonomy table for DSS and create the first competition watchlist note from the collective-intelligence map
-- farther move: split the roadmap outputs into recurring update notes if the cadence becomes frequent enough to justify a standing review cycle
+- next suggested slice: run one governance-checklist refresh pass across existing competitor notes to normalize direct-vs-adjacent boundaries with the new routing rules
+- farther move: if monthly update cadence is confirmed, split the watchlist into recurring monthly snapshots and archive old snapshots under a dated sequence
 
 ## Migration phases
 
 ### Phase 1 - Taxonomy foundation
+
+Status: completed on 2026-04-30
 
 Goal:
 
@@ -89,6 +99,8 @@ Checkpoint signals:
 
 ### Phase 2 - Competition watchlist
 
+Status: completed on 2026-04-30
+
 Goal:
 
 - separate direct competitors from adjacent categories that only overlap partially with DMG
@@ -105,6 +117,8 @@ Checkpoint signals:
 - the watchlist can support both strategy conversations and fundraising positioning
 
 ### Phase 3 - Architecture deep dives
+
+Status: completed on 2026-04-30
 
 Goal:
 
@@ -123,6 +137,8 @@ Checkpoint signals:
 
 ### Phase 4 - Regulatory and governance overlay
 
+Status: completed on 2026-04-30
+
 Goal:
 
 - integrate auditability, human oversight, and regulatory constraints into the market map rather than treat them as an afterthought
@@ -139,6 +155,8 @@ Checkpoint signals:
 - governance claims in future notes become more specific and source-backed
 
 ### Phase 5 - SWOT and strategy integration
+
+Status: completed on 2026-04-30
 
 Goal:
 
