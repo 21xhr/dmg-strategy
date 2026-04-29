@@ -10,15 +10,29 @@ Add more detail only when a directory becomes hard to navigate or a specific not
 
 ## Notes
 
-- backlog
+### Planning anchors
+
 - roadmap
-- market analysis
-- market verticals
-- competitive positioning
-- participation and adoption
-- uncertainty reduction
-- moat and portable identity
-- service company wedge
-- investor-facing service company note
-- integrated support as moat
-- source-material workflow
+- backlog
+- roadmaps/
+
+### Governance architecture and execution
+
+- governance-event-architecture
+- implementation-slice-workflow
+- decision-support-boundaries
+
+### Strategy thesis and positioning
+
+- market-verticals
+- competitive-positioning
+- participation-and-adoption
+- uncertainty-reduction
+- moat-and-portable-identity
+- integrated-support-as-moat
+- service-company-positioning-wedge
+- service-company-positioning-investor-note
+
+### Research and analysis
+
+- market-analysis/
