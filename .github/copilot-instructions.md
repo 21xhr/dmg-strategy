@@ -10,7 +10,9 @@ This is the strategy repo.
 - private release notes, baseline manifests, and working workflow notes
 
 ## Core behavior
-- Write notes as durable planning material, not as answers to the last chat prompt.
+- Write notes as durable planning material.
+- Keep each note scoped to its own durable purpose; if guidance applies across multiple notes or future execution work, move it to a broader workflow or policy note instead of embedding it in one local note.
+- Do not write repo notes as direct replies to chat questions unless the user explicitly asks for transcript-style or message-ready content.
 - Preserve clean documentation tone. Avoid rhetorical questions, filler bridges, and wording that reads like inline chat.
 - Use glossary-defined abbreviations when they are already established in `strategy/glossary.md`; do not expand them back into full phrases just to avoid the acronym.
 - Use explicit, human-readable commit messages that name the concrete slice that landed. Avoid umbrella labels when the change is really a smaller route, policy, or doc boundary.
@@ -43,6 +45,7 @@ This is the strategy repo.
 - Do not yield early with a partial implementation when the request clearly asks for completion.
 
 ## Planning and roadmap handling
+- For reusable slice-execution structure and handoff rules, follow `strategy/implementation-slice-workflow.md` rather than inventing ad hoc protocol text inside one roadmap.
 - Before landing strategy or architecture-impacting material, check `strategy/backlog.md` and any relevant `strategy/roadmaps/` note so new work stays aligned with the tracked plan.
 - When a backlog item or lane becomes concrete enough to move into a dedicated roadmap, remove the superseded backlog bullets in the same slice unless the backlog still holds distinct unscheduled work.
 - When a backlog item or lane becomes concrete enough to move into a dedicated roadmap, remove the superseded backlog bullets in the same slice instead of leaving a tracker pointer unless the backlog still holds distinct unscheduled work.

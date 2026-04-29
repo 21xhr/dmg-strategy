@@ -8,7 +8,7 @@ Use it when the conversation starts collapsing into generic engagement, polling,
 
 Keep sequencing, founder-risk, and trust-layer objections in their dedicated briefs so this note stays focused on thesis and economics.
 
-Source note: [[strategy/investor-facing-service-company-note]].
+Source note: [[strategy/service-company-positioning-investor-note]].
 
 ## Core pitch
 

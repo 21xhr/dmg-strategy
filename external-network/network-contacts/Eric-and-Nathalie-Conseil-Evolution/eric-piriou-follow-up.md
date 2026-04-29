@@ -66,7 +66,7 @@ Ils souhaitent approfondir ces idées et convenir des modalités de collaboratio
 
 ## Support de livraison oral
 
-Voir [eric-poriou-oral-cheat-sheet.md](eric-poriou-oral-cheat-sheet.md) pour trois versions du pitch :
+Voir [eric-poriou-oral-cheat-sheet.md](eric-poriou-oral-cheat-sheet) pour trois versions du pitch :
 - **30 secondes** : one-liner + fermeture engageante.
 - **2 minutes** : contexte opérationnel vs stratégique, exemple Wrike, où DMG s'insère.
 - **5 minutes** : histoire complète, méthodologie comme différenciation durable, illustration d'arbitrage réel.
