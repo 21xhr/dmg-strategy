@@ -20,11 +20,6 @@ Shareable documentation placement and instruction-boundary rules are defined in 
 - decide whether future tenant-specific cost logic should remain one shared quadratic formula with parameters or open a clearer per-tenant pricing-rule boundary
 - open item: split removal settlement and refund orchestration out of `challengeService.ts` into smaller service boundaries once the current tenant-config migration stabilizes
 
-### Runtime notifications
-
-- runtime notification transport is now tracked in `strategy/roadmaps/runtime-notification-roadmap.md`
-- streaming-governance workflow expansion is tracked in `strategy/roadmaps/streaming-governance-workflow-roadmap.md`
-
 ### Documentation tooling
 
 - decide whether `apps/docs` stays a content-only package or gets a real preview, build, lint, and validation toolchain, then remove the current no-op package-script placeholders once that operating model is chosen

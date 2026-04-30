@@ -154,3 +154,28 @@ Narrow workflow-specific projections are still correct when:
 - the workflow has low write volume and simple actor semantics
 - the product is still validating behavior before committing to shared workflow infrastructure
 - migration cost into a shared governance-event layer is kept explicit and reversible
+
+Concrete examples:
+
+- Isolated workflow with no cross-workflow reporting need:
+	- tenant-level newsletter preference toggle can stay a `TenantConfig` boolean when the only requirement is current effective value and no actor timeline is required.
+- Low write volume with simple actor semantics:
+	- annual owner acknowledgement of one tenant policy document can be a narrow projection when one owner action per year is enough and no multi-step review chain is required.
+- Behavior-validation stage before shared infrastructure:
+	- first rollout of moderation-arbitration in one streaming wedge can stay workflow-local while event taxonomy is still stabilizing.
+- Reversible migration path is explicit:
+	- keep workflow-local event table names and payloads aligned with a future shared event contract so migration can be scripted without data-loss ambiguity.
+
+Boolean-or-workflow test:
+
+- use a direct config field when only the current value matters
+- use a workflow when actor, timestamp, reason, and transition history must be auditable
+- use a module when the same workflow pattern repeats across multiple tenants or multiple product surfaces
+
+Modularity guardrail:
+
+Design reusable modules early, but do not over-generalize before the second concrete use case is validated.
+
+Example:
+
+- a file-attestation module can be designed with configurable recurrence, actor quorum, and artifact type once at least two real policy-attestation workflows need those controls.

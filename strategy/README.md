@@ -15,6 +15,7 @@ Add more detail only when a directory becomes hard to navigate or a specific not
 - roadmap
 - backlog
 - roadmaps/
+- operational-baseline
 
 ### Governance architecture and execution
 
