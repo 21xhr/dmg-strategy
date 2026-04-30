@@ -48,6 +48,10 @@ When updating a planning artifact, review at least:
 - relevant strategy/roadmaps/*.md file for scope and status alignment
 - strategy/implementation-slice-workflow.md for reusable slice protocol consistency
 
+When adding, removing, or renaming a top-level file in `strategy/`, also review and update `strategy/README.md` in the same slice.
+
+When a structural planning change affects another folder with its own local index, update the nearest `README.md` in that folder in the same slice.
+
 ## Prospect and pre-launch framing rule
 
 For pre-launch planning notes used in prospect conversations:

@@ -55,6 +55,8 @@ Every recurring documentation workflow should define three things:
 
 For environment or startup surface changes, include the touched source env artifact in the update set so the runtime contract is documented where it is actually defined.
 
+For structural note moves, additions, or renames, include the nearest relevant README index file in the review set so navigation surfaces stay aligned with durable note topology.
+
 ## Example source event types
 
 - product-boundary clarification or naming correction
@@ -62,6 +64,7 @@ For environment or startup surface changes, include the touched source env artif
 - implementation change that alters current behavior or current boundaries
 - glossary-worthy term introduction
 - fundraising or external-network learning that changes a reusable thesis
+- structural note addition, rename, or move that affects index readability
 
 ## Monorepo implication
 

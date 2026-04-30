@@ -111,6 +111,24 @@
         "Update only when reusable thesis-level implications changed.",
         "Do not update for isolated contact notes without durable cross-slice impact."
       ]
+    },
+    {
+      "id": "structural-note-index-change",
+      "description": "A note add, rename, or move changes local navigation expectations.",
+      "defaultTargets": [
+        {
+          "path": "strategy/README.md",
+          "reason": "Top-level strategy index must reflect durable note topology."
+        },
+        {
+          "path": "README.md",
+          "reason": "Repository-level navigation should stay aligned when strategy structure changes affect top-level guidance."
+        }
+      ],
+      "thresholds": [
+        "Update when note topology changed enough that index navigation would become stale.",
+        "Do not update for content-only edits that preserve file structure and placement."
+      ]
     }
   ]
 }

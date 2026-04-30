@@ -6,6 +6,8 @@ This note captures the architectural direction for treating DMG as governance in
 
 It exists as a mental model and design anchor for future implementation work.
 
+Execution and positioning companion: `strategy/modularity-first-approach.md`.
+
 ## Core thesis
 
 If DMG is meant to support auditable decision operations, then each tenant should accumulate structured governance history.
