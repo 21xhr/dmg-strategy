@@ -179,3 +179,32 @@ Design reusable modules early, but do not over-generalize before the second conc
 Example:
 
 - a file-attestation module can be designed with configurable recurrence, actor quorum, and artifact type once at least two real policy-attestation workflows need those controls.
+
+## Prospect-facing module examples
+
+Validated or near-validated modules in the streaming wedge:
+
+- runtime-notification drift governance module:
+	- acknowledgement state
+	- escalation handoff state
+	- operator projection and history timeline
+- moderation-arbitration governance module:
+	- dispute lifecycle state
+	- evidence and decision event timeline
+	- role-scoped decision surface
+
+Candidate modules for roadmap shaping (not current product commitments):
+
+- sponsor-obligation arbitration module:
+	- deliverable dispute state
+	- evidence submission and decision timeline
+	- terminal external-referral outcome recording
+- policy-attestation module:
+	- configurable recurrence
+	- configurable actor quorum
+	- auditable attestation history
+
+Pitch-safe framing for pre-launch:
+
+- current: one baseline governance-event module in implementation and one adjacent module lane shaped for execution
+- next: expand to a reusable module catalog after repeated use cases validate stable boundaries

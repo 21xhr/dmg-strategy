@@ -21,6 +21,7 @@ This is the strategy repo.
  - When a note is renamed or moved, remove the stale source file in the same slice or replace it with a one-line pointer only when a temporary redirect is genuinely needed; do not keep old and new active copies side by side.
  - Do not remove existing durable content unless removal is explicitly requested, factually contradicted by source material, or required by a documented structure change in the same slice.
  - For strategy-repo documentation changes, always load and follow `strategy/documentation-update-dependency-model.md` as the private planning dependency router.
+- For strategy-repo planning changes, always load and follow `strategy/planning-update-dependency-model.md` as the planning workflow policy source.
 
 ## Documentation authority hierarchy
 - Use a one-direction three-layer routing model for strategy-repo documentation governance.
@@ -29,6 +30,13 @@ This is the strategy repo.
 - Data layer: `strategy/documentation-update-manifest.json` is machine-readable mapping for recurring review sets.
 - Do not define workflow taxonomy details in this router file.
 - Do not treat the manifest as the primary human policy source.
+
+## Planning authority hierarchy
+- Use a one-direction three-layer routing model for strategy-repo planning governance.
+- Router layer: this file routes planning work to policy sources.
+- Policy layer: `strategy/planning-update-dependency-model.md` is the human-readable source of truth for planning workflow semantics and thresholds.
+- Data layer: planning trackers and roadmap notes are the execution artifacts, not policy authorities.
+- Do not define planning workflow taxonomy details in this router file.
 
 ## Routing rule
 - Treat this file as the router for strategy work, not the end state for a request.
